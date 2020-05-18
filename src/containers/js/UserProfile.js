@@ -1,5 +1,5 @@
 import React from 'react';
-import Pic from '../../assets/pic.jpg';
+import Pic from '../../assets/Fallback.png';
 import BackButton from '../../components/js/BackButton.js';
 import '../css/UserProfile.css';
 import Loader from '../../components/js/Loader.js';
