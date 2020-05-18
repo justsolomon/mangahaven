@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
 import { faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +13,15 @@ import { AllHtmlEntities } from 'html-entities';
 import BackButton from '../../components/js/BackButton.js';
 import ChapterBoxList from '../../components/js/ChapterBoxList.js';
 import Image from '../../components/js/Image.js';
+import {
+  EmailShareButton, EmailIcon,
+  FacebookShareButton, FacebookIcon,
+  RedditShareButton, RedditIcon,
+  TelegramShareButton, TelegramIcon,
+  TwitterShareButton, TwitterIcon,
+  WhatsappShareButton, WhatsappIcon
+} from "react-share";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import '../css/MangaPage.css';
 
 class MangaPage extends React.Component {
@@ -29,7 +39,9 @@ class MangaPage extends React.Component {
 			gottenData: false,
 			bookmark: false,
 			favorite: false,
-			disabled: true
+			disabled: true,
+			shareBox: false,
+			urlCopied: false
 		}
 	}
 
@@ -92,13 +104,17 @@ class MangaPage extends React.Component {
 		this.saveToStorage(!this.state.favorite, 'userFavorites');
 	}
 
+	displayShare = () => {
+		this.setState({ shareBox: !this.state.shareBox })
+	}
+
 	saveToStorage = (state, location) => {
 		let { manga } = this.state;
 		if (state) {	
 			if (localStorage[location]) {
 				let bookmarks = JSON.parse(localStorage[location]);
 				bookmarks.push({
-					a: manga.artist,
+					a: manga.alias,
 					im: manga.image,
 					i: this.props.match.params.id,
 					t: manga.title,
@@ -108,7 +124,7 @@ class MangaPage extends React.Component {
 			} else {
 				let bookmarks = [];
 				bookmarks.push({
-					a: manga.artist,
+					a: manga.alias,
 					im: manga.image,
 					i: this.props.match.params.id,
 					t: manga.title,
@@ -132,7 +148,6 @@ class MangaPage extends React.Component {
 		if (localStorage[location] !== undefined){
 			let mangaArray = JSON.parse(localStorage[location]);
 			for (let i = 0; i < mangaArray.length; i++) {
-				console.log(mangaArray[i].t, title)
 				if (mangaArray[i].t === title) {
 					result = true;
 					break;
@@ -148,6 +163,8 @@ class MangaPage extends React.Component {
 		const entities = new AllHtmlEntities();
 		const { artist, alias, author, created, description, title, last_chapter_date, status } = this.state.manga;
 		const { info, chapter, lastChapter } = this.state;
+		const url = window.location.href;
+		const shareDescription = `Read ${title} online for free on MangaHaven`;
 
 		return (
 				<div className='manga-page'>
@@ -157,7 +174,7 @@ class MangaPage extends React.Component {
 								<BackButton toggleSearch={this.props.history.goBack} />
 								<p>{title}</p>
 							</div>
-							<FontAwesomeIcon icon={faShareAlt} className={info ? 'active' : 'inactive'} />
+							<FontAwesomeIcon onClick={this.displayShare} icon={faShareAlt} className={info ? 'active' : 'inactive'} />
 							<FontAwesomeIcon icon={faSort} className={chapter ? 'active' : 'inactive'} onClick={this.sortChapters} />
 							<FontAwesomeIcon icon={faCommentDots} />
 						</div>
@@ -264,6 +281,89 @@ class MangaPage extends React.Component {
 									</div>
 								</div>
 							</div>
+						</div>
+
+						<div 
+							className={this.state.shareBox ? 'active manga-share-box' : 'manga-share-box'} 
+							onClick={this.displayShare}
+						>
+							<div className='manga-share-box-inner' onClick={e => e.stopPropagation()}>
+								<div className='share-button'>
+									<CopyToClipboard 
+										text={`${shareDescription}\n\n${url}`}
+										onCopy={() => {
+											this.displayShare();
+											this.setState({ urlCopied: true });
+											setTimeout(() => {this.setState({ urlCopied: false })}, 1000)
+										}}
+									>
+										<FontAwesomeIcon icon={faCopy} />
+									</CopyToClipboard>
+									<p>Copy to clipboard</p>
+								</div>
+								<div className='share-button'>
+									<WhatsappShareButton 
+										url={url}
+										title={shareDescription}
+										separator={`\n\n`}
+									>
+										<WhatsappIcon size={50} round={true} />
+									</WhatsappShareButton>
+									<p>Whatsapp</p>
+								</div>
+								<div className='share-button'>
+									<FacebookShareButton 
+										url={url}
+										quote={shareDescription}
+										hashtag='#manga'
+									>
+										<FacebookIcon size={50} round={true} />
+									</FacebookShareButton>
+									<p>Facebook</p>
+								</div>
+								<div className='share-button'>
+									<TwitterShareButton 
+										url={url}
+										title={shareDescription}
+										hashtags={['manga', 'anime', 'otaku', 'art']}
+										related={['gbsolomon1']}
+									>
+										<TwitterIcon size={50} round={true} />
+									</TwitterShareButton>
+									<p>Twitter</p>
+								</div>
+								<div className='share-button'>
+									<EmailShareButton 
+										url={url}
+										subject={shareDescription}
+									>
+										<EmailIcon size={50} round={true} />
+									</EmailShareButton>
+									<p>Email</p>
+								</div>
+								<div className='share-button'>
+									<RedditShareButton 
+										url={url}
+										title={shareDescription}
+									>
+										<RedditIcon size={50} round={true} />
+									</RedditShareButton>
+									<p>Reddit</p>
+								</div>
+								<div className='share-button'>
+									<TelegramShareButton 
+										url={url}
+										title={shareDescription}
+									>
+										<TelegramIcon size={45} round={true} />
+									</TelegramShareButton>
+									<p>Telegram</p>
+								</div>
+							</div>
+						</div>
+
+						<div className={this.state.urlCopied ? 'active copy-success' : 'copy-success'}>
+							<span>Copied to clipboard</span>
 						</div>
 
 						<div className={chapter ? 'active manga-chapters' : 'inactive manga-chapters'}>
