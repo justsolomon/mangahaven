@@ -1,0 +1,32 @@
+.user-profile {
+	margin: 0 auto;
+	width: 85%;
+}
+
+.profile-pic {
+	width: 200px;
+	height: 200px;
+	margin: 2rem auto;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.profile-pic img {
+	width: 150%;
+}
+
+.profile-info {
+	width: 200px;
+	margin: auto;
+}
+
+.edit-button {
+	padding: .5rem;
+	border-radius: .2rem;
+	width: 200px;
+	border: 1px solid #657ED4;
+	background-color: #657ED4;
+	display: block;
+	margin: 0 auto;
+	font-size: 1rem;
+}

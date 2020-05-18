@@ -1,0 +1,187 @@
+.chapter-page-header,
+.chapter-page-footer,
+.chapter-page-settings-inner {	
+	display: none;
+	position: absolute;
+	width: 100%;
+}
+
+.chapter-page-header,
+.chapter-page-footer {
+	align-items: center;
+	background-color: rgb(70, 70, 70);
+	color: #fff;
+	z-index: 3;
+	height: 3rem;
+}
+
+.chapter-page .active {
+	display: flex;
+}
+
+.chapter-page-header {
+	top: 0;
+	left: 0;
+}
+
+.chapter-page-header .back-button {
+	margin-left: 1rem;
+}
+
+.chapter-page-header p {
+	margin: 0;
+}
+
+.chapter-page-header .svg-inline--fa {
+	height: 24px;
+	width: 24px;
+}
+
+.chapter-page-header .header-title {
+	margin: 0 2rem;
+	width: 60%;
+}
+
+.chapter-page-header .header-title p {
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chapter-page-header .header-title .manga-title {
+	font-size: 1.2rem;
+}
+
+.chapter-page-header .header-title .chapter-number {
+	font-size: .9rem;
+}
+
+.chapter-page-header .fa-cog {
+	float: right;
+}
+
+.chapter-page-footer {
+	bottom: 0;
+	padding: 0 1rem;
+}
+
+.chapter-page-footer .svg-inline--fa {
+	height: 16px;
+	width: 16px;
+}
+
+.chapter-page-footer .fa-step-backward {
+	margin-right: .7rem;
+}
+
+.chapter-page-footer .fa-step-forward {
+	margin-left: .7rem;
+}
+
+.chapter-page-footer .rc-progress-line {
+	width: 100%;
+}
+
+.light,
+.light .svg-inline--fa {
+	background-color: #fff;
+	color: #000;
+}
+
+.dark,
+.dark .svg-inline--fa {
+	background-color: #000;
+	color: #fff;
+}
+
+.chapter-page-settings {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	background-color: rgba(0, 0, 0, .5);
+	z-index: 3;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: none;
+}
+
+.block-active {
+	display: block;
+}
+
+.chapter-page-settings-inner {
+	display: flex;
+	height: 30%;
+	flex-direction: column;
+	bottom: 0;
+	z-index: 4;
+	padding: 0 1rem;
+	justify-content: center;
+}
+
+.chapter-page-settings .chapter-view,
+.chapter-page-settings .background-settings {
+	display: flex;
+	align-items: center;
+}
+
+.chapter-page-settings p {
+	margin: 0;
+	width: 30%;
+}
+
+.chapter-page-settings .options {
+	display: flex;
+	width: 70%; 
+}
+
+.chapter-view {
+	margin-bottom: 2rem;	
+}
+
+.options div {
+	width: 50%;
+}
+
+.axis-vertical,
+.axis-vertical .slider {
+	height: 100vh !important;
+}
+
+.carousel .carousel-status {
+	color: #fff;
+	text-shadow: .5px .5px .5px rgba(0, 0, 0);
+}
+
+.carousel .control-arrow,
+.carousel.carousel-slider .control-arrow {
+	opacity: 0;
+	width: 80px;
+}
+
+.chapter-image {
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	margin: auto;
+}
+
+
+.chapter-image img {
+	width: 100%;
+	margin: auto;
+}
+
+.chapter-image .image-loader {
+	border-radius: 0;
+	width: 100%;
+	margin: 50px auto;
+	text-align: center;
+}
+
+.chapter-image .image-loader img {
+	width: 72px;
+	height: 72px;
+}

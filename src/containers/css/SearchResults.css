@@ -1,0 +1,9 @@
+.no-results {
+	width: 90%;
+	margin: 1.5rem auto;
+	text-align: center;
+}
+
+.no-results span {
+	font-weight: 500;
+}

@@ -1,0 +1,23 @@
+.manga-chapter {
+	border-bottom: 1px solid rgba(140, 140, 140, .5);
+	transition: .3s;
+}
+
+.manga-chapter:hover {
+	background-color: #ddd;
+}
+
+.manga-chapter p {
+	padding: 0 1rem;
+	margin: .5rem 0;
+}
+
+.manga-chapter .chapter-name {
+	font-size: .95rem;
+	margin-top: 0;
+	padding-top: .8rem;
+}
+
+.manga-chapter .release-date {
+	font-size: .85rem;
+}

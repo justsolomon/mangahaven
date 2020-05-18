@@ -1,13 +1,46 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	background-color: #FDFFFC;
+	/*#0D1F2D*/
+}
+
+/*:root {
+	--bg-color: ;
+	--font-color: ;
+}*/
+
 body {
   margin: 0;
+  width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #100c08;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:focus,
+button:focus {
+  outline: none;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* to prevent scroll when navbar is open */
+.prevent-scroll {
+  height: 100vh;
+  overflow: hidden;
 }

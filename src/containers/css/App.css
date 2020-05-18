@@ -1,0 +1,36 @@
+.auth-form {
+  margin: 0 auto;
+  margin-top: 5rem;
+  width: 85%;
+}
+
+.auth-form p {
+  margin: .5rem 0;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.auth-form label {
+  width: 100%;
+}
+
+.auth-form input {
+  border: 1px solid grey;
+  display: block;
+  height: 2rem;
+  width: 100%;
+  margin: 0;
+  font-size: 1rem;
+  padding: .5rem;
+  border-radius: .25rem;
+}
+
+.auth-form .auth-redirect {
+  font-weight: normal;
+  text-align: center;
+}
+
+.auth-form .auth-redirect a {
+  color: blue;
+  margin-left: .5rem;
+}

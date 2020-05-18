@@ -1,0 +1,9 @@
+.loader-gif {
+	width: 100%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.loader-gif img {
+	width: 64px;
+}

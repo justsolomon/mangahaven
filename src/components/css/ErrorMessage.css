@@ -1,0 +1,35 @@
+.error-div {
+	width: 85%;
+	margin: 2rem auto;
+	text-align: center;
+}
+
+.error-div .loader-gif {
+	display: none;
+}
+
+.error-message {
+	margin: 0;
+	padding: 0 .5rem;
+	font-size: 1.05rem;
+}
+
+.reload-button {
+	padding: .5rem 1rem;
+	border-radius: 1rem;
+	border: 1px solid #5680e9;
+	background-color: #5680e9;
+	color: #fff;
+	margin-top: 1rem;
+}
+
+.reload-button span {
+	font-size: 1rem;
+	font-weight: 500;
+	margin-left: .5rem; 
+}
+
+.reload-button .fa-redo {
+	width: 14px;
+	height: 14px;
+}
