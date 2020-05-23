@@ -56,29 +56,39 @@
 
 .manga-details-nav {
 	display: flex;
-	justify-content: space-around;
 	padding-bottom: .5rem;
 }
 
 .manga-details-nav p {
 	font-size: .85rem;
 	font-weight: 500;
+	width: 50%;
+	text-align: center;
+	color: rgb(235, 235, 235);
 }
 
-.active-lines {
-	display: flex;
+.manga-details-nav .current-menu {
+	color: #fff;
 }
 
-.active-lines div {
+.active-menu-line {
+	width: 50%;
 	height: 2px;
 	background-color: #fff;
-	width: 50%;
-	transition: .3s;
+	transition: .3s ease-in-out;
+}
+
+.chapter {
+	margin-left: 50%;
 }
 
 .active-lines .inactive {
 	background-color: #5680e9;
 	display: block;
+}
+
+.react-swipeable-view-container {
+	height: 100vh;
 }
 
 .manga-details {
