@@ -70,6 +70,12 @@ class MangaPage extends React.Component {
 
 	changeToChapters = () => this.setState({ menuIndex: 1 })
 
+	changeIndex = () => {
+		let { menuIndex } = this.state;
+		if (menuIndex === 0) this.setState({ menuIndex: 1 });
+		else this.setState({ menuIndex: 0 });
+	}
+
 	sortChapters = () => {
 		this.setState({
 			chapters: this.state.chapters.reverse()
@@ -147,12 +153,6 @@ class MangaPage extends React.Component {
 			}
 		} else result = false;
 		return result;
-	}
-
-	changeIndex = () => {
-		let { menuIndex } = this.state;
-		if (menuIndex === 0) this.setState({ menuIndex: 1 });
-		else this.setState({ menuIndex: 0 });
 	}
 
 	render() {	
@@ -369,7 +369,7 @@ class MangaPage extends React.Component {
 										url={url}
 										title={shareDescription}
 									>
-										<TelegramIcon size={45} round={true} />
+										<TelegramIcon size={50} round={true} />
 									</TelegramShareButton>
 									<p>Telegram</p>
 								</div>
