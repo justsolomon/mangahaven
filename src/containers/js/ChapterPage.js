@@ -22,7 +22,6 @@ class ChapterPage extends React.Component {
 			chapterNumber: '',
 			nextChapter: [],
 			prevChapter: [],
-			mangaChapters: [],
 			chapterTitle: '',
 			mangaName: '',
 			progress: 0,
@@ -55,7 +54,6 @@ class ChapterPage extends React.Component {
 					} 
 				}
 				this.setState({
-					mangaChapters: data.chapters,
 					mangaName: data.title,
 					chapterTitle: data.chapters[index][2],
 					loader: false
@@ -119,7 +117,7 @@ class ChapterPage extends React.Component {
 
 	render() {	
 		const { mangaid, name } = this.props.match.params;
-		const { background, mangaChapters, chapterNumber, chapterTitle, nextChapter, prevChapter } = this.state;
+		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter } = this.state;
 		return (
 			<div className='chapter-page'>
 				<div className={this.state.headerActive ? 'active chapter-page-header' : 'chapter-page-header'}>
