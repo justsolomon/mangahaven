@@ -137,6 +137,17 @@
 	width: 70%; 
 }
 
+.chapter-page .loader-gif {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.chapter-page .loader-gif img {
+	width: 96px;
+}
+
 .chapter-view {
 	margin-bottom: 2rem;	
 }
@@ -168,7 +179,6 @@
 	margin: auto;
 }
 
-
 .chapter-image img {
 	width: 100%;
 	margin: auto;
@@ -184,4 +194,39 @@
 .chapter-image .image-loader img {
 	width: 72px;
 	height: 72px;
+}
+
+.notify-chapter {
+	margin: 0 auto;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+}
+
+.notify-chapter div,
+.notify-chapter .no-chapter {
+	margin: 0 auto;
+	position: relative;
+	width: 50%;
+	text-align: left;
+}
+
+.notify-chapter div p {
+	font-weight: bold;
+	margin: 0 auto;
+	margin-top: 1rem;
+}
+
+.notify-chapter .no-chapter {
+	text-align: center;
+}
+
+.notify-chapter button {
+	margin-top: .6rem;
+	background-color: rgba(175, 175, 175);
+	border-radius: .3rem;
+	border: 1px solid rgba(175, 175, 175);
+	font-size: .95rem;
+	padding: .5rem .8rem;
 }

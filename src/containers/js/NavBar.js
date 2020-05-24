@@ -69,6 +69,10 @@ const NavBar = () => {
 									<span>Powered by Manga Eden</span>
 									<FontAwesomeIcon icon={faExternalLinkAlt} />
 								</a>
+								<a href="https://www.designevo.com/logo-maker/" title="Free Online Logo Maker">
+									<span>Logo made by DesignEvo free logo creator</span>
+									<FontAwesomeIcon icon={faExternalLinkAlt} />
+								</a>
 							</div>
 						</div>
 					</div>

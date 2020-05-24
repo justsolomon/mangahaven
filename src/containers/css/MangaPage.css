@@ -6,6 +6,26 @@
 	display: block;
 }
 
+.manga-page .error-message {
+	display: none;
+	position: fixed;
+	justify-content: space-between;
+	padding: 0 1.5rem;
+	color: #fff;
+	bottom: 0;
+	width: 100%;
+	z-index: 2;
+	background-color: rgb(50, 50, 50)
+}
+
+.manga-page .error-message .retry {
+	color: rgb(30, 120, 255);
+}
+
+.manga-page .error-active {
+	display: flex;
+}
+
 .manga-header {
 	width: 100%;
 	left: 0;
@@ -27,6 +47,10 @@
 	height: 20px;
 }
 
+.manga-header .fa-comment-dots {
+	margin-left: 1.5rem;
+}
+
 .manga-header-nav {
 	display: flex;
 	justify-content: space-between;
@@ -37,11 +61,12 @@
 
 .manga-header-title {
 	display: flex;
+	align-items: center;
 	width: 80%;
 }
 
 .manga-header-title p {
-	margin-left: 1rem;
+	margin-left: 1.5rem;
 	font-size: 1.2rem;
 	font-weight: 500;
 	overflow: hidden;
@@ -51,29 +76,39 @@
 
 .manga-details-nav {
 	display: flex;
-	justify-content: space-around;
 	padding-bottom: .5rem;
 }
 
 .manga-details-nav p {
 	font-size: .85rem;
 	font-weight: 500;
+	width: 50%;
+	text-align: center;
+	color: rgb(235, 235, 235);
 }
 
-.active-lines {
-	display: flex;
+.manga-details-nav .current-menu {
+	color: #fff;
 }
 
-.active-lines div {
+.active-menu-line {
+	width: 50%;
 	height: 2px;
 	background-color: #fff;
-	width: 50%;
-	transition: .3s;
+	transition: .3s ease-in-out;
+}
+
+.chapter {
+	margin-left: 50%;
 }
 
 .active-lines .inactive {
 	background-color: #5680e9;
 	display: block;
+}
+
+.react-swipeable-view-container {
+	height: 100vh;
 }
 
 .manga-details {
@@ -201,4 +236,63 @@
 .manga-description-note {
 	color: rgb(0, 0, 0, .6);
 	font-size: .9rem;
+}
+
+.manga-share-box {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 3;
+	background: rgba(0, 0, 0, .5)
+}
+
+.manga-share-box-inner {
+	display: flex;
+	flex-wrap: wrap;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #fff;
+	width: 90%;
+	margin: 1.5rem auto;
+	border-radius: 10px;
+	padding-top: 2rem;
+	padding-bottom: 1rem;
+}
+
+.manga-share-box p {
+	margin: 0;
+	font-size: .8rem;
+}
+
+.share-button {
+	width: 25%;
+	text-align: center;
+	margin-bottom: 1rem; 
+}
+
+.fa-copy {
+	width: 45px !important;
+	height: 45px;
+}
+
+.copy-success {
+	display: none;
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	margin-bottom: 2.5rem;
+}
+
+.copy-success span {
+	display: inline-block;
+	padding: .5rem;
+	background: rgb(20, 20, 20);
+	color: #fff;
+	border-radius: 3px;
 }
