@@ -6,6 +6,26 @@
 	display: block;
 }
 
+.manga-page .error-message {
+	display: none;
+	position: fixed;
+	justify-content: space-between;
+	padding: 0 1.5rem;
+	color: #fff;
+	bottom: 0;
+	width: 100%;
+	z-index: 2;
+	background-color: rgb(50, 50, 50)
+}
+
+.manga-page .error-message .retry {
+	color: rgb(30, 120, 255);
+}
+
+.manga-page .error-active {
+	display: flex;
+}
+
 .manga-header {
 	width: 100%;
 	left: 0;

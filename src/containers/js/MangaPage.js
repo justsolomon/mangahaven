@@ -41,11 +41,17 @@ class MangaPage extends React.Component {
 			disabled: true,
 			shareBox: false,
 			urlCopied: false,
-			menuIndex: 0
+			menuIndex: 0,
+			networkError: false
 		}
 	}
 
 	componentDidMount() {
+		this.fetchMangaInfo();
+	}
+
+	fetchMangaInfo = () => {
+		console.log('loading')
 		const id = this.props.match.params.id;
 		fetch(`https://www.mangaeden.com/api/manga/${id}/`)
 			.then(res => res.json())
@@ -59,11 +65,12 @@ class MangaPage extends React.Component {
 					gottenData: true,
 					bookmark: this.checkStorage('userBookmarks', data.title),
 					favorite: this.checkStorage('userFavorites', data.title),
-					disabled: false
+					disabled: false,
+					networkError: false
 				})
 				console.log(data)
 			})
-			.catch(console.log)		
+			.catch(err => this.setState({ networkError: true }))
 	}
 
 	changeToInfo = () => this.setState({ menuIndex: 0 })
@@ -158,7 +165,7 @@ class MangaPage extends React.Component {
 	render() {	
 		const entities = new AllHtmlEntities();
 		const { artist, alias, author, created, description, title, last_chapter_date, status } = this.state.manga;
-		const { lastChapter, menuIndex } = this.state;
+		const { lastChapter, menuIndex, networkError } = this.state;
 		const url = window.location.href;
 		const shareDescription = `Read ${title} online for free on MangaHaven`;
 
@@ -189,6 +196,11 @@ class MangaPage extends React.Component {
 							</p>
 						</div>
 						<div className={menuIndex === 0 ? 'active-menu-line' : 'active-menu-line chapter'}></div>
+					</div>
+
+					<div className={networkError ? 'error-active error-message' : 'error-message'}>
+						<p>An error occurred while loading</p>
+						<p className='retry' onClick={this.fetchMangaInfo}>RETRY</p>
 					</div>
 
 					<div className='manga-details'>
