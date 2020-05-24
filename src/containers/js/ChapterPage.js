@@ -3,7 +3,7 @@ import ChapterImage from '../../components/js/ChapterImage.js';
 import { Carousel } from 'react-responsive-carousel';
 import { withRouter } from 'react-router-dom';
 import { InView } from 'react-intersection-observer';
-import ImageLoader from '../../assets/loader.gif';
+import Loader from '../../components/js/Loader.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { faStepBackward } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,6 @@ import { faStepForward } from '@fortawesome/free-solid-svg-icons';
 import BackButton from '../../components/js/BackButton.js';
 import CheckButton from '../../components/js/CheckButton.js';
 import { Line } from 'rc-progress';
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../css/ChapterPage.css';
 
@@ -21,8 +20,8 @@ class ChapterPage extends React.Component {
 		this.state = {
 			chapterImages: [],
 			chapterNumber: '',
-			nextChapter: 0,
-			prevChapter: 0,
+			nextChapter: [],
+			prevChapter: [],
 			mangaChapters: [],
 			chapterTitle: '',
 			mangaName: '',
@@ -30,7 +29,8 @@ class ChapterPage extends React.Component {
 			headerActive: false,
 			view: 'horizontal',
 			background: 'light',
-			settings: false
+			settings: false,
+			loader: true
 		}
 	}
 
@@ -58,9 +58,31 @@ class ChapterPage extends React.Component {
 					mangaChapters: data.chapters,
 					mangaName: data.title,
 					chapterTitle: data.chapters[index][2],
-					nextChapter: index - 1,
-					prevChapter: index + 1
+					loader: false
 				})
+
+				//conditions for whether there's a next/prev chapter
+				if ((index - 1) === -1) {
+					this.setState({ 
+						nextChapter: null,
+						prevChapter: [data.chapters[index+1][0], data.chapters[index+1][2], data.chapters[index+1][3]] 
+					})
+				} else if ((index + 1) === data.chapters.length) {
+					this.setState({ 
+						prevChapter: null,
+						nextChapter: [data.chapters[index-1][0], data.chapters[index-1][2], data.chapters[index-1][3]]
+					})
+				} else if (data.chapters.length === 1) {
+					this.setState({
+						nextChapter: null,
+						prevChapter: null
+					})
+				} else {
+					this.setState({
+						nextChapter: [data.chapters[index-1][0], data.chapters[index-1][2], data.chapters[index-1][3]],
+						prevChapter: [data.chapters[index+1][0], data.chapters[index+1][2], data.chapters[index+1][3]],
+					})
+				}
 				console.log(data);
 			})
 			.catch(err => console.log(err));
@@ -81,6 +103,20 @@ class ChapterPage extends React.Component {
 
 	displaySettings = () => this.setState({ settings: !this.state.settings })
 
+	displayNextChapter = () => {
+		const { mangaid, name } = this.props.match.params;
+		const { nextChapter } = this.state;
+		this.props.history.push(`/${name}/${mangaid}/chapter/${nextChapter[0]}/${nextChapter[2]}`);
+		window.location.reload();
+	}
+
+	displayPrevChapter = () => {
+		const { mangaid, name } = this.props.match.params;
+		const { prevChapter } = this.state;
+		this.props.history.push(`/${name}/${mangaid}/chapter/${prevChapter[0]}/${prevChapter[2]}`)
+		window.location.reload();
+	}
+
 	render() {	
 		const { mangaid, name } = this.props.match.params;
 		const { background, mangaChapters, chapterNumber, chapterTitle, nextChapter, prevChapter } = this.state;
@@ -97,22 +133,12 @@ class ChapterPage extends React.Component {
 				<div className={this.state.headerActive ? 'active chapter-page-footer' : 'chapter-page-footer'}>
 					<FontAwesomeIcon 
 						icon={faStepBackward} 
-						onClick={
-							() => {
-								this.props.history.push(`/${name}/${mangaid}/chapter/${mangaChapters[prevChapter][0]}/${mangaChapters[prevChapter][3]}`)
-								window.location.reload();
-							}
-						}
+						onClick={this.displayPrevChapter}
 					/>
 					<Line percent={this.state.progress} strokeWidth='2.5' strokeColor='#d3d3d3' />
 					<FontAwesomeIcon 
 						icon={faStepForward} 
-						onClick={
-							() => {
-								this.props.history.push(`/${name}/${mangaid}/chapter/${mangaChapters[nextChapter][0]}/${mangaChapters[nextChapter][3]}`)
-								window.location.reload();
-							}
-						}
+						onClick={this.displayNextChapter}
 					/>
 				</div>
 				<div 
@@ -170,55 +196,93 @@ class ChapterPage extends React.Component {
 						</div>
 					</div>
 				</div>
-				<Carousel 
-					showIndicators={false}
-					showThumbs={false}
-					axis={this.state.view}
-					verticalSwipe={'standard'}
-					onClickItem={() => this.setState({headerActive: !this.state.headerActive})}
-					useKeyboardArrows={true}
-					emulateTouch={true}
-					selectedItem={this.state.selectedItem}
-					statusFormatter={(current, total) => {
-						this.calcProgress(current, total);
-						return `Page ${current} of ${total}`;
-					}}
-				>
-					{
-						this.state.chapterImages.map((image, id) => {
-							return (
-									<InView key={id}>
-										{
-											({ inView, ref, entry }) => {
-												return (
-													<TransformWrapper 
-														defaultScale={1} 
-														wheel={{disabled: true}} 
-														options={{maxScale: 2}} 
-														doubleClick={{mode: 'zoomIn'}} 
-														pan={{disabled: true}} 
-														pinch={{disabled: true}}
-													>
-														<TransformComponent>
+				
+				{
+					this.state.loader ? <Loader /> :
+					<Carousel 
+						showIndicators={false}
+						showThumbs={false}
+						axis={this.state.view}
+						verticalSwipe={'standard'}
+						onClickItem={() => this.setState({headerActive: !this.state.headerActive})}
+						useKeyboardArrows={true}
+						emulateTouch={true}
+						swipeable={true}
+						selectedItem={1}
+						statusFormatter={(current, total) => {
+							this.calcProgress(current, total);
+							return `Page ${current-1} of ${total-2}`;
+						}}
+					>
+						{/* To notify if there's a previous chapter */}
+						<div className={`notify-chapter previous ${background}`}>
+							{
+								this.state.prevChapter !== null ?
+								<div>
+									<p>Current:</p>
+									<span>{`${chapterNumber}: ${chapterTitle}`}</span>
+
+									<p>Previous: </p>
+									<span>{`${prevChapter[0]}: ${prevChapter[1]}`}</span>
+									<button
+										className={background}
+										onClick={this.displayPrevChapter}
+									>
+										{`Read Chapter ${prevChapter[0]}`}
+									</button>
+								 </div> 
+								: 
+								<p className='no-chapter'>There's no previous chapter</p>
+							}
+						</div>
+
+						{
+							this.state.chapterImages.map((image, id) => {
+								return (
+										<InView key={id}>
+											{
+												({ inView, ref, entry }) => {
+													return (
 															<div 
 																className={inView ? `${background} chapter-image` : `${background} chapter-image loading`} 
 																key={id} 
 																ref={ref}
 															>
 																<ChapterImage 
-																	url={inView ? `https://cdn.mangaeden.com/mangasimg/${image[1]}` : <ImageLoader />} 
+																	url={inView ? `https://cdn.mangaeden.com/mangasimg/${image[1]}` : ''}	
 																/>
 															</div>
-														</TransformComponent>
-													</TransformWrapper>
-												)
+													)
+												}
 											}
-										}
-									</InView>
-							)
-						})
-					}
-				</Carousel> 
+										</InView>
+								)
+							})
+						}
+
+						{/* To notify if there's a next chapter */}
+						<div class={`notify-chapter next ${background}`}>
+							{
+								this.state.nextChapter !== null ?
+								<div>
+									<p>Current:</p>
+									<span>{`${chapterNumber}: ${chapterTitle}`}</span>
+
+									<p>Next:</p>
+									<span>{`${nextChapter[0]}: ${nextChapter[1]}`}</span>
+									<button 
+										className={background} 
+										onClick={this.displayNextChapter}
+									>
+										{`Read Chapter ${nextChapter[0]}`}
+									</button>
+								</div>
+								: 
+								<p className='no-chapter'>There's no next chapter</p>
+							}
+						</div>
+					</Carousel> 
+				}
 			</div>
 		)
 	}
