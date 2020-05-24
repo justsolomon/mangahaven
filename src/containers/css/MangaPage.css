@@ -15,7 +15,10 @@
 	bottom: 0;
 	width: 100%;
 	z-index: 2;
-	background-color: rgb(50, 50, 50)
+	background-color: rgb(50, 50, 50);
+	font-size: .9rem;
+	height: 50px;
+	align-items: center;
 }
 
 .manga-page .error-message .retry {
@@ -24,6 +27,16 @@
 
 .manga-page .error-active {
 	display: flex;
+}
+
+.error-message div {
+	display: flex;
+	align-items: center;
+}
+
+.error-message .network-load {
+	height: 24px;
+	width: 24px;
 }
 
 .manga-header {
