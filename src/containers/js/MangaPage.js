@@ -24,6 +24,7 @@ import {
 } from "react-share";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import SwipeableViews from 'react-swipeable-views';
+import localForage from 'localforage';
 import '../css/MangaPage.css';
 
 class MangaPage extends React.Component {
@@ -66,12 +67,11 @@ class MangaPage extends React.Component {
 					genres: data.categories,
 					imageUrl: `https://cdn.mangaeden.com/mangasimg/${data.image}`,
 					gottenData: true,
-					bookmark: this.checkStorage('userBookmarks', data.title),
-					favorite: this.checkStorage('userFavorites', data.title),
 					disabled: false,
 					networkError: false,
 					networkLoader: false
-				})
+				});
+				this.checkStorage(data.title);
 				console.log(data)
 			})
 			.catch(err => {
@@ -123,52 +123,80 @@ class MangaPage extends React.Component {
 	saveToStorage = (state, location) => {
 		let { manga } = this.state;
 		if (state) {	
-			if (localStorage[location]) {
-				let bookmarks = JSON.parse(localStorage[location]);
-				bookmarks.push({
-					a: manga.alias,
-					im: manga.image,
-					i: this.props.match.params.id,
-					t: manga.title,
-					added: new Date().getTime()
+			localForage.getItem(location)
+				.then(value => {
+					if (value !== null ) {
+						let bookmarks = value;
+						bookmarks.push({
+							a: manga.alias,
+							im: manga.image,
+							i: this.props.match.params.id,
+							t: manga.title,
+							added: new Date().getTime()
+						})
+						localForage.setItem(location, bookmarks)
+							.then(value => console.log(value))
+							.catch(err => console.log(err))
+					} else {
+						let bookmarks = [];
+						bookmarks.push({
+							a: manga.alias,
+							im: manga.image,
+							i: this.props.match.params.id,
+							t: manga.title,
+							added: new Date().getTime()
+						})
+						localForage.setItem(location, bookmarks)
+							.then(value => console.log(value))
+							.catch(err => console.log(err));
+					}
 				})
-				localStorage[location] = JSON.stringify(bookmarks)
-			} else {
-				let bookmarks = [];
-				bookmarks.push({
-					a: manga.alias,
-					im: manga.image,
-					i: this.props.match.params.id,
-					t: manga.title,
-					added: new Date().getTime()
-				})
-				localStorage[location] = JSON.stringify(bookmarks)
-			}
+				.catch(err => console.log(err));
 		} else {
-			let bookmarks = JSON.parse(localStorage[location]);
+			localForage.getItem(location)
+				.then(bookmarks => {
+					bookmarks = bookmarks.filter(manga => {
+						return manga.t !== this.state.manga.title
+					})
+					if (bookmarks === []) {
+						localForage.removeItem(location)
+							.then(() => console.log('key removed'))
+							.catch(err => console.log(err))
 
-			bookmarks = bookmarks.filter(manga => {
-				return manga.t !== this.state.manga.title
-			})
-			localStorage[location] = JSON.stringify(bookmarks);
+						localForage.keys().then(keys => console.log(keys)).catch(err => console.log(err));
+					} else {
+						localForage.setItem(location, bookmarks)
+							.then(value => console.log(value))
+							.catch(err => console.log(err));
+
+						localForage.keys().then(keys => console.log(keys)).catch(err => console.log(err));
+					}
+				})
+				.catch(err => console.log(err));
 		}
 	}
 
-	checkStorage = (location, title) => {
+	checkStorage = (title) => {
 		//check if it has been bookmarked/favorited
-		let result;
-		if (localStorage[location] !== undefined){
-			let mangaArray = JSON.parse(localStorage[location]);
-			for (let i = 0; i < mangaArray.length; i++) {
-				if (mangaArray[i].t === title) {
-					result = true;
-					break;
-				} else {
-					result = false;
-				};
-			}
-		} else result = false;
-		return result;
+		const runCheck = location => {
+			localForage.getItem(location)
+				.then(value => {
+					let check;
+					if (value !== null) {
+						let mangaArray = value;
+						for (let i = 0; i < mangaArray.length; i++) {
+							if (mangaArray[i].t === title) {
+								if (location === 'userFavorites') this.setState({ favorite: true })
+								else this.setState({ bookmark: true })
+								break;
+							}
+						}
+					}
+				})
+				.catch(err => console.log(err));
+		}
+		runCheck('userFavorites');
+		runCheck('userBookmarks');
 	}
 
 	render() {	
@@ -212,7 +240,7 @@ class MangaPage extends React.Component {
 						{
 							!networkLoader ? 
 							<p className='retry' onClick={this.fetchMangaInfo}>RETRY</p> :
-							<div><img className='network-load' src={Loader} /></div>
+							<div><img className='network-load' src={Loader} alt='loader-icon' /></div>
 						}
 					</div>
 
