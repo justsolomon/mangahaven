@@ -223,6 +223,7 @@
 }
 
 .notify-chapter button {
+	display: block;
 	margin-top: .6rem;
 	background-color: rgba(175, 175, 175);
 	border-radius: .3rem;
