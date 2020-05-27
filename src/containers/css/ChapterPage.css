@@ -231,3 +231,22 @@
 	font-size: .95rem;
 	padding: .5rem .8rem;
 }
+
+/* styles for image zoom modal */
+/*.Modal {
+	z-index: 3;
+	padding: 0px;
+	inset: 30px 25px;
+}
+
+
+.ReactModal__Content {
+}*/
+.chapter-page .fa-times {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 28px;
+	width: 28px;
+	margin: 2px 5px 2px 0;
+}

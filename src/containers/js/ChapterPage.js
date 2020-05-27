@@ -6,11 +6,13 @@ import { InView } from 'react-intersection-observer';
 import Loader from '../../components/js/Loader.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faStepBackward } from '@fortawesome/free-solid-svg-icons';
 import { faStepForward } from '@fortawesome/free-solid-svg-icons';
 import BackButton from '../../components/js/BackButton.js';
 import CheckButton from '../../components/js/CheckButton.js';
 import { Line } from 'rc-progress';
+import Modal from 'react-modal';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../css/ChapterPage.css';
 
@@ -29,7 +31,11 @@ class ChapterPage extends React.Component {
 			view: 'horizontal',
 			background: 'light',
 			settings: false,
-			loader: true
+			loader: true,
+			modalOpen: false,
+			currentImage: [],
+			modalColor: '#000',
+			modalBG: 'rgba(255, 255, 255, 0.8)'
 		}
 	}
 
@@ -39,7 +45,13 @@ class ChapterPage extends React.Component {
 
 		fetch(`https://www.mangaeden.com/api/chapter/${id}`)
 			.then(res => res.json())
-			.then(data => this.setState({ chapterImages: data.images.reverse() }))
+			.then(data => {
+				data.images.reverse();
+				this.setState({ 
+					chapterImages: data.images,
+					currentImage: data.images[0]
+				})
+			})
 			.catch(err => console.log(err));
 
 		fetch(`https://www.mangaeden.com/api/manga/${mangaid}`)
@@ -95,9 +107,21 @@ class ChapterPage extends React.Component {
 
 	toggleHorizontal = () => this.setState({ view: 'horizontal' })
 
-	toggleDark = () => this.setState({ background: 'dark' })
+	toggleDark = () => {
+		this.setState({ 
+			background: 'dark',
+			modalColor: '#fff',
+			modalBG: 'rgba(0, 0, 0, 0.8)'
+		})
+	}
 
-	toggleLight = () => this.setState({ background: 'light' })
+	toggleLight = () => {
+		this.setState({ 
+			background: 'light',
+			modalColor: '#000',
+			modalBG: 'rgba(255, 255, 255, 0.8)'
+		})
+	}
 
 	displaySettings = () => this.setState({ settings: !this.state.settings })
 
@@ -116,8 +140,9 @@ class ChapterPage extends React.Component {
 	}
 
 	render() {	
+		Modal.setAppElement('#root')
 		const { mangaid, name } = this.props.match.params;
-		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter } = this.state;
+		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, currentImage, modalColor, modalBG } = this.state;
 		return (
 			<div className='chapter-page'>
 				<div className={this.state.headerActive ? 'active chapter-page-header' : 'chapter-page-header'}>
@@ -211,6 +236,12 @@ class ChapterPage extends React.Component {
 							this.calcProgress(current, total);
 							return `Page ${current-1} of ${total-2}`;
 						}}
+						onChange={index => {
+								if (index !== 0 && index !== (chapterImages.length + 1)) {
+									this.setState({ currentImage: chapterImages[index-1] })
+								}
+							}
+						}
 					>
 						{/* To notify if there's a previous chapter */}
 						<div className={`notify-chapter previous ${background}`}>
@@ -235,7 +266,7 @@ class ChapterPage extends React.Component {
 						</div>
 
 						{
-							this.state.chapterImages.map((image, id) => {
+							chapterImages.map((image, id) => {
 								return (
 										<InView key={id}>
 											{
@@ -245,10 +276,18 @@ class ChapterPage extends React.Component {
 																className={inView ? `${background} chapter-image` : `${background} chapter-image loading`} 
 																key={id} 
 																ref={ref}
+																onDoubleClick={() => {
+																		this.setState({ 
+																			modalOpen: true,
+																			headerActive: false
+																		})
+																	}
+																}
 															>
 																<ChapterImage 
 																	url={inView ? `https://cdn.mangaeden.com/mangasimg/${image[1]}` : ''}	
 																/>
+
 															</div>
 													)
 												}
@@ -259,7 +298,7 @@ class ChapterPage extends React.Component {
 						}
 
 						{/* To notify if there's a next chapter */}
-						<div class={`notify-chapter next ${background}`}>
+						<div className={`notify-chapter next ${background}`}>
 							{
 								this.state.nextChapter !== null ?
 								<div>
@@ -281,6 +320,38 @@ class ChapterPage extends React.Component {
 						</div>
 					</Carousel> 
 				}
+				{/* modal for displaying images to allow zoom and download */}
+				<Modal
+					style={{
+						overlay: {
+							zIndex: 3,
+							backgroundColor: modalBG
+						},
+						content: {
+							padding: '0px',
+							inset: '30px 20px 10px 20px',
+							color: modalColor
+						}
+					}}
+					isOpen={this.state.modalOpen}
+					onRequestClose={() => {this.setState({ modalOpen: false })}}
+				>
+					<FontAwesomeIcon 
+						onClick={() => {this.setState({ modalOpen: false })}} 
+						icon={faTimes} 
+						style={{
+							position: 'fixed',
+							top: '0',
+							right: '0',
+							height: '28px',
+							width: '28px',
+							margin: '2px 5px 2px 0'
+						}}
+					/>
+					<div>
+						<ChapterImage url={`https://cdn.mangaeden.com/mangasimg/${this.state.currentImage[1]}`} />
+					</div>
+				</Modal>
 			</div>
 		)
 	}
