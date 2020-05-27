@@ -63,8 +63,11 @@ class Header extends React.Component {
 			//for backspace
 			if (e.key === 'Backspace') {
 				e.preventDefault();
-				searchInput = searchInput.slice(0, searchInput.length - 1);
-				this.setState({ searchInput });
+				if (searchInput.length === 1) this.setState({ searchInput: '' });
+				else {
+					searchInput = searchInput.slice(0, searchInput.length - 1);
+					this.setState({ searchInput });
+				}
 			}
 			//for running search function
 			else if (e.key === 'Enter') this.displaySearchResults(this.state.searchInput);
@@ -104,7 +107,7 @@ class Header extends React.Component {
 							className='search-input' 
 							placeholder='Search...' 
 							type='text'
-							onChange={this.onInputChange}
+							onInput={this.onInputChange}
 							value={this.state.searchInput}
 							onKeyDown={this.keyEvents}
 						/>				
