@@ -6,22 +6,27 @@
 	display: block;
 }
 
-.manga-page .error-message {
+.manga-page .error-message,
+.manga-page .offline-message {
 	display: none;
+	color: #fff;
+	width: 100%;
+	background-color: rgb(50, 50, 50);
+	height: 50px;
+	align-items: center;
+	font-size: .9rem;
+}
+
+.manga-page .error-message {
 	position: fixed;
 	justify-content: space-between;
 	padding: 0 1.5rem;
-	color: #fff;
-	bottom: 0;
-	width: 100%;
 	z-index: 2;
-	background-color: rgb(50, 50, 50);
-	font-size: .9rem;
-	height: 50px;
-	align-items: center;
+	bottom: 0;
 }
 
-.manga-page .error-message .retry {
+.manga-page .retry,
+.manga-page .fa-times {
 	color: rgb(30, 120, 255);
 }
 
@@ -29,14 +34,31 @@
 	display: flex;
 }
 
-.error-message div {
+.error-message div,
+.offline-message .action-buttons div {
 	display: flex;
 	align-items: center;
+	text-align: center;
 }
 
-.error-message .network-load {
+.manga-page .network-load {
 	height: 24px;
 	width: 24px;
+}
+
+.manga-page .offline-message {
+	padding: 0 1rem;
+	background-color: rgb(50, 50, 50);
+}
+
+.offline-message p {
+	width: 95%;
+}
+
+.offline-message .action-buttons {
+	width: 30%;
+	display: flex;
+	justify-content: space-between;
 }
 
 .manga-header {

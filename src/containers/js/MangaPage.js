@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
@@ -45,7 +46,8 @@ class MangaPage extends React.Component {
 			urlCopied: false,
 			menuIndex: 0,
 			networkError: false,
-			networkLoader: false
+			networkLoader: false,
+			offlineData: false
 		}
 	}
 
@@ -54,9 +56,8 @@ class MangaPage extends React.Component {
 	}
 
 	fetchMangaInfo = () => {
-		console.log('loading')
 		this.setState({ networkLoader: true })
-		const id = this.props.match.params.id;
+		const { id, name } = this.props.match.params;
 		fetch(`https://www.mangaeden.com/api/manga/${id}/`)
 			.then(res => res.json())
 			.then(data => {
@@ -69,16 +70,52 @@ class MangaPage extends React.Component {
 					gottenData: true,
 					disabled: false,
 					networkError: false,
-					networkLoader: false
+					networkLoader: false,
+					offlineData: false
 				});
 				this.checkStorage(data.title);
 				console.log(data)
 			})
 			.catch(err => {
-				this.setState({ 
-					networkError: true,
-					networkLoader: false
-				})
+				//check if the manga info exists in storage
+				localForage.getItem('offlineManga')
+					.then(allManga => {
+						if (allManga !== null) {
+							let currentManga = allManga.filter(manga => manga.alias === name);
+							if (currentManga !== []) {
+								currentManga = currentManga[0];	
+								this.setState({
+									manga: currentManga,
+									chapters: currentManga.chapters,
+									lastChapter: currentManga.chapters[0][0],
+									genres: currentManga.categories,
+									imageUrl: `https://cdn.mangaeden.com/mangasimg/${currentManga.image}`,
+									gottenData: true,
+									disabled: false,
+									networkError: false,
+									networkLoader: false,
+									offlineData: true
+								})
+								this.checkStorage(currentManga.title);
+							} else {
+								this.setState({ 
+									networkError: true,
+									networkLoader: false
+								})
+							}
+						} else {
+							this.setState({ 
+								networkError: true,
+								networkLoader: false
+							})
+						}
+					})
+					.catch(err => {
+						this.setState({ 
+							networkError: true,
+							networkLoader: false
+						})
+					})
 			})
 	}
 
@@ -122,10 +159,11 @@ class MangaPage extends React.Component {
 
 	saveToStorage = (state, location) => {
 		let { manga } = this.state;
-		if (state) {	
+		if (state) {
+			//store basic info to favorites/bookmarks
 			localForage.getItem(location)
 				.then(value => {
-					if (value !== null ) {
+					if (value !== null) {
 						let bookmarks = value;
 						bookmarks.push({
 							a: manga.alias,
@@ -152,12 +190,37 @@ class MangaPage extends React.Component {
 					}
 				})
 				.catch(err => console.log(err));
+
+			//store entire info in a catalogue for offline use
+			localForage.getItem('offlineManga')
+				.then(allManga => {
+					if (allManga !== null) {
+						let mangaPresent = false;
+						for (let i = 0; i < allManga.length; i++) {
+							if (allManga[i].title === manga.title) {
+								mangaPresent = true;
+								break;
+							}
+						}
+						if (!mangaPresent) {
+							allManga.push(manga);
+							localForage.setItem('offlineManga', allManga)
+								.then(value => console.log(value))
+								.catch(err => console.log(err))
+						}
+					} else {
+						let allManga = [];
+						allManga.push(manga);
+						localForage.setItem('offlineManga', allManga);
+					}
+					console.log(allManga);
+				})
+				.catch(err => console.log(err));
 		} else {
+			//remove basic manga info from favorites/bookmarks
 			localForage.getItem(location)
 				.then(bookmarks => {
-					bookmarks = bookmarks.filter(manga => {
-						return manga.t !== this.state.manga.title
-					})
+					bookmarks = bookmarks.filter(manga => manga.t !== this.state.manga.title);
 					if (bookmarks === []) {
 						localForage.removeItem(location)
 							.then(() => console.log('key removed'))
@@ -173,6 +236,16 @@ class MangaPage extends React.Component {
 					}
 				})
 				.catch(err => console.log(err));
+
+			//remove entire manga info from catalogue to avoid space wastage
+			localForage.getItem('offlineManga')
+				.then(allManga => {
+					allManga = allManga.filter(manga => manga.title !== this.state.manga.title);
+					localForage.setItem('offlineManga', allManga)
+						.then(value => console.log(value))
+						.catch(err => console.log(err))
+				})
+				.catch(err => console.log(err));
 		}
 	}
 
@@ -181,7 +254,6 @@ class MangaPage extends React.Component {
 		const runCheck = location => {
 			localForage.getItem(location)
 				.then(value => {
-					let check;
 					if (value !== null) {
 						let mangaArray = value;
 						for (let i = 0; i < mangaArray.length; i++) {
@@ -202,7 +274,7 @@ class MangaPage extends React.Component {
 	render() {	
 		const entities = new AllHtmlEntities();
 		const { artist, alias, author, created, description, title, last_chapter_date, status } = this.state.manga;
-		const { lastChapter, menuIndex, networkError, networkLoader } = this.state;
+		const { lastChapter, menuIndex, networkError, networkLoader, offlineData } = this.state;
 		const url = window.location.href;
 		const shareDescription = `Read ${title} online for free on MangaHaven`;
 
@@ -218,6 +290,7 @@ class MangaPage extends React.Component {
 							<FontAwesomeIcon icon={faSort} className={menuIndex === 1 ? 'active' : 'inactive'} onClick={this.sortChapters} />
 							<FontAwesomeIcon icon={faCommentDots} />
 						</div>
+
 						<div className='manga-details-nav'>
 							<p 
 								onClick={this.changeToInfo} 
@@ -232,7 +305,23 @@ class MangaPage extends React.Component {
 								CHAPTERS
 							</p>
 						</div>
+
 						<div className={menuIndex === 0 ? 'active-menu-line' : 'active-menu-line chapter'}></div>
+
+						<div className={offlineData ? 'error-active offline-message' : 'offline-message'}>
+							<p>You're currently viewing an offline version of this page</p>
+							<div className='action-buttons'>
+								{
+									!networkLoader ? 
+									<p className='retry' onClick={this.fetchMangaInfo}>RELOAD</p> :
+									<div><img className='network-load' src={Loader} alt='loader-icon' /></div>
+								}
+								<FontAwesomeIcon 
+									onClick={() => this.setState({ offlineData: false })} 
+									icon={faTimes} 
+								/>
+							</div>
+						</div>
 					</div>
 
 					<div className={networkError ? 'error-active error-message' : 'error-message'}>
