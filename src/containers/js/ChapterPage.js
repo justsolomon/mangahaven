@@ -149,7 +149,7 @@ class ChapterPage extends React.Component {
 					<BackButton toggleSearch={() => this.props.history.push(`/manga/${name}/${mangaid}`)}/>
 					<div className='header-title'>
 						<p className='manga-title'>{this.state.mangaName}</p>
-						<p className='chapter-number'>{`${chapterNumber}: ${chapterTitle}`}</p>
+						<p className='chapter-number'>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</p>
 					</div>
 					<FontAwesomeIcon icon={faCog} onClick={this.displaySettings} />
 				</div>
@@ -249,10 +249,10 @@ class ChapterPage extends React.Component {
 								this.state.prevChapter !== null ?
 								<div>
 									<p>Current:</p>
-									<span>{`${chapterNumber}: ${chapterTitle}`}</span>
+									<span>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</span>
 
 									<p>Previous: </p>
-									<span>{`${prevChapter[0]}: ${prevChapter[1]}`}</span>
+									<span>{`${prevChapter[0]}${prevChapter[1] !== null ? `: ${prevChapter[1]}` : ''}`}</span>
 									<button
 										className={background}
 										onClick={this.displayPrevChapter}
@@ -303,10 +303,10 @@ class ChapterPage extends React.Component {
 								this.state.nextChapter !== null ?
 								<div>
 									<p>Current:</p>
-									<span>{`${chapterNumber}: ${chapterTitle}`}</span>
+									<span>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</span>
 
 									<p>Next:</p>
-									<span>{`${nextChapter[0]}: ${nextChapter[1]}`}</span>
+									<span>{`${nextChapter[0]}${nextChapter[1] !== null ? `: ${nextChapter[1]}` : ''}`}</span>
 									<button 
 										className={background} 
 										onClick={this.displayNextChapter}
