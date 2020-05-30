@@ -21,7 +21,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/explore",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#5680e9",
   "scope": "/",
