@@ -298,7 +298,7 @@ class MangaPage extends React.Component {
 					    <meta property="twitter:title" content={shareDescription} />
 					    <meta property="twitter:description" content={description} />
 					    <meta property="twitter:image" content={imageUrl} />
-					    <meta property="twitter:card" content={shareDescription} />
+    					<meta property="twitter:card" content="summary" />
 					    <meta property="twitter:creator" content="@gbsolomon1" />
 					    <meta property="twitter:site" content="@gbsolomon1" />
 					</Helmet>
