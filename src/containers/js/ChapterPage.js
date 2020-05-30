@@ -14,6 +14,7 @@ import CheckButton from '../../components/js/CheckButton.js';
 import { Line } from 'rc-progress';
 import Modal from 'react-modal';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
+import { Helmet } from "react-helmet";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../css/ChapterPage.css';
 
@@ -155,6 +156,10 @@ class ChapterPage extends React.Component {
 		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG } = this.state;
 		return (
 			<div className='chapter-page'>
+				<Helmet>
+   					<title>{`${title} - Chapter ${chapterNumber} - MangaHaven`}</title>
+    				<meta name='theme-color' content={background === 'light' ? '#fff' : '#000'} />
+				</Helmet>
 				{
 					!this.state.networkError ?
 					<div className='chapter-page-inner'>

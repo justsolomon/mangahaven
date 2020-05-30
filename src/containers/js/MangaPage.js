@@ -23,9 +23,10 @@ import {
   TwitterShareButton, TwitterIcon,
   WhatsappShareButton, WhatsappIcon
 } from "react-share";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SwipeableViews from 'react-swipeable-views';
 import localForage from 'localforage';
+import { Helmet } from "react-helmet";
 import '../css/MangaPage.css';
 
 class MangaPage extends React.Component {
@@ -274,12 +275,34 @@ class MangaPage extends React.Component {
 	render() {	
 		const entities = new AllHtmlEntities();
 		const { artist, alias, author, created, description, title, last_chapter_date, status } = this.state.manga;
-		const { lastChapter, menuIndex, networkError, networkLoader, offlineData } = this.state;
+		const { lastChapter, menuIndex, networkError, networkLoader, offlineData, imageUrl } = this.state;
 		const url = window.location.href;
 		const shareDescription = `Read ${title} online for free on MangaHaven`;
 
 		return (
 				<div className='manga-page'>
+
+					{/*change meta tags*/}
+					<Helmet>
+   						<title>{`${title} - MangaHaven`}</title>
+						<meta
+					      name="description"
+					      content={description}
+					    />
+					    <meta property="og:title" content={shareDescription} />
+					    <meta property="og:image" content={imageUrl} />
+					    <meta 
+					      property="og:description" 
+					      content={description}
+					    />
+					    <meta property="twitter:title" content={shareDescription} />
+					    <meta property="twitter:description" content={description} />
+					    <meta property="twitter:image" content={imageUrl} />
+					    <meta property="twitter:card" content={shareDescription} />
+					    <meta property="twitter:creator" content="@gbsolomon1" />
+					    <meta property="twitter:site" content="@gbsolomon1" />
+					</Helmet>
+
 					<div className='manga-header'>
 						<div className='manga-header-nav'>
 							<div className='manga-header-title'>
@@ -338,7 +361,7 @@ class MangaPage extends React.Component {
 							<div className='manga-info'>
 								<div className='manga-info-header'>
 									<div className='manga-image'>
-										<Image url={this.state.imageUrl} />
+										<Image url={imageUrl} />
 									</div>
 
 									<div className='manga-info-details'>
