@@ -153,11 +153,11 @@ class ChapterPage extends React.Component {
 	render() {	
 		Modal.setAppElement('#root')
 		const { mangaid, name } = this.props.match.params;
-		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG } = this.state;
+		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName } = this.state;
 		return (
 			<div className='chapter-page'>
 				<Helmet>
-   					<title>{`${title} - Chapter ${chapterNumber} - MangaHaven`}</title>
+   					<title>{`${mangaName} - Chapter ${chapterNumber} - MangaHaven`}</title>
     				<meta name='theme-color' content={background === 'light' ? '#fff' : '#000'} />
 				</Helmet>
 				{
@@ -166,7 +166,7 @@ class ChapterPage extends React.Component {
 						<div className={this.state.headerActive ? 'active chapter-page-header' : 'chapter-page-header'}>
 							<BackButton toggleSearch={() => this.props.history.push(`/manga/${name}/${mangaid}`)}/>
 							<div className='header-title'>
-								<p className='manga-title'>{this.state.mangaName}</p>
+								<p className='manga-title'>{mangaName}</p>
 								<p className='chapter-number'>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</p>
 							</div>
 							<FontAwesomeIcon icon={faCog} onClick={this.displaySettings} />
