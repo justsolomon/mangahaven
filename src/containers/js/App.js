@@ -19,11 +19,11 @@ class App extends React.Component {
     return (
       <div className="App">
 		<Router>
-			<Route exact path='/' component={App} />
+			<Route exact path='/' component={ExplorePage} />
 			<Route path='/signin' component={SignIn} />
 			<Route path='/signup' component={SignUp} />
 			<Route path='/profiles' component={UserProfile} />
-			<Route path='/explore' component={ExplorePage} />
+			{/*<Route path='/explore' component={ExplorePage} />*/}
 			<Route path='/recent' component={RecentUpdate} />
 			<Route path='/search' component={SearchResults} />
 			<Route path='/favorites' component={Favorites} />

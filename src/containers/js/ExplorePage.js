@@ -51,10 +51,17 @@ class HomePage extends React.Component {
 	    		} 
     		})
     		.catch(err => {
-    			this.setState({
-    				allManga: null,
-    				hasMoreItems: false
-    			})
+    			if (this.state.nextPage === 0) {
+	    			this.setState({
+	    				allManga: null,
+	    				hasMoreItems: false
+	    			})
+    			} else {
+    				(() => {
+    					this.setState({ hasMoreItems: false })
+    					setTimeout(() => this.setState({ hasMoreItems: true }), 1000)
+    				})()
+    			}
     		})
 	}
 

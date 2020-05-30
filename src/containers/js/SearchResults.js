@@ -95,7 +95,7 @@ class SearchResults extends React.Component {
 	}
 
 	newSearch = () => {
-		this.displayManga(this.setInput());
+		if (this.state.allManga !== null) this.displayManga(this.setInput());
 	}
 
 	setInput = () => {

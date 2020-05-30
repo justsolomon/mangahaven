@@ -1,3 +1,10 @@
+.chapter-page .error-div {
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	height: 100vh;
+}
+
 .chapter-page-header,
 .chapter-page-footer,
 .chapter-page-settings-inner {	
@@ -223,6 +230,7 @@
 }
 
 .notify-chapter button {
+	display: block;
 	margin-top: .6rem;
 	background-color: rgba(175, 175, 175);
 	border-radius: .3rem;
@@ -230,3 +238,14 @@
 	font-size: .95rem;
 	padding: .5rem .8rem;
 }
+
+/* styles for image zoom modal */
+/*.Modal {
+	z-index: 3;
+	padding: 0px;
+	inset: 30px 25px;
+}
+
+
+.ReactModal__Content {
+}*/

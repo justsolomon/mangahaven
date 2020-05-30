@@ -61,13 +61,16 @@ class Header extends React.Component {
 		let searchInput = e.target.value;
 		if (searchInput !== '') {	
 			//for backspace
-			if (e.key === 'Backspace') {
-				e.preventDefault();
-				searchInput = searchInput.slice(0, searchInput.length - 1);
-				this.setState({ searchInput });
-			}
+			// if (e.key === 'Backspace') {
+			// 	e.preventDefault();
+			// 	if (searchInput.length === 1) this.setState({ searchInput: '' });
+			// 	else {
+			// 		searchInput = searchInput.slice(0, searchInput.length - 1);
+			// 		this.setState({ searchInput });
+			// 	}
+			// }
 			//for running search function
-			else if (e.key === 'Enter') this.displaySearchResults(this.state.searchInput);
+			if (e.key === 'Enter') this.displaySearchResults(this.state.searchInput);
 		}
 	}
 
@@ -105,7 +108,7 @@ class Header extends React.Component {
 							placeholder='Search...' 
 							type='text'
 							onChange={this.onInputChange}
-							value={this.state.searchInput}
+							defaultValue={this.state.searchInput}
 							onKeyDown={this.keyEvents}
 						/>				
 					</div>

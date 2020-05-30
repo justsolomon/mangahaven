@@ -1,8 +1,6 @@
 import React from 'react';
 import Img from 'react-image';
 import ImageLoader from '../../assets/image-loading.gif';
-import Fallback from '../../assets/fallback.png';
-import '../css/ChapterImage.css';
 
 const ChapterImage = ({ url }) => {
 	return(
