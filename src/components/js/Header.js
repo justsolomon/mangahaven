@@ -59,16 +59,7 @@ class Header extends React.Component {
 
 	keyEvents = (e) => {
 		let searchInput = e.target.value;
-		if (searchInput !== '') {	
-			//for backspace
-			// if (e.key === 'Backspace') {
-			// 	e.preventDefault();
-			// 	if (searchInput.length === 1) this.setState({ searchInput: '' });
-			// 	else {
-			// 		searchInput = searchInput.slice(0, searchInput.length - 1);
-			// 		this.setState({ searchInput });
-			// 	}
-			// }
+		if (searchInput !== '') {
 			//for running search function
 			if (e.key === 'Enter') this.displaySearchResults(this.state.searchInput);
 		}
@@ -113,7 +104,7 @@ class Header extends React.Component {
 						/>				
 					</div>
 					<div 
-						className={(this.state.searchInput !== '') ?
+						className={this.state.clearText ?
 									'active-state clear-button' : 
 									'inactive clear-button'
 									}
