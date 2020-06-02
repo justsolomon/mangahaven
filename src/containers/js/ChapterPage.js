@@ -64,7 +64,7 @@ class ChapterPage extends React.Component {
 		this.setState({ 
 			chapterNumber: number, 
 			networkError: false,
-			defaultPage: pageNum
+			defaultPage: Number(pageNum)
 		})
 
 		fetch(`https://www.mangaeden.com/api/chapter/${id}`)
@@ -225,6 +225,7 @@ class ChapterPage extends React.Component {
 		const { chapterIndex } = this.state;
 		localForage.getItem('offlineManga')
 			.then(allManga => {
+				//add new manga to catalog
 				const addNewManga = (allManga, currentManga) => {
 					currentManga.chapters[chapterIndex][4] = index;
 					if (!currentManga.chapters[chapterIndex][5]) currentManga.chapters[chapterIndex][5] = completed;
@@ -245,6 +246,7 @@ class ChapterPage extends React.Component {
 					}
 					if (!mangaPresent) addNewManga(allManga, manga);
 					else {
+						//update manga if its already existing in catalog
 						allManga[mangaIndex].chapters[chapterIndex][4] = index;
 						if (!allManga[mangaIndex].chapters[chapterIndex][5]) allManga[mangaIndex].chapters[chapterIndex][5] = completed;
 						localForage.setItem('offlineManga', allManga)
@@ -426,7 +428,6 @@ class ChapterPage extends React.Component {
 																		key={id} 
 																		ref={ref}
 																		onDoubleClick={() => {
-																			console.log('why yu clicking')
 																				this.setState({ 
 																					modalOpen: true,
 																					headerActive: false
