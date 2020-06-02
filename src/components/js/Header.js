@@ -122,7 +122,9 @@ class Header extends React.Component {
 						<FontAwesomeIcon icon={faTimes} />
 					</div>
 					{
-						(searchActive && localSearch) ? null : <SearchButton toggleSearch={this.onSearchClick} />
+						!this.props.onHistoryPage ? 
+						((searchActive && localSearch) ? null : <SearchButton toggleSearch={this.onSearchClick} />) :
+						null
 					}
 				</div>
 			)
