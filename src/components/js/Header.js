@@ -13,7 +13,6 @@ class Header extends React.Component {
 		this.state = {
 			searchActive: false,
 			searchInput: '',
-			clearText: false,
 			onSearchPage: false,
 			searchManga: null
 		}
@@ -32,12 +31,7 @@ class Header extends React.Component {
 		let input = e.target.value;
 		if (this.props.onSearchPage && input.length >= 3) this.displaySearchResults(input);
 		
-		if (input !== '') {
-			this.setState({ 
-				searchInput: input,
-				clearText: true 
-			});
-		} else this.setState({ clearText: false })
+		this.setState({ searchInput: input })
 	}
 
 	toggleSearch = () => {
@@ -51,11 +45,7 @@ class Header extends React.Component {
 		}
 	}
 
-	clearText = () => {
-		this.setState({
-			searchInput: ''
-		})
-	}
+	clearText = () => this.setState({ searchInput: '' });
 
 	keyEvents = (e) => {
 		let searchInput = e.target.value;
@@ -99,12 +89,12 @@ class Header extends React.Component {
 							placeholder='Search...' 
 							type='text'
 							onChange={this.onInputChange}
-							defaultValue={this.state.searchInput}
+							value={this.state.searchInput}
 							onKeyDown={this.keyEvents}
 						/>				
 					</div>
 					<div 
-						className={this.state.clearText ?
+						className={(this.state.searchInput !== '') ?
 									'active-state clear-button' : 
 									'inactive clear-button'
 									}
