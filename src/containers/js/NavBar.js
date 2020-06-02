@@ -38,7 +38,7 @@ const NavBar = () => {
 									<FontAwesomeIcon icon={faBook} />
 									<span>Explore</span>
 								</a>
-								<a href='/profiles' className='history-link'>
+								<a href='/history' className='history-link'>
 									<FontAwesomeIcon icon={faHistory} />
 									<span>History</span>
 								</a>
