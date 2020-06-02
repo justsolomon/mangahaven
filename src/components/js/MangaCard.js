@@ -14,7 +14,7 @@ const MangaCard = ({ imageUrl, mangaTitle, id, alias }) => {
 				offset={[-50, 50]} 
 			>
 				<div className='manga-card' onClick={ function(){ history.push(`/manga/${alias}/${id}`) } }>
-						<Image url={imageUrl} />
+					<Image url={imageUrl} title={mangaTitle} />
 					<div className='container'>
 						<p className='manga-title'>{mangaTitle}</p>
 					</div>
