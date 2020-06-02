@@ -3,7 +3,7 @@ import Img from 'react-image';
 import ImageLoader from '../../assets/image-loading.gif';
 import Fallback from '../../assets/fallback.png';
 
-const Image = ({ url }) => {
+const Image = ({ url, title }) => {
 	return(
 			<Img
 				src={[
@@ -11,7 +11,7 @@ const Image = ({ url }) => {
 						Fallback
 					]}
 				loader={<div className='image-loader'><img src={ImageLoader} alt='loader icon' /></div>}
-				alt='manga card illustration'
+				alt={`${title} cover illustration`}
 			/>
 		)
 }
