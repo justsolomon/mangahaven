@@ -18,8 +18,8 @@
 	display: flex;
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 	width: 100%;
-	height: 150px;
-	margin-bottom: .5rem;
+	height: 140px;
+	margin-bottom: .7rem;
 }
 
 .history-card .card-image {
@@ -45,7 +45,7 @@
 }
 
 .history-card .card-details {
-	margin: 1rem 0 .6rem 1rem;
+	margin: .8rem 0 .3rem 1rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -53,19 +53,19 @@
 }
 
 .card-details p {
-	font-size: .9rem;
+	font-size: .85rem;
 }
 
 .card-details .title {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
-	font-size: 1.3rem;
-	margin-bottom: .3rem;
+	font-size: 1.25rem;
+	margin-bottom: .2rem;
 }
 
 .card-details .chapter-info {
-	margin-bottom: .15rem;
+	margin-bottom: .1rem;
 }
 
 .card-details .date-added {
