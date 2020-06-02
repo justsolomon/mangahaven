@@ -27,6 +27,7 @@ class ChapterPage extends React.Component {
 			chapterIndex: 0,
 			chapterImages: [],
 			chapterNumber: '',
+			defaultPage: 1,
 			nextChapter: [],
 			prevChapter: [],
 			chapterTitle: '',
@@ -51,17 +52,28 @@ class ChapterPage extends React.Component {
 
 	fetchData = () => {
 		const { id, mangaid, number } = this.props.match.params;
+
+		//check if user came from history page and parse page num from url
+		const url = new URL(window.location.href);
+		let pageNum = 1;
+		if (url.search !== '') {
+			let searchParams = new URLSearchParams(url.search);
+			pageNum = searchParams.get('q').trim();
+		}
+
 		this.setState({ 
 			chapterNumber: number, 
-			networkError: false
+			networkError: false,
+			defaultPage: pageNum
 		})
+
 		fetch(`https://www.mangaeden.com/api/chapter/${id}`)
 			.then(res => res.json())
 			.then(data => {
 				data.images.reverse();
 				this.setState({ 
 					chapterImages: data.images,
-					currentImage: data.images[0],
+					currentImage: data.images[pageNum-1],
 					networkError: false
 				})
 			})
@@ -215,7 +227,7 @@ class ChapterPage extends React.Component {
 			.then(allManga => {
 				const addNewManga = (allManga, currentManga) => {
 					currentManga.chapters[chapterIndex][4] = index;
-					currentManga.chapters[chapterIndex][5] = completed;
+					if (!currentManga.chapters[chapterIndex][5]) currentManga.chapters[chapterIndex][5] = completed;
 					allManga.push(currentManga);
 					localForage.setItem('offlineManga', allManga)
 						.then(value => console.log(value))
@@ -234,7 +246,7 @@ class ChapterPage extends React.Component {
 					if (!mangaPresent) addNewManga(allManga, manga);
 					else {
 						allManga[mangaIndex].chapters[chapterIndex][4] = index;
-						allManga[mangaIndex].chapters[chapterIndex][5] = completed;
+						if (!allManga[mangaIndex].chapters[chapterIndex][5]) allManga[mangaIndex].chapters[chapterIndex][5] = completed;
 						localForage.setItem('offlineManga', allManga)
 							.then(value => console.log(value))
 							.catch(err => console.log(err));
@@ -268,7 +280,7 @@ class ChapterPage extends React.Component {
 	render() {	
 		Modal.setAppElement('#root');
 		const { mangaid, name } = this.props.match.params;
-		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName } = this.state;
+		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName, defaultPage } = this.state;
 		return (
 			<div className='chapter-page'>
 				<Helmet>
@@ -364,19 +376,19 @@ class ChapterPage extends React.Component {
 								useKeyboardArrows={true}
 								emulateTouch={true}
 								swipeable={true}
-								selectedItem={1}
+								selectedItem={defaultPage}
 								statusFormatter={(current, total) => {
 									this.calcProgress(current, total);
 									return `Page ${current-1} of ${total-2}`;
 								}}
 								onChange={index => {
 										let completed = false;
+										if (index === chapterImages.length) completed = true;
 										if (index !== 0 && index !== (chapterImages.length + 1)) {
 											this.setState({ currentImage: chapterImages[index-1] })
+											this.updateMangaCatalog(index, completed, this.state.manga);
+											this.updatePageNumber(index);
 										}
-										if (index === chapterImages.length) completed = true;
-										this.updateMangaCatalog(index, completed, this.state.manga);
-										this.updatePageNumber(index);
 									}
 								}
 							>
