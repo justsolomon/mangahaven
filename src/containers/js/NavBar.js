@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { faColumns } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
@@ -53,6 +54,10 @@ const NavBar = () => {
 								<a href='/library' className='library-link'>
 									<FontAwesomeIcon icon={faBookmark} />
 									<span>My Library</span>
+								</a>
+								<a href='/library-updates' className='library-link'>
+									<FontAwesomeIcon icon={faBell} />
+									<span>Library Updates</span>
 								</a>
 								<a href='/favorites' className='favorites-link'>
 									<FontAwesomeIcon icon={faHeart} />
