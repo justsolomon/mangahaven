@@ -11,7 +11,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import HeroesImage from '../../assets/anime.jpg';
+import Logo from '../../assets/logo.png';
 import '../css/NavBar.css';
 
 const NavBar = ({ page }) => {
@@ -27,7 +27,10 @@ const NavBar = ({ page }) => {
 					<div className='navigation' onClick={e => e.stopPropagation()}>
 						<div className='navigation-inner'>
 							<div className='nav-heading'>
-								<p className='app-name'>MangaHaven</p>
+								<div className='app-name'>
+									<img src={Logo} />
+									<p>MangaHaven</p>
+								</div>
 								<FontAwesomeIcon icon={faTimes} onClick={e => {
 									document.querySelector('.navigation').classList.toggle('slide-out-left');
 						            document.querySelector('.navigation').classList.toggle('slide-in-left');
@@ -38,17 +41,9 @@ const NavBar = ({ page }) => {
 								}} />
 							</div>
 							<div className='navbar-links'>
-								<a href='/profiles' className='profile-link'>
-									<FontAwesomeIcon icon={faUser} />
-									<span>Profile</span>
-								</a>
 								<a href='/' className={page === 'explore' ? 'active-window' : 'allmanga-link'}>
 									<FontAwesomeIcon icon={faBook} />
 									<span>Explore</span>
-								</a>
-								<a href='/history' className={page === 'history' ? 'active-window' : 'history-link'}>
-									<FontAwesomeIcon icon={faHistory} />
-									<span>History</span>
 								</a>
 								<a href='/recent' className={page === 'recent' ? 'active-window' : 'updated-link'}>
 									<FontAwesomeIcon icon={faBookOpen} />
@@ -69,6 +64,14 @@ const NavBar = ({ page }) => {
 								<a href='/favorites' className={page === 'favorite' ? 'active-window' : 'favorites-link'}>
 									<FontAwesomeIcon icon={faHeart} />
 									<span>Favorites</span>
+								</a>
+								<a href='/history' className={page === 'history' ? 'active-window' : 'history-link'}>
+									<FontAwesomeIcon icon={faHistory} />
+									<span>History</span>
+								</a>
+								<a href='/profiles' className='profile-link'>
+									<FontAwesomeIcon icon={faUser} />
+									<span>Profile</span>
 								</a>
 								<span className='nav-breakline'></span>
 								<a href='/profiles' className='settings-link'>

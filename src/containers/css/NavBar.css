@@ -17,17 +17,13 @@
 	flex-direction: column;
 	width: 75%;
 	height: 100%;
-	background-color: #fff;
+	background-color: #FDFFFC;
 	box-shadow: rgba(0, 0, 0, 0.13) 2px 0px 4px 0px;
 	overflow: hidden;
 }
 
 .navigation a {
 	color: grey;
-}
-
-.navigation-inner {
-	/*margin-left: 1rem; */
 }
 
 .nav-heading {
@@ -40,7 +36,15 @@
 }
 
 .nav-heading .app-name {
-	font-size: 1.2rem;
+	display: flex;
+	align-items: center;
+	font-size: 1.15rem;
+}
+
+.nav-heading .app-name img {
+	height: 28px;
+	width: 28px;
+	margin-right: .5rem;
 }
 
 .nav-heading .fa-times {
@@ -65,7 +69,6 @@
 	height: 16px;
 	margin: auto 0;
 }
-
 
 .navbar-links span {
 	display: block;
