@@ -17,7 +17,6 @@ class Favorites extends React.Component {
 		//check if user favorites exists in storage
 		localForage.getItem('userFavorites')
 			.then(value => {
-				console.log(value);
 				value.reverse();
 				this.setState({ 
 					userFav: value,
@@ -42,7 +41,7 @@ class Favorites extends React.Component {
 		return (
 			<div className='favorite-manga'>
 				<Header currentMenu={'Favorites'} localSearch={true} searchManga={this.filterManga} />
-				<NavBar />
+				<NavBar page='favorite' />
 				{
 					(userFav === null) ?
 					<p style={{textAlign: 'center'}}>You don't have any favorited manga yet</p> :

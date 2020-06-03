@@ -41,7 +41,7 @@ class Library extends React.Component {
 		return (
 			<div className='manga-library'>
 				<Header currentMenu={'Library'} localSearch={true} searchManga={this.filterManga} />
-				<NavBar />
+				<NavBar page='library' />
 				{
 					(library === null) ?
 					<p style={{textAlign: 'center'}}>You don't have any bookmarked manga yet</p> :

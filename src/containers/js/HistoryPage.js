@@ -29,7 +29,7 @@ class HistoryPage extends React.Component {
 		return (
 			<div className='manga-history'>
 				<Header currentMenu='History' onHistoryPage={true}  />
-				<NavBar />
+				<NavBar page='history' />
 				{
 					mangaHistory === null ?
 					<p className='no-manga-history'>You have no recently read manga</p> :	

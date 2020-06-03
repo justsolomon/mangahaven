@@ -79,7 +79,7 @@ class ExplorePage extends React.Component {
 		return(
 				<div className='explore-page'>
 					<Header currentMenu='Explore' onSearchPage={false} />
-					<NavBar />
+					<NavBar page='explore' />
 					{renderedContent}
 				</div>
 		)
