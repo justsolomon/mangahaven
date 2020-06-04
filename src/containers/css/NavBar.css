@@ -99,27 +99,6 @@
 	display: block;
 }
 
-.attribution {
-	position: fixed;
-	bottom: 0;
-	margin-bottom: .3rem;
-	width: 100%;
-}
-
-.attribution a {
-	color: rgb(50, 50, 50);
-	display: flex;
-	align-items: center;
-	width: 100%;
-	justify-content: space-between;
-	padding: 0 1rem;
-}
-
-.fa-external-link-alt {
-	width: 15px;
-	height: 15px;
-}
-
 .slide-in-left {
 	-webkit-animation: slide-in-left .5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	animation: slide-in-left .5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;

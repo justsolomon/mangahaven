@@ -10,7 +10,6 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../../assets/logo.png';
 import '../css/NavBar.css';
 
@@ -28,7 +27,7 @@ const NavBar = ({ page }) => {
 						<div className='navigation-inner'>
 							<div className='nav-heading'>
 								<div className='app-name'>
-									<img src={Logo} />
+									<img src={Logo} alt='MangaHaven logo' />
 									<p>MangaHaven</p>
 								</div>
 								<FontAwesomeIcon icon={faTimes} onClick={e => {
@@ -74,19 +73,9 @@ const NavBar = ({ page }) => {
 									<span>Profile</span>
 								</a>
 								<span className='nav-breakline'></span>
-								<a href='/profiles' className='settings-link'>
+								<a href='/settings' className='settings-link'>
 									<FontAwesomeIcon icon={faCog} />
 									<span>Settings</span>
-								</a>
-							</div>
-							<div className='attribution'>
-								<a href='https://www.mangaeden.com' target='_blank' rel='noopener noreferrer'>
-									<span>Powered by Manga Eden</span>
-									<FontAwesomeIcon icon={faExternalLinkAlt} />
-								</a>
-								<a href="https://www.designevo.com/logo-maker/" title="Free Online Logo Maker">
-									<span>Logo made by DesignEvo free logo creator</span>
-									<FontAwesomeIcon icon={faExternalLinkAlt} />
 								</a>
 							</div>
 						</div>
