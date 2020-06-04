@@ -17,7 +17,7 @@ class Favorites extends React.Component {
 		//check if user favorites exists in storage
 		localForage.getItem('userFavorites')
 			.then(value => {
-				value.reverse();
+				if (value !== null) value.reverse();
 				this.setState({ 
 					userFav: value,
 					displayedManga: value

@@ -17,7 +17,7 @@ class Library extends React.Component {
 		//check if user bookmarks exists in storage
 		localForage.getItem('userBookmarks')
 			.then(value => {
-				value.reverse();
+				if (value !== null) value.reverse();
 				this.setState({ 
 					library: value,
 					displayedManga: value
