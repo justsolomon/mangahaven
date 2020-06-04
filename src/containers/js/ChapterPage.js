@@ -36,6 +36,7 @@ class ChapterPage extends React.Component {
 			headerActive: false,
 			view: 'horizontal',
 			background: 'light',
+			readMode: 'normal',
 			settings: false,
 			loader: true,
 			modalOpen: false,
@@ -47,6 +48,19 @@ class ChapterPage extends React.Component {
 	}
 
 	componentDidMount() {
+		//check if default preferences have been set beforehand
+		localForage.getItem('userPreferences')
+			.then(value => {
+				if (value !== null) {
+					this.setState({
+						view: value.readView,
+						background: value.readBG,
+						readMode: value.readMode
+					})
+				}
+				console.log(value);
+			})
+			.catch(err => console.log(err));
 		this.fetchData();
 	}
 
@@ -136,6 +150,10 @@ class ChapterPage extends React.Component {
 	toggleVertical = () => this.setState({ view: 'vertical' })
 
 	toggleHorizontal = () => this.setState({ view: 'horizontal' })
+
+	toggleNormal = () => this.setState({ readMode: 'normal' })
+	
+	toggleWebtoon = () => this.setState({ readMode: 'webtoon' })
 
 	toggleDark = () => {
 		this.setState({ 
@@ -281,7 +299,6 @@ class ChapterPage extends React.Component {
 
 	render() {	
 		Modal.setAppElement('#root');
-		const { mangaid, name } = this.props.match.params;
 		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName, defaultPage } = this.state;
 		return (
 			<div className='chapter-page'>
@@ -293,7 +310,7 @@ class ChapterPage extends React.Component {
 					!this.state.networkError ?
 					<div className='chapter-page-inner'>
 						<div className={this.state.headerActive ? 'active chapter-page-header' : 'chapter-page-header'}>
-							<BackButton toggleSearch={() => this.props.history.push(`/manga/${name}/${mangaid}`)}/>
+							<BackButton clickAction={() => this.props.history.goBack()} />
 							<div className='header-title'>
 								<p className='manga-title'>{mangaName}</p>
 								<p className='chapter-number'>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</p>
@@ -364,11 +381,31 @@ class ChapterPage extends React.Component {
 										</div>
 									</div>
 								</div>
+
+								<div className='reading-mode'>
+									<p>Mode</p>
+									<div className='options'>
+										<div className='normal-option' onClick={this.toggleNormal}>
+											<CheckButton 
+												classname='normal' 
+												view={this.state.readMode} 
+											/>
+											<span>Normal</span>
+										</div>
+										<div className='webtoon-option' onClick={this.toggleWebtoon}>
+											<CheckButton 
+												classname='webtoon' 
+												view={this.state.readMode} 
+											/>
+											<span>Webtoon</span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						
 						{
-							this.state.loader ? <Loader /> :
+							this.state.loader ? <Loader background={background} /> :
 							<Carousel 
 								showIndicators={false}
 								showThumbs={false}
