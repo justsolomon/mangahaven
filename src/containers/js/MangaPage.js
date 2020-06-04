@@ -369,7 +369,7 @@ class MangaPage extends React.Component {
 					<div className='manga-header'>
 						<div className='manga-header-nav'>
 							<div className='manga-header-title'>
-								<BackButton toggleSearch={this.props.history.goBack} />
+								<BackButton clickAction={() => this.props.history.push('/')} />
 								<p>{title}</p>
 							</div>
 							<FontAwesomeIcon onClick={this.displayShare} icon={faShareAlt} className={menuIndex === 0 ? 'active' : 'inactive'} />

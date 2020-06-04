@@ -87,7 +87,7 @@ class Header extends React.Component {
 					</div>
 					<div className={searchActive ? 'active search-box' : 'inactive search-box'}>
 						<BackButton 
-							toggleSearch={onSearchPage ? this.goToPrevPath : this.toggleSearch}
+							clickAction={onSearchPage ? this.goToPrevPath : this.toggleSearch}
 						/>
 						{
 							!localSearch ? 
