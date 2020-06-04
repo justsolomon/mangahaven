@@ -62,9 +62,10 @@ class MangaPage extends React.Component {
 		fetch(`https://www.mangaeden.com/api/manga/${id}/`)
 			.then(res => res.json())
 			.then(data => {
+				this.updateOfflineChapters(data.chapters, data.title);
+				this.checkReadChapters(data.chapters, data.title);
 				this.setState({
 					manga: data,
-					chapters: data.chapters,
 					lastChapter: data.chapters[0][0],
 					genres: data.categories,
 					imageUrl: `https://cdn.mangaeden.com/mangasimg/${data.image}`,
@@ -196,6 +197,7 @@ class MangaPage extends React.Component {
 			localForage.getItem('offlineManga')
 				.then(allManga => {
 					if (allManga !== null) {
+						//to check if manga already exists in storage
 						let mangaPresent = false;
 						for (let i = 0; i < allManga.length; i++) {
 							if (allManga[i].title === manga.title) {
@@ -212,7 +214,9 @@ class MangaPage extends React.Component {
 					} else {
 						let allManga = [];
 						allManga.push(manga);
-						localForage.setItem('offlineManga', allManga);
+						localForage.setItem('offlineManga', allManga)
+							.then(value => console.log(value))
+							.catch(err => console.log(err));
 					}
 					console.log(allManga);
 				})
@@ -222,7 +226,9 @@ class MangaPage extends React.Component {
 			localForage.getItem(location)
 				.then(bookmarks => {
 					bookmarks = bookmarks.filter(manga => manga.t !== this.state.manga.title);
-					if (bookmarks === []) {
+					console.log(bookmarks)
+					console.log(bookmarks.length)
+					if (bookmarks.length === 0) {
 						localForage.removeItem(location)
 							.then(() => console.log('key removed'))
 							.catch(err => console.log(err))
@@ -239,14 +245,14 @@ class MangaPage extends React.Component {
 				.catch(err => console.log(err));
 
 			//remove entire manga info from catalogue to avoid space wastage
-			localForage.getItem('offlineManga')
-				.then(allManga => {
-					allManga = allManga.filter(manga => manga.title !== this.state.manga.title);
-					localForage.setItem('offlineManga', allManga)
-						.then(value => console.log(value))
-						.catch(err => console.log(err))
-				})
-				.catch(err => console.log(err));
+			// localForage.getItem('offlineManga')
+			// 	.then(allManga => {
+			// 		allManga = allManga.filter(manga => manga.title !== this.state.manga.title);
+			// 		localForage.setItem('offlineManga', allManga)
+			// 			.then(value => console.log(value))
+			// 			.catch(err => console.log(err))
+			// 	})
+			// 	.catch(err => console.log(err));
 		}
 	}
 
@@ -270,6 +276,63 @@ class MangaPage extends React.Component {
 		}
 		runCheck('userFavorites');
 		runCheck('userBookmarks');
+	}
+
+	checkReadChapters = (chapters, title) => {
+		localForage.getItem('offlineManga')
+			.then(value => {
+				if (value !== null) {	
+					let offlineChapters;
+					for (let i = 0; i < value.length; i++) {
+						if (value[i].title === title) {
+							offlineChapters = value[i].chapters;
+							for (let i = 0; i < chapters.length; i++) {
+								for (let j = 0; j < offlineChapters.length; j++) {
+									if (chapters[i][3] === offlineChapters[j][3] && offlineChapters[j][4] !== undefined) {
+										chapters[i][4] = offlineChapters[j][4];
+										chapters[i][5] = offlineChapters[j][5];
+										break;
+									}
+								}
+							}
+							break;
+						}
+					}
+				}
+				this.setState({ chapters });
+			})
+			.catch(err => console.log(err))
+	}
+
+	updateOfflineChapters = (chapters, title) => {
+		localForage.getItem('offlineManga')
+			.then(value => {
+				if (value !== null) {	
+					let offlineChapters;
+					for (let i = 0; i < value.length; i++) {
+						if (value[i].title === title) {
+							offlineChapters = value[i].chapters;
+							if (offlineChapters.length !== chapters.length) {
+								for (let j = 0; j < chapters.length; j++) {
+									for (let k = 0; k < offlineChapters.length; k++) {
+										if (chapters[j][3] === offlineChapters[k][3] && offlineChapters[k][4] !== undefined) {
+											chapters[j][4] = offlineChapters[k][4];
+											chapters[j][5] = offlineChapters[k][5];
+											break;
+										}
+									}
+								}
+								value[i].chapters = chapters;
+								localForage.setItem('offlineManga', value)
+									.then(manga => console.log(manga))
+									.catch(err => console.log(err));
+								break;
+							}
+						}
+					}
+				}
+			})
+			.catch(err => console.log(err))
 	}
 
 	render() {	
@@ -306,7 +369,7 @@ class MangaPage extends React.Component {
 					<div className='manga-header'>
 						<div className='manga-header-nav'>
 							<div className='manga-header-title'>
-								<BackButton toggleSearch={this.props.history.goBack} />
+								<BackButton clickAction={() => this.props.history.push('/')} />
 								<p>{title}</p>
 							</div>
 							<FontAwesomeIcon onClick={this.displayShare} icon={faShareAlt} className={menuIndex === 0 ? 'active' : 'inactive'} />

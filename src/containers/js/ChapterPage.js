@@ -15,6 +15,7 @@ import { Line } from 'rc-progress';
 import Modal from 'react-modal';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 import { Helmet } from "react-helmet";
+import localForage from 'localforage';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../css/ChapterPage.css';
 
@@ -22,8 +23,11 @@ class ChapterPage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
+			manga: {},
+			chapterIndex: 0,
 			chapterImages: [],
 			chapterNumber: '',
+			defaultPage: 1,
 			nextChapter: [],
 			prevChapter: [],
 			chapterTitle: '',
@@ -32,6 +36,7 @@ class ChapterPage extends React.Component {
 			headerActive: false,
 			view: 'horizontal',
 			background: 'light',
+			readMode: 'normal',
 			settings: false,
 			loader: true,
 			modalOpen: false,
@@ -43,22 +48,46 @@ class ChapterPage extends React.Component {
 	}
 
 	componentDidMount() {
+		//check if default preferences have been set beforehand
+		localForage.getItem('userPreferences')
+			.then(value => {
+				if (value !== null) {
+					this.setState({
+						view: value.readView,
+						background: value.readBG,
+						readMode: value.readMode
+					})
+				}
+				console.log(value);
+			})
+			.catch(err => console.log(err));
 		this.fetchData();
 	}
 
 	fetchData = () => {
 		const { id, mangaid, number } = this.props.match.params;
+
+		//check if user came from history page and parse page num from url
+		const url = new URL(window.location.href);
+		let pageNum = 1;
+		if (url.search !== '') {
+			let searchParams = new URLSearchParams(url.search);
+			pageNum = searchParams.get('q').trim();
+		}
+
 		this.setState({ 
 			chapterNumber: number, 
-			networkError: false
+			networkError: false,
+			defaultPage: Number(pageNum)
 		})
+
 		fetch(`https://www.mangaeden.com/api/chapter/${id}`)
 			.then(res => res.json())
 			.then(data => {
 				data.images.reverse();
 				this.setState({ 
 					chapterImages: data.images,
-					currentImage: data.images[0],
+					currentImage: data.images[pageNum-1],
 					networkError: false
 				})
 			})
@@ -76,12 +105,16 @@ class ChapterPage extends React.Component {
 					} 
 				}
 				this.setState({
+					manga: data,
 					mangaName: data.title,
 					chapterTitle: data.chapters[index][2],
 					loader: false,
+					chapterIndex: index,
 					networkError: false
 				})
 
+				this.saveToHistory(data);
+				this.updateMangaCatalog(1, false, data);
 				//conditions for whether there's a next/prev chapter
 				if ((index - 1) === -1) {
 					this.setState({ 
@@ -111,12 +144,16 @@ class ChapterPage extends React.Component {
 
 	calcProgress = (current, total) => {
 		let progress = Math.round((current / total) * 100);
-		if (progress !== this.state.progress) this.setState({ progress })
+		if (progress !== this.state.progress) this.setState({ progress });
 	}
 
 	toggleVertical = () => this.setState({ view: 'vertical' })
 
 	toggleHorizontal = () => this.setState({ view: 'horizontal' })
+
+	toggleNormal = () => this.setState({ readMode: 'normal' })
+	
+	toggleWebtoon = () => this.setState({ readMode: 'webtoon' })
 
 	toggleDark = () => {
 		this.setState({ 
@@ -150,10 +187,119 @@ class ChapterPage extends React.Component {
 		window.location.reload();
 	}
 
+	saveToHistory = (manga) => {
+		const { id, mangaid, number } = this.props.match.params;
+		//fetch history from storage
+		localForage.getItem('readHistory')
+			.then(value => {
+				if (value === null) {
+					let recentManga = [];
+					recentManga.push({
+						alias: manga.alias,
+						image: manga.image,
+						mangaId: mangaid,
+						title: manga.title,
+						chapterNum: number,
+						chapterId: id,
+						page: 1,
+						added: new Date().getTime()
+					});
+
+					localForage.setItem('readHistory', recentManga)
+						.then(value => console.log(value))
+						.catch(err => console.log(err));
+				} else {
+					//check if manga already exists in history
+					let mangaPresent = false;
+					for (let i = 0; i < value.length; i++) {
+						if (value[i].chapterId === id) {
+							value[i].chapterNum = number;
+							value[i].added = new Date().getTime();
+							mangaPresent = true;
+							break;
+						}
+					};
+					if (!mangaPresent) {
+						value.push({
+							alias: manga.alias,
+							image: manga.image,
+							mangaId: mangaid,
+							title: manga.title,
+							chapterNum: number,
+							chapterId: id,
+							page: 1,
+							added: new Date().getTime()
+						})
+					};
+					localForage.setItem('readHistory', value)
+						.then(value => console.log(value))
+						.catch(err => console.log(err));
+				}
+			})
+			.catch(err => console.log(err));
+	}
+
+	updateMangaCatalog = (index, completed, manga) => {
+		const { chapterIndex } = this.state;
+		localForage.getItem('offlineManga')
+			.then(allManga => {
+				//add new manga to catalog
+				const addNewManga = (allManga, currentManga) => {
+					currentManga.chapters[chapterIndex][4] = index;
+					if (!currentManga.chapters[chapterIndex][5]) currentManga.chapters[chapterIndex][5] = completed;
+					allManga.push(currentManga);
+					localForage.setItem('offlineManga', allManga)
+						.then(value => console.log(value))
+						.catch(err => console.log(err));
+				}
+				if (allManga !== null) {
+					let mangaPresent = false;
+					let mangaIndex;
+					for (let i = 0; i < allManga.length; i++) {
+						if (allManga[i].title === manga.title) {
+							mangaPresent = true;
+							mangaIndex = i;
+							break;
+						}
+					}
+					if (!mangaPresent) addNewManga(allManga, manga);
+					else {
+						//update manga if its already existing in catalog
+						allManga[mangaIndex].chapters[chapterIndex][4] = index;
+						if (!allManga[mangaIndex].chapters[chapterIndex][5]) allManga[mangaIndex].chapters[chapterIndex][5] = completed;
+						localForage.setItem('offlineManga', allManga)
+							.then(value => console.log(value))
+							.catch(err => console.log(err));
+					}
+				} else {
+					let allManga = [];
+					addNewManga(allManga, manga);
+				}
+			})
+			.catch(err => console.log(err))
+	}
+
+	updatePageNumber = (index) => {
+		const { manga } = this.state;
+		localForage.getItem('readHistory')
+			.then(recentManga => {
+				if (recentManga !== null) {
+					for (let i = 0; i < recentManga.length; i++) {
+						if (recentManga[i].alias === manga.alias) {
+							recentManga[i].page = index;
+						}
+					}
+					localForage.setItem('readHistory', recentManga)
+						.then(value => console.log(value))
+						.catch(err => console.log(err))
+				}
+			})
+			.catch(err => console.log(err));
+	}
+
 	render() {	
-		Modal.setAppElement('#root')
-		const { mangaid, name } = this.props.match.params;
-		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName } = this.state;
+		Modal.setAppElement('#root');
+		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName, defaultPage } = this.state;
 		return (
 			<div className='chapter-page'>
 				<Helmet>
@@ -164,7 +310,7 @@ class ChapterPage extends React.Component {
 					!this.state.networkError ?
 					<div className='chapter-page-inner'>
 						<div className={this.state.headerActive ? 'active chapter-page-header' : 'chapter-page-header'}>
-							<BackButton toggleSearch={() => this.props.history.push(`/manga/${name}/${mangaid}`)}/>
+							<BackButton clickAction={() => this.props.history.goBack()} />
 							<div className='header-title'>
 								<p className='manga-title'>{mangaName}</p>
 								<p className='chapter-number'>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</p>
@@ -235,11 +381,31 @@ class ChapterPage extends React.Component {
 										</div>
 									</div>
 								</div>
+
+								<div className='reading-mode'>
+									<p>Mode</p>
+									<div className='options'>
+										<div className='normal-option' onClick={this.toggleNormal}>
+											<CheckButton 
+												classname='normal' 
+												view={this.state.readMode} 
+											/>
+											<span>Normal</span>
+										</div>
+										<div className='webtoon-option' onClick={this.toggleWebtoon}>
+											<CheckButton 
+												classname='webtoon' 
+												view={this.state.readMode} 
+											/>
+											<span>Webtoon</span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						
 						{
-							this.state.loader ? <Loader /> :
+							this.state.loader ? <Loader background={background} /> :
 							<Carousel 
 								showIndicators={false}
 								showThumbs={false}
@@ -249,14 +415,18 @@ class ChapterPage extends React.Component {
 								useKeyboardArrows={true}
 								emulateTouch={true}
 								swipeable={true}
-								selectedItem={1}
+								selectedItem={defaultPage}
 								statusFormatter={(current, total) => {
 									this.calcProgress(current, total);
 									return `Page ${current-1} of ${total-2}`;
 								}}
 								onChange={index => {
+										let completed = false;
+										if (index === chapterImages.length) completed = true;
 										if (index !== 0 && index !== (chapterImages.length + 1)) {
 											this.setState({ currentImage: chapterImages[index-1] })
+											this.updateMangaCatalog(index, completed, this.state.manga);
+											this.updatePageNumber(index);
 										}
 									}
 								}
@@ -295,7 +465,6 @@ class ChapterPage extends React.Component {
 																		key={id} 
 																		ref={ref}
 																		onDoubleClick={() => {
-																			console.log('why yu clicking')
 																				this.setState({ 
 																					modalOpen: true,
 																					headerActive: false

@@ -1,0 +1,17 @@
+.mini-header {
+	height: 3rem;
+	display: flex;
+	align-items: center;
+	color: #fff;
+	background-color: #5680e9;
+	box-shadow: rgba(0, 0, 0, 0.13) 0px 2px 4px 0px;
+	padding-left: 1rem;
+}
+
+.mini-header .current-menu {
+	margin: 0;
+	padding: 0;
+	margin-left: 1rem;
+	font-size: 1.3rem;
+	font-weight: 600;
+}

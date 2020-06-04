@@ -13,7 +13,6 @@ class Header extends React.Component {
 		this.state = {
 			searchActive: false,
 			searchInput: '',
-			clearText: false,
 			onSearchPage: false,
 			searchManga: null
 		}
@@ -32,12 +31,7 @@ class Header extends React.Component {
 		let input = e.target.value;
 		if (this.props.onSearchPage && input.length >= 3) this.displaySearchResults(input);
 		
-		if (input !== '') {
-			this.setState({ 
-				searchInput: input,
-				clearText: true 
-			});
-		} else this.setState({ clearText: false })
+		this.setState({ searchInput: input })
 	}
 
 	toggleSearch = () => {
@@ -52,23 +46,14 @@ class Header extends React.Component {
 	}
 
 	clearText = () => {
-		this.setState({
-			searchInput: ''
-		})
-	}
+		const { localSearch, searchManga } = this.props;
+		this.setState({ searchInput: '' });
+		if (localSearch) searchManga('');
+	};
 
 	keyEvents = (e) => {
 		let searchInput = e.target.value;
-		if (searchInput !== '') {	
-			//for backspace
-			// if (e.key === 'Backspace') {
-			// 	e.preventDefault();
-			// 	if (searchInput.length === 1) this.setState({ searchInput: '' });
-			// 	else {
-			// 		searchInput = searchInput.slice(0, searchInput.length - 1);
-			// 		this.setState({ searchInput });
-			// 	}
-			// }
+		if (searchInput !== '') {
 			//for running search function
 			if (e.key === 'Enter') this.displaySearchResults(this.state.searchInput);
 		}
@@ -89,31 +74,46 @@ class Header extends React.Component {
 	}
 
 	render() {	
-		const { onSearchPage } = this.state;
+		const { onSearchPage, searchActive, searchInput } = this.state;
+		const { currentMenu, localSearch, searchManga } = this.props;
 		return (
 				<div className='header'>
 					<div 
-						className={this.state.searchActive ? 'inactive header-title' : 'active header-title'}
+						className={searchActive ? 'inactive header-title' : 'active header-title'}
 						id={onSearchPage ? 'on-search-page' : '' }
 					>
 						<Hamburger />
-						<p className='current-menu'>{this.props.currentMenu}</p>
+						<p className='current-menu'>{currentMenu}</p>
 					</div>
-					<div className={this.state.searchActive ? 'active search-box' : 'inactive search-box'}>
+					<div className={searchActive ? 'active search-box' : 'inactive search-box'}>
 						<BackButton 
-							toggleSearch={onSearchPage ? this.goToPrevPath : this.toggleSearch}
-						/>	
-						<input 
-							className='search-input' 
-							placeholder='Search...' 
-							type='text'
-							onChange={this.onInputChange}
-							defaultValue={this.state.searchInput}
-							onKeyDown={this.keyEvents}
-						/>				
+							clickAction={onSearchPage ? this.goToPrevPath : this.toggleSearch}
+						/>
+						{
+							!localSearch ? 
+							<input 
+								className='search-input' 
+								placeholder='Search...' 
+								type='text'
+								onChange={this.onInputChange}
+								value={searchInput}
+								onKeyDown={this.keyEvents}
+							/> :
+							<input
+								className='search-input'
+								placeholder='Search...'
+								type='text'
+								onChange={e => {
+									let searchInput = e.target.value;
+									this.setState({ searchInput })
+									searchManga(searchInput)
+								}}
+								value={searchInput}
+							/>
+						}
 					</div>
 					<div 
-						className={(this.state.searchInput !== '') ?
+						className={(searchInput !== '') ?
 									'active-state clear-button' : 
 									'inactive clear-button'
 									}
@@ -121,7 +121,11 @@ class Header extends React.Component {
 					>
 						<FontAwesomeIcon icon={faTimes} />
 					</div>
-					<SearchButton toggleSearch={this.onSearchClick} />
+					{
+						!this.props.onHistoryPage ? 
+						((searchActive && localSearch) ? null : <SearchButton toggleSearch={this.onSearchClick} />) :
+						null
+					}
 				</div>
 			)
 	}

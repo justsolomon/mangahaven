@@ -74,7 +74,7 @@ class RecentUpdate extends React.Component {
 		return(
 				<div className='recent'>
 					<Header currentMenu='Recently Updated' onSearchPage={false} />
-					<NavBar />
+					<NavBar page='recent' />
 					{renderedContent}
 				</div>
 		)

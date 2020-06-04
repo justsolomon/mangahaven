@@ -10,7 +10,9 @@ import CategoryPage from './CategoryPage.js';
 import SearchResults from './SearchResults.js';
 import Favorites from './Favorites.js';
 import Library from './Library.js';
+import Settings from './Settings.js';
 import ChapterPage from './ChapterPage.js';
+import HistoryPage from './HistoryPage.js';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import '../css/App.css';
 
@@ -28,6 +30,8 @@ class App extends React.Component {
 			<Route path='/search' component={SearchResults} />
 			<Route path='/favorites' component={Favorites} />
 			<Route path='/library' component={Library} />
+			<Route path='/settings' component={Settings} />
+			<Route path='/history' component={HistoryPage} />
 			<Route path='/all-genres' component={Categories} />
 			<Route path='/genre/:name' component={CategoryPage} />
 			<Route path='/manga/:name/:id' component={MangaPage} />

@@ -91,7 +91,7 @@ class Categories extends React.Component {
 		return(
 				<div className='categories'>
 					<Header currentMenu='All Genres' onSearchPage={false} />
-					<NavBar />
+					<NavBar page='all-genre' />
 					{loader}
 					{renderedContent}
 				</div>

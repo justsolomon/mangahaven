@@ -8,27 +8,44 @@ class Library extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			library: []
+			library: [],
+			displayedManga: []
 		}
 	}
 
 	componentDidMount() {
-		//check if user favorites exists in storage
+		//check if user bookmarks exists in storage
 		localForage.getItem('userBookmarks')
-			.then(value => this.setState({ library: value }))
+			.then(value => {
+				if (value !== null) value.reverse();
+				this.setState({ 
+					library: value,
+					displayedManga: value
+				})
+			})
 			.catch(err => console.log(err))
 	}
 
+	filterManga = (keyword) => {
+		let { library, displayedManga } = this.state;
+
+		displayedManga = library.filter(manga => {
+			const regex = new RegExp(keyword, 'gi');
+			return manga.a.match(regex) || manga.t.match(regex);
+		});
+		this.setState({ displayedManga });
+	}
+
 	render() {	
-		const { library } = this.state;
+		const { library, displayedManga } = this.state;
 		return (
 			<div className='manga-library'>
-				<Header currentMenu={'Library'} />
-				<NavBar />
+				<Header currentMenu={'Library'} localSearch={true} searchManga={this.filterManga} />
+				<NavBar page='library' />
 				{
 					(library === null) ?
 					<p style={{textAlign: 'center'}}>You don't have any bookmarked manga yet</p> :
-					<MangaCardList mangaArray={library} />
+					<MangaCardList mangaArray={displayedManga} />
 				}
 			</div>
 		)

@@ -18,7 +18,20 @@ const MenuItem = ({ text }) => {
 
 const Menu = (category) => {
 	return category.map((manga, i) => {
-		return <MenuItem text={<MangaCard imageUrl={`https://cdn.mangaeden.com/mangasimg/${manga.im}`} key={i} mangaTitle={manga.t} id={manga.i} alias={manga.a} />} key={i} />;
+		return (
+				<MenuItem 
+					text={
+							<MangaCard 
+								imageUrl={`https://cdn.mangaeden.com/mangasimg/${manga.im}`} 
+								key={i} 
+								mangaTitle={manga.t} 
+								id={manga.i} 
+								alias={manga.a} 
+							/>
+						} 
+					key={i} 
+				/>
+		);
 	})
 }
 
@@ -45,9 +58,12 @@ class CategoryBox extends React.Component {
 		const { category } = this.props.category;
 		return (
 				<div className='category'>
-					<div className='category-header'>
+					<div 
+						className='category-header'
+						onClick={() => history.push(`/genre/${category.toLowerCase()}`)}
+					>
 						<p className='category-name'>{category}</p>
-						<FontAwesomeIcon icon={faLongArrowAltRight} onClick={ function(){ history.push(`/genre/${category.toLowerCase()}`) } } />
+						<FontAwesomeIcon icon={faLongArrowAltRight} />
 					</div>
 					<ScrollMenu
 						data={this.state.menu}

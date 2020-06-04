@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Loader from '../../components/js/Loader.js';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 
-class HomePage extends React.Component {
+class ExplorePage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
@@ -79,11 +79,11 @@ class HomePage extends React.Component {
 		return(
 				<div className='explore-page'>
 					<Header currentMenu='Explore' onSearchPage={false} />
-					<NavBar />
+					<NavBar page='explore' />
 					{renderedContent}
 				</div>
 		)
 	}
 }
 
-export default HomePage;
+export default ExplorePage;
