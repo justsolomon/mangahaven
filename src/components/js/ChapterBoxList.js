@@ -16,8 +16,11 @@ const ChapterBoxList = ({ allChapters, mangaName, mangaId }) => {
 									completed={chapter[5]}
 									page={chapter[4]}
 									key={i}
-									displayChapter={function() {
+									displayChapter={() => {
 										history.push(`/${mangaName}/${mangaId}/chapter/${chapter[0]}/${chapter[3]}`);
+									}}
+									continueChapter={() => {
+										history.push(`/${mangaName}/${mangaId}/chapter/${chapter[0]}/${chapter[3]}?q=${chapter[4]}`);
 									}}
 								 />
 							)
