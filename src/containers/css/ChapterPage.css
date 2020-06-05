@@ -120,7 +120,7 @@
 
 .chapter-page-settings-inner {
 	display: flex;
-	height: 30%;
+	height: 40%;
 	flex-direction: column;
 	bottom: 0;
 	z-index: 4;
@@ -129,7 +129,8 @@
 }
 
 .chapter-page-settings .chapter-view,
-.chapter-page-settings .background-settings {
+.chapter-page-settings .background-settings,
+.chapter-page-settings .reading-mode {
 	display: flex;
 	align-items: center;
 }
@@ -155,7 +156,8 @@
 	width: 96px;
 }
 
-.chapter-view {
+.chapter-view,
+.background-settings {
 	margin-bottom: 2rem;	
 }
 

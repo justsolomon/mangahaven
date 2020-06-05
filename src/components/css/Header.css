@@ -10,7 +10,7 @@
 	width: 100%;
 	left: 0;
 	color: #fff;
-	background-color: #5680e9;
+	background-color: rgb(86, 128, 220);
 	box-shadow: rgba(0, 0, 0, 0.13) 0px 2px 4px 0px;
 	position: sticky;
 	z-index: 1;
@@ -63,8 +63,8 @@
 	margin-left: 1rem;
 	font-size: 1.15rem;
 	width: 70%;
-	background-color: #5680e9;
-	border: 0px solid #5680e9;
+	background-color: rgb(86, 128, 220);
+	border: 0px;
 	padding: 0 .5rem;
 	color: #fff;
 }

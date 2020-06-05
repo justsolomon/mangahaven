@@ -65,7 +65,7 @@
 	width: 100%;
 	left: 0;
 	color: #fff;
-	background-color: #5680e9;
+	background-color: rgb(86, 128, 220);
 	box-shadow: 0px 2px rgba(140, 140, 140, .2);
 	position: sticky;
 	z-index: 1;
@@ -138,7 +138,7 @@
 }
 
 .active-lines .inactive {
-	background-color: #5680e9;
+	background-color: rgb(86, 128, 220);
 	display: block;
 }
 
@@ -218,7 +218,7 @@
 
 .action-icon-buttons button {
 	display: flex;
-	background-color: #5680e9;
+	background-color: rgb(86, 128, 220);
 	width: 35px;
 	height: 35px;
 	border-radius: 50%;
