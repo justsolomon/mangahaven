@@ -3,6 +3,7 @@ import Header from '../../components/js/Header.js';
 import NavBar from './NavBar.js';
 import MangaCardList from '../../components/js/MangaCardList.js';
 import localForage from 'localforage';
+import { Helmet } from "react-helmet";
 
 class Favorites extends React.Component {
 	constructor() {
@@ -40,6 +41,10 @@ class Favorites extends React.Component {
 		const { userFav, displayedManga } = this.state;
 		return (
 			<div className='favorite-manga'>
+				<Helmet>
+					<title>Favorites - MangaHaven</title>
+    				<meta name="theme-color" content="#4664c8" />
+				</Helmet>
 				<Header currentMenu={'Favorites'} localSearch={true} searchManga={this.filterManga} />
 				<NavBar page='favorite' />
 				{

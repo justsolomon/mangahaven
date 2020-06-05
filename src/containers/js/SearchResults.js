@@ -5,6 +5,7 @@ import MangaCardList from '../../components/js/MangaCardList.js';
 import InfiniteScroll from 'react-infinite-scroller';
 import Loader from '../../components/js/Loader.js';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
+import { Helmet } from "react-helmet";
 import '../css/SearchResults.css';
 
 class SearchResults extends React.Component {
@@ -119,9 +120,15 @@ class SearchResults extends React.Component {
 
 		const renderedContent = (this.state.allManga === null) ? 
 								<ErrorMessage renderList={this.reFetchManga} /> : contentBody
+		
 		const loader = (this.state.loader) ? <Loader /> : null;
+		
 		return(
 				<div className='explore-page'>
+					<Helmet>
+						<title>{`Search results for '${this.setInput()}' - MangaHaven`}</title>
+	    				<meta name="theme-color" content="#4664c8" />
+					</Helmet>
 					<Header 
 						currentMenu='Explore' 
 						onSearchPage={true} 

@@ -4,6 +4,7 @@ import Loader from '../../components/js/Loader.js';
 import CategoryList from '../../components/js/CategoryList.js';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 import NavBar from './NavBar.js';
+import { Helmet } from "react-helmet";
 import '../css/Categories.css';
 
 class Categories extends React.Component {
@@ -90,6 +91,10 @@ class Categories extends React.Component {
 
 		return(
 				<div className='categories'>
+					<Helmet>
+						<title>All Genres Manga - MangaHaven</title>
+    					<meta name="theme-color" content="#4664c8" />
+					</Helmet>
 					<Header currentMenu='All Genres' onSearchPage={false} />
 					<NavBar page='all-genre' />
 					{loader}

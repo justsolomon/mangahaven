@@ -348,6 +348,7 @@ class MangaPage extends React.Component {
 					{/*change meta tags*/}
 					<Helmet>
    						<title>{`${title} - MangaHaven`}</title>
+    					<meta name="theme-color" content="#4664c8" />
 						<meta
 					      name="description"
 					      content={description}

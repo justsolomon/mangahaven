@@ -4,6 +4,7 @@ import NavBar from './NavBar.js';
 import MangaCardList from '../../components/js/MangaCardList.js';
 import InfiniteScroll from 'react-infinite-scroller';
 import Loader from '../../components/js/Loader.js';
+import { Helmet } from "react-helmet";
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 
 class ExplorePage extends React.Component {
@@ -78,6 +79,10 @@ class ExplorePage extends React.Component {
 								</InfiniteScroll>
 		return(
 				<div className='explore-page'>
+					<Helmet>
+						<title>Explore - MangaHaven</title>
+    					<meta name="theme-color" content="#4664c8" />
+					</Helmet>
 					<Header currentMenu='Explore' onSearchPage={false} />
 					<NavBar page='explore' />
 					{renderedContent}

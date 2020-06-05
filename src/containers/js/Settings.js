@@ -5,6 +5,7 @@ import CheckButton from '../../components/js/CheckButton.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import localForage from 'localforage';
+import { Helmet } from "react-helmet";
 import '../css/Settings.css';
 
 class Settings extends React.Component {
@@ -92,6 +93,10 @@ class Settings extends React.Component {
 		const { theme, view, readMode, background } = this.state;
 		return (
 			<div className='settings-page'>
+				<Helmet>
+					<title>Settings - MangaHaven</title>
+	    			<meta name="theme-color" content="#4664c8" />
+				</Helmet>
 				<MiniHeader currentMenu='Settings' />
 				<div className='setting-headers'>
 					<Collapsible trigger='General' triggerTagName='div' transitionTime={250}>

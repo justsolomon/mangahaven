@@ -304,7 +304,7 @@ class ChapterPage extends React.Component {
 			<div className='chapter-page'>
 				<Helmet>
    					<title>{`${mangaName} - Chapter ${chapterNumber} - MangaHaven`}</title>
-    				<meta name='theme-color' content={background === 'light' ? '#fff' : '#000'} />
+    				<meta name='theme-color' content={background === 'light' ? '#FDFFFC' : '#000'} />
 				</Helmet>
 				{
 					!this.state.networkError ?

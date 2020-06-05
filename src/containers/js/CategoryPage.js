@@ -5,6 +5,7 @@ import MangaCardList from '../../components/js/MangaCardList.js';
 import InfiniteScroll from 'react-infinite-scroller';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 import Loader from '../../components/js/Loader.js';
+import { Helmet } from "react-helmet";
 import { withRouter } from 'react-router-dom';
 
 class CategoryPage extends React.Component {
@@ -73,6 +74,7 @@ class CategoryPage extends React.Component {
 	}
 
 	render() {
+		const { genre } = this.state;
 		const renderedContent = (this.state.manga === null) ?
 								<ErrorMessage renderList={this.loadManga} /> :
 								<InfiniteScroll
@@ -85,8 +87,12 @@ class CategoryPage extends React.Component {
 								</InfiniteScroll>
 
 		return(
-				<div className={this.state.genre}>
-					<Header currentMenu={this.state.genre} onSearchPage={false} />
+				<div className={genre}>
+					<Helmet>
+						<title>{`${genre} Manga - MangaHaven`}</title>
+    					<meta name="theme-color" content="#4664c8" />
+					</Helmet>
+					<Header currentMenu={genre} onSearchPage={false} />
 					<NavBar />
 					{renderedContent}
 				</div>

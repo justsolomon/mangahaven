@@ -3,6 +3,7 @@ import localForage from 'localforage';
 import Header from '../../components/js/Header.js';
 import NavBar from './NavBar.js';
 import Image from '../../components/js/Image.js';
+import { Helmet } from "react-helmet";
 import { withRouter } from 'react-router-dom';
 import '../css/HistoryPage.css';
 
@@ -28,6 +29,10 @@ class HistoryPage extends React.Component {
 		const { mangaHistory } = this.state;
 		return (
 			<div className='manga-history'>
+				<Helmet>
+					<title>History - MangaHaven</title>
+    				<meta name="theme-color" content="#4664c8" />
+				</Helmet>
 				<Header currentMenu='History' onHistoryPage={true}  />
 				<NavBar page='history' />
 				{
@@ -49,7 +54,7 @@ class HistoryPage extends React.Component {
 												<p className='title'>{manga.title}</p>
 												<p className='chapter-info'>{`Chapter ${manga.chapterNum} - Page ${manga.page}`}</p>
 												<p className='date-added'>
-													{`${new Date(manga.added).toLocaleDateString()} ${new Date(manga.added).toLocaleTimeString()}`}
+													{`${new Date(manga.added).toLocaleDateString()}    ${new Date(manga.added).toLocaleTimeString()}`}
 												</p>
 											</div>
 											<div className='action-buttons'>

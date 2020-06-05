@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../../components/js/Header.js';
 import NavBar from './NavBar.js';
 import MangaCardList from '../../components/js/MangaCardList.js';
+import { Helmet } from "react-helmet";
 import localForage from 'localforage';
 
 class Library extends React.Component {
@@ -40,6 +41,10 @@ class Library extends React.Component {
 		const { library, displayedManga } = this.state;
 		return (
 			<div className='manga-library'>
+				<Helmet>
+					<title>Library - MangaHaven</title>
+    				<meta name="theme-color" content="#4664c8" />
+				</Helmet>
 				<Header currentMenu={'Library'} localSearch={true} searchManga={this.filterManga} />
 				<NavBar page='library' />
 				{
