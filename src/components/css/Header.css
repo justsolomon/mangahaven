@@ -56,13 +56,14 @@
 
 .search-box {
 	align-items: center;
+	width: 100%;
 }
 
 .search-input {
 	height: 3rem;
 	margin-left: 1rem;
 	font-size: 1.15rem;
-	width: 70%;
+	width: 80%;
 	background-color: rgb(86, 128, 220);
 	border: 0px;
 	padding: 0 .5rem;
@@ -75,4 +76,26 @@
 
 .search-input:focus {
 	outline: 0;
+}
+
+@media (min-width: 1000px) {
+	.header {
+		margin-left: 22%;
+		width: 78%;
+	}
+	.header .hamburger {
+		display: none;
+	}
+	.header .current-menu {
+		margin: 0;
+		font-size: 1.4rem;
+	}
+	.header .fa-search {
+		height: 22px;
+		width: 22px;
+	}
+	.search-input {
+		font-size: 1.25rem;
+		letter-spacing: .03rem;
+	}
 }

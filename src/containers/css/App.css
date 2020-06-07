@@ -34,3 +34,14 @@
   color: blue;
   margin-left: .5rem;
 }
+
+/* styles for no-bookmarks */
+.no-bookmarks {
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .no-bookmarks {
+    margin-left: 22%;
+  }
+}

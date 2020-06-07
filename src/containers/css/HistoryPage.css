@@ -25,6 +25,7 @@
 .history-card .card-image {
 	width: 30%;
 	height: 100%;
+	cursor: pointer;
 }
 
 .card-image img {
@@ -72,6 +73,10 @@
 	color: rgb(150, 150, 150);
 }
 
+.card-details .date-added span {
+	margin-right: .5rem;
+}
+
 .card-details .action-buttons .resume-button {
 	position: relative;
 	background-color: #fff;
@@ -79,8 +84,27 @@
 	color: rgb(0, 80, 225);
 	padding: .3rem .3rem .3rem 0;
 	font-size: .9rem;
+	cursor: pointer;
 }
 
-.card-details .action-buttons .resume-button:focus {
+.card-details .action-buttons .resume-button:focus,
+.card-details .action-buttons .resume-button:hover {
 	background-color: rgba(0, 0, 0, .1)
+}
+
+@media (min-width: 1000px) {
+	.history-card-list {
+		width: 78%;
+		margin-left: 22%;
+		padding: 0 1rem;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-gap: 1rem;
+	}
+}
+
+@media (min-width: 1200px) {
+	.history-card-list {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }

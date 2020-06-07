@@ -73,7 +73,7 @@ const NavBar = ({ page }) => {
 									<span>Profile</span>
 								</a>
 								<span className='nav-breakline'></span>
-								<a href='/settings' className='settings-link'>
+								<a href='/settings' className={page === 'settings' ? 'active-window' : 'settings-link'}>
 									<FontAwesomeIcon icon={faCog} />
 									<span>Settings</span>
 								</a>

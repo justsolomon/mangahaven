@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import localForage from 'localforage';
 import { Helmet } from "react-helmet";
+import NavBar from './NavBar.js';
 import '../css/Settings.css';
 
 class Settings extends React.Component {
@@ -98,6 +99,7 @@ class Settings extends React.Component {
 	    			<meta name="theme-color" content="#4664c8" />
 				</Helmet>
 				<MiniHeader currentMenu='Settings' />
+				<NavBar page='settings' />
 				<div className='setting-headers'>
 					<Collapsible trigger='General' triggerTagName='div' transitionTime={250}>
 						<div className='setting-options'>

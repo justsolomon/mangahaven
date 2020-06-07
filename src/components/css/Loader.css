@@ -7,3 +7,10 @@
 .loader-gif img {
 	width: 64px;
 }
+
+@media (min-width: 1000px) {
+	.loader-gif {
+		margin-left: 22%;
+		width: 78%;
+	}
+}

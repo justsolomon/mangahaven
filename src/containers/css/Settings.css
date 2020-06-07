@@ -72,3 +72,10 @@
 	width: 100%;
 	padding-bottom: .2rem;
 }
+
+@media (min-width: 1000px) {
+	.setting-headers {
+		margin-left: 22%;
+		width: 78%;
+	}
+}

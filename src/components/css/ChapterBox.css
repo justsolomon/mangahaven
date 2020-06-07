@@ -1,6 +1,7 @@
 .manga-chapter {
 	border-bottom: 1px solid rgba(140, 140, 140, .5);
 	transition: .3s;
+	cursor: pointer;
 }
 
 .manga-chapter:hover {
@@ -38,4 +39,13 @@
 .chapter-details .history-page-number {
 	color: rgb(150, 150, 150);
 	width: 60%;
+}
+
+@media (min-width: 1000px) {
+	.manga-chapter .chapter-name {
+		font-size: 1.05rem;
+	}
+	.manga-chapter .chapter-details {
+		font-size: .95rem;
+	}
 }

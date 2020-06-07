@@ -49,7 +49,7 @@ class Library extends React.Component {
 				<NavBar page='library' />
 				{
 					(library === null) ?
-					<p style={{textAlign: 'center'}}>You don't have any bookmarked manga yet</p> :
+					<p className='no-bookmarks'>You don't have any bookmarked manga yet</p> :
 					<MangaCardList mangaArray={displayedManga} />
 				}
 			</div>

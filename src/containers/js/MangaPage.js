@@ -27,6 +27,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SwipeableViews from 'react-swipeable-views';
 import localForage from 'localforage';
 import { Helmet } from "react-helmet";
+import NavBar from './NavBar.js';
 import '../css/MangaPage.css';
 
 class MangaPage extends React.Component {
@@ -35,6 +36,7 @@ class MangaPage extends React.Component {
 		this.state = {
 			manga: {},
 			chapters: [],
+			aka: [],
 			lastChapter: '',
 			genres: [],
 			status: ['Ongoing', 'Ongoing', 'Completed'],
@@ -66,6 +68,7 @@ class MangaPage extends React.Component {
 				this.checkReadChapters(data.chapters, data.title);
 				this.setState({
 					manga: data,
+					aka: data.aka,
 					lastChapter: data.chapters[0][0],
 					genres: data.categories,
 					imageUrl: `https://cdn.mangaeden.com/mangasimg/${data.image}`,
@@ -88,6 +91,7 @@ class MangaPage extends React.Component {
 								currentManga = currentManga[0];	
 								this.setState({
 									manga: currentManga,
+									aka: currentManga.aka,
 									chapters: currentManga.chapters,
 									lastChapter: currentManga.chapters[0][0],
 									genres: currentManga.categories,
@@ -337,8 +341,8 @@ class MangaPage extends React.Component {
 
 	render() {	
 		const entities = new AllHtmlEntities();
-		const { artist, alias, author, created, description, title, last_chapter_date, status } = this.state.manga;
-		const { lastChapter, menuIndex, networkError, networkLoader, offlineData, imageUrl } = this.state;
+		const { artist, alias, author, released, description, title, last_chapter_date, status } = this.state.manga;
+		const { lastChapter, menuIndex, networkError, networkLoader, offlineData, imageUrl, aka } = this.state;
 		const url = window.location.href;
 		const shareDescription = `Read ${title} online for free on MangaHaven`;
 
@@ -367,15 +371,19 @@ class MangaPage extends React.Component {
 					    <meta property="twitter:site" content="@gbsolomon1" />
 					</Helmet>
 
+					<NavBar />
+
 					<div className='manga-header'>
 						<div className='manga-header-nav'>
 							<div className='manga-header-title'>
 								<BackButton clickAction={() => this.props.history.push('/')} />
 								<p>{title}</p>
 							</div>
-							<FontAwesomeIcon onClick={this.displayShare} icon={faShareAlt} className={menuIndex === 0 ? 'active' : 'inactive'} />
-							<FontAwesomeIcon icon={faSort} className={menuIndex === 1 ? 'active' : 'inactive'} onClick={this.sortChapters} />
-							<FontAwesomeIcon icon={faCommentDots} />
+							<div className='manga-header-buttons'>
+								<FontAwesomeIcon onClick={this.displayShare} icon={faShareAlt} className={menuIndex === 0 ? 'active' : 'inactive'} />
+								<FontAwesomeIcon icon={faSort} className={menuIndex === 1 ? 'active' : 'inactive'} onClick={this.sortChapters} />
+								<FontAwesomeIcon icon={faCommentDots} />
+							</div>
 						</div>
 
 						<div className='manga-details-nav'>
@@ -431,6 +439,22 @@ class MangaPage extends React.Component {
 									<div className='manga-info-details'>
 										<p className='manga-title'>{title}</p>
 
+										<p className='alternative-names'>
+											Alternative name(s):
+											<span>
+											{
+												aka.map((value, i) => {
+													return (
+														<span key={i}>
+															{entities.decode(value)}
+															<span style={{color: '#000'}}> | </span>
+														</span>
+													)
+												})
+											}
+											</span>
+										</p>
+
 										<p className='manga-author'>
 											Author:<span>{entities.decode(author)}</span>
 										</p>
@@ -440,13 +464,7 @@ class MangaPage extends React.Component {
 										</p>
 
 										<p className='manga-created'>
-											Created:
-											<span>
-												{
-													this.state.gottenData ? 
-													new Date(created * 1000).toLocaleDateString() : null
-												}
-											</span>
+											Released:<span>{released}</span>
 										</p>
 
 										<p className='manga-last-chapter'>

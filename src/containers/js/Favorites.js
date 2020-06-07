@@ -49,7 +49,7 @@ class Favorites extends React.Component {
 				<NavBar page='favorite' />
 				{
 					(userFav === null) ?
-					<p style={{textAlign: 'center'}}>You don't have any favorited manga yet</p> :
+					<p className='no-bookmarks'>You don't have any favorited manga yet</p> :
 					<MangaCardList mangaArray={displayedManga} />
 				}
 			</div>

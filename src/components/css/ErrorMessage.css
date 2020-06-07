@@ -17,8 +17,8 @@
 .reload-button {
 	padding: .5rem 1rem;
 	border-radius: 1rem;
-	border: 1px solid #5680e9;
-	background-color: #5680e9;
+	border: 1px solid rgb(86, 128, 220);
+	background-color: rgb(86, 128, 220);
 	color: #fff;
 	margin-top: 1rem;
 }
@@ -32,4 +32,11 @@
 .reload-button .fa-redo {
 	width: 14px;
 	height: 14px;
+}
+
+@media(min-width: 1000px) {
+	.error-div {
+		margin-left: 22%;
+		width: 78%;
+	}
 }

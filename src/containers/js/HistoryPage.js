@@ -54,7 +54,8 @@ class HistoryPage extends React.Component {
 												<p className='title'>{manga.title}</p>
 												<p className='chapter-info'>{`Chapter ${manga.chapterNum} - Page ${manga.page}`}</p>
 												<p className='date-added'>
-													{`${new Date(manga.added).toLocaleDateString()}    ${new Date(manga.added).toLocaleTimeString()}`}
+													<span>{new Date(manga.added).toLocaleDateString()}</span> 
+													<span>{new Date(manga.added).toLocaleTimeString()}</span>
 												</p>
 											</div>
 											<div className='action-buttons'>

@@ -15,3 +15,10 @@
 	font-size: 1.3rem;
 	font-weight: 600;
 }
+
+@media (min-width: 1000px) {
+	.mini-header {
+		margin-left: 22%;
+		width: 78%;
+	}
+}

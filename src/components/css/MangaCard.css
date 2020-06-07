@@ -4,10 +4,9 @@
 	border-radius: .1rem;
 	position: relative;
 	height: 200px;
-	width: 48%;
-	margin-bottom: .7rem;
+	width: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
-	display: inline-block;
+	cursor: pointer;
 }
 
 .manga-card:hover {
@@ -49,4 +48,10 @@
 	overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+@media(min-width: 675px) {
+	.manga-card {
+		width: 100%;
+	}
 }
