@@ -112,8 +112,8 @@ class Header extends React.Component {
 							/>
 						}
 					</div>
-					<div 
-						className={(searchInput !== '') ?
+					<div
+						className={(searchInput !== '' && searchActive) ?
 									'active-state clear-button' : 
 									'inactive clear-button'
 									}

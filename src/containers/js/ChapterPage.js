@@ -72,13 +72,13 @@ class ChapterPage extends React.Component {
 		let pageNum = 1;
 		if (url.search !== '') {
 			let searchParams = new URLSearchParams(url.search);
-			pageNum = searchParams.get('q').trim();
+			pageNum = Number(searchParams.get('q').trim());
 		}
 
 		this.setState({ 
 			chapterNumber: number, 
 			networkError: false,
-			defaultPage: Number(pageNum)
+			defaultPage: pageNum
 		})
 
 		fetch(`https://www.mangaeden.com/api/chapter/${id}`)
@@ -113,8 +113,8 @@ class ChapterPage extends React.Component {
 					networkError: false
 				})
 
-				this.saveToHistory(data);
-				this.updateMangaCatalog(1, false, data);
+				this.saveToHistory(data, pageNum);
+				this.updateMangaCatalog(pageNum, false, data);
 				//conditions for whether there's a next/prev chapter
 				if ((index - 1) === -1) {
 					this.setState({ 
@@ -187,7 +187,7 @@ class ChapterPage extends React.Component {
 		window.location.reload();
 	}
 
-	saveToHistory = (manga) => {
+	saveToHistory = (manga, pageNum) => {
 		const { id, mangaid, number } = this.props.match.params;
 		//fetch history from storage
 		localForage.getItem('readHistory')
@@ -212,9 +212,10 @@ class ChapterPage extends React.Component {
 					//check if manga already exists in history
 					let mangaPresent = false;
 					for (let i = 0; i < value.length; i++) {
-						if (value[i].chapterId === id) {
+						if (value[i].mangaId === mangaid) {
 							value[i].chapterNum = number;
 							value[i].added = new Date().getTime();
+							value[i].page = pageNum;
 							mangaPresent = true;
 							break;
 						}
