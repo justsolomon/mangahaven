@@ -55,3 +55,19 @@
 		width: 100%;
 	}
 }
+
+@media (min-width: 1000px) {
+	.manga-card,
+	.manga-card img {
+		height: 220px;
+	}
+	.manga-card .image-loader {
+		margin: 60px auto;
+	}
+	.container {
+		padding: .4rem .5rem;
+	}
+	.container .manga-title {
+		font-size: 1.05rem;
+	}
+}

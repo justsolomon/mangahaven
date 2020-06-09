@@ -347,9 +347,15 @@
 
 @media (min-width: 1000px) {
 	.manga-header,
-	.manga-details {
+	.manga-details,
+	.manga-page .error-message {
 		margin-left: 22%;
 		width: 78%;
+	}
+
+	.manga-page .error-message {
+		font-size: 1.1rem;
+		height: 4rem;
 	}
 
 	.manga-header-title p {

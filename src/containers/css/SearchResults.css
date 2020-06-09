@@ -7,3 +7,10 @@
 .no-results span {
 	font-weight: 500;
 }
+
+@media (min-width: 1000px) {
+	.no-results {
+		margin-left: 22%;
+		width: 78%;
+	}
+}

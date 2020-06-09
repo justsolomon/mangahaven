@@ -61,6 +61,7 @@
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
+	overflow: hidden;
 	font-size: 1.25rem;
 	margin-bottom: .2rem;
 }
@@ -100,6 +101,10 @@
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		grid-gap: 1rem;
+	}
+	.manga-history .no-manga-history {
+		margin-left: 22%;
+		width: 78%; 
 	}
 }
 
