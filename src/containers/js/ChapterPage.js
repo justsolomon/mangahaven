@@ -312,11 +312,13 @@ class ChapterPage extends React.Component {
 					<div className='chapter-page-inner'>
 						<div className={this.state.headerActive ? 'active chapter-page-header' : 'chapter-page-header'}>
 							<BackButton clickAction={() => this.props.history.goBack()} />
-							<div className='header-title'>
-								<p className='manga-title'>{mangaName}</p>
-								<p className='chapter-number'>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</p>
+							<div className='header-wrapper'>
+								<div className='header-title'>
+									<p className='manga-title'>{mangaName}</p>
+									<p className='chapter-number'>{`${chapterNumber}${chapterTitle !== null ? `: ${chapterTitle}` : ''}`}</p>
+								</div>
+								<FontAwesomeIcon icon={faCog} onClick={this.displaySettings} />
 							</div>
-							<FontAwesomeIcon icon={faCog} onClick={this.displaySettings} />
 						</div>
 						<div className={this.state.headerActive ? 'active chapter-page-footer' : 'chapter-page-footer'}>
 							<FontAwesomeIcon 
