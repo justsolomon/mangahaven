@@ -15,6 +15,7 @@
     "localforage": "^1.7.3",
     "rc-progress": "^2.6.0",
     "react": "^16.13.1",
+    "react-confirm-alert": "^2.6.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
@@ -29,7 +30,7 @@
     "react-scripts": "3.4.1",
     "react-share": "^4.1.0",
     "react-swipeable-views": "^0.13.9",
-    "react-zoom-pan-pinch": "^1.6.1"
+    "secure-ls": "^1.2.6"
   },
   "scripts": {
     "start": "react-scripts start",
