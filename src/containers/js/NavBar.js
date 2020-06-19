@@ -10,10 +10,67 @@ import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import AppName from '../../components/js/AppName.js';
+import localForage from 'localforage';
+import { confirmAlert } from 'react-confirm-alert';
 import Logo from '../../assets/logo.png';
+import { withRouter } from 'react-router-dom';
 import '../css/NavBar.css';
 
-const NavBar = ({ page }) => {
+class NavBar extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			signedIn: false
+		}
+	}
+
+	componentDidMount() {
+		//check if user is signed in
+		localForage.getItem('user')
+			.then(value => {
+				if (value !== null) {
+					this.setState({ signedIn: value.signedIn });
+				} else this.setState({ signedIn: false });
+			})	
+			.catch(err => console.log(err));
+	}
+
+	signOut = () => {
+		confirmAlert({
+			customUI: ({ onClose }) => {
+				return (
+					<div className='confirm-logout' onClick={onClose}>
+						<div className='confirm-logout-inner' onClick={e => e.stopPropagation()}> 
+							<img src={Logo} alt='MangaHaven logo' />
+							<h3>Log out of MangaHaven?</h3>
+							<p>You can log back in at anytime or create a new account by heading to the profile section.</p>
+							<div className='action-buttons'>
+								<button className='cancel-button' onClick={onClose}>Cancel</button>
+								<button 
+									className='logout-button' 
+									onClick={() => {
+										localForage.removeItem('user')
+											.then(value => {
+												onClose();
+												window.location.reload();
+											})
+											.catch(err => console.log(err));
+									}}
+								>
+									Log out
+								</button>
+							</div>
+						</div>
+					</div>
+				)
+			}
+		})
+	}
+
+	render() {
+		const { page } = this.props;
 		return (
 				<div className='navigation-outer' onClick={e => {
 					document.querySelector('.navigation').classList.toggle('slide-out-left');
@@ -26,10 +83,7 @@ const NavBar = ({ page }) => {
 					<div className='navigation' onClick={e => e.stopPropagation()}>
 						<div className='navigation-inner'>
 							<div className='nav-heading'>
-								<div className='app-name'>
-									<img src={Logo} alt='MangaHaven logo' />
-									<p>MangaHaven</p>
-								</div>
+								<AppName />
 								<FontAwesomeIcon icon={faTimes} onClick={e => {
 									document.querySelector('.navigation').classList.toggle('slide-out-left');
 						            document.querySelector('.navigation').classList.toggle('slide-in-left');
@@ -68,7 +122,7 @@ const NavBar = ({ page }) => {
 									<FontAwesomeIcon icon={faHistory} />
 									<span>History</span>
 								</a>
-								<a href='/profiles' className='profile-link'>
+								<a href='/profile' className={page === 'profile' ? 'active-window' : 'profile-link'}>
 									<FontAwesomeIcon icon={faUser} />
 									<span>Profile</span>
 								</a>
@@ -77,11 +131,19 @@ const NavBar = ({ page }) => {
 									<FontAwesomeIcon icon={faCog} />
 									<span>Settings</span>
 								</a>
+								{
+									!this.state.signedIn ? null :
+									<button className='logout-button' onClick={this.signOut}>
+										<FontAwesomeIcon icon={faSignOutAlt} />
+										<span>Logout</span>
+									</button>
+								}
 							</div>
 						</div>
 					</div>
 				</div>
 			)
+	}
 }
 
-export default NavBar;
+export default withRouter(NavBar);
