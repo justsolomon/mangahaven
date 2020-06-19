@@ -33,6 +33,10 @@
 	display: none;
 }
 
+.header .svg-inline--fa {
+	cursor: pointer;
+}
+
 .header-title {
 	align-items: center;
 }

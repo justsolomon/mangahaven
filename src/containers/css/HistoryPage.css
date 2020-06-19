@@ -93,14 +93,20 @@
 	background-color: rgba(0, 0, 0, .1)
 }
 
+@media (min-width: 675px) {
+	.history-card-list {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-gap: 1rem;
+		width: 95%;
+	}
+}
+
 @media (min-width: 1000px) {
 	.history-card-list {
 		width: 78%;
 		margin-left: 22%;
 		padding: 0 1rem;
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		grid-gap: 1rem;
 	}
 	.manga-history .no-manga-history {
 		margin-left: 22%;

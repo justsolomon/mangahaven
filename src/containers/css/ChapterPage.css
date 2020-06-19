@@ -29,10 +29,18 @@
 .chapter-page-header {
 	top: 0;
 	left: 0;
+	padding: 0 1rem;
 }
 
 .chapter-page-header .back-button {
-	margin-left: 1rem;
+	width: 13%;
+}
+
+.header-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 87%;
 }
 
 .chapter-page-header p {
@@ -45,8 +53,7 @@
 }
 
 .chapter-page-header .header-title {
-	margin: 0 2rem;
-	width: 60%;
+	width: 80%;
 }
 
 .chapter-page-header .header-title p {
@@ -241,13 +248,6 @@
 	padding: .5rem .8rem;
 }
 
-/* styles for image zoom modal */
-/*.Modal {
-	z-index: 3;
-	padding: 0px;
-	inset: 30px 25px;
+@media (min-width: 5000px) {
+
 }
-
-
-.ReactModal__Content {
-}*/
