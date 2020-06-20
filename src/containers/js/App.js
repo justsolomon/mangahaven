@@ -10,6 +10,7 @@ import CategoryPage from './CategoryPage.js';
 import SearchResults from './SearchResults.js';
 import Favorites from './Favorites.js';
 import Library from './Library.js';
+import LibraryUpdates from './LibraryUpdates.js';
 import Settings from './Settings.js';
 import ChapterPage from './ChapterPage.js';
 import HistoryPage from './HistoryPage.js';
@@ -31,6 +32,7 @@ class App extends React.Component {
 			<Route path='/search' component={SearchResults} />
 			<Route path='/favorites' component={Favorites} />
 			<Route path='/library' component={Library} />
+			<Route path='/library-updates' component={LibraryUpdates} />
 			<Route path='/settings' component={Settings} />
 			<Route path='/history' component={HistoryPage} />
 			<Route path='/all-genres' component={Categories} />
