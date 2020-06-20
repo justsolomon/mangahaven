@@ -32,6 +32,8 @@ class ChapterPage extends React.Component {
 			prevChapter: [],
 			chapterTitle: '',
 			mangaName: '',
+			mangaid: '',
+			alias: '',
 			progress: 0,
 			headerActive: false,
 			view: 'horizontal',
@@ -65,7 +67,11 @@ class ChapterPage extends React.Component {
 	}
 
 	fetchData = () => {
-		const { id, mangaid, number } = this.props.match.params;
+		const { id, mangaid, number, name } = this.props.match.params;
+		this.setState({ 
+			mangaid,
+			alias: name
+		});
 
 		//check if user came from history page and parse page num from url
 		const url = new URL(window.location.href);
@@ -300,9 +306,9 @@ class ChapterPage extends React.Component {
 
 	render() {	
 		Modal.setAppElement('#root');
-		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName, defaultPage } = this.state;
+		const { background, chapterNumber, chapterTitle, nextChapter, prevChapter, chapterImages, modalColor, modalBG, mangaName, defaultPage, mangaid, alias } = this.state;
 		return (
-			<div className='chapter-page'>
+			<div className={`chapter-page chapter-page-${background}`}>
 				<Helmet>
    					<title>{`${mangaName} - Chapter ${chapterNumber} - MangaHaven`}</title>
     				<meta name='theme-color' content={background === 'light' ? '#FDFFFC' : '#000'} />
@@ -311,7 +317,7 @@ class ChapterPage extends React.Component {
 					!this.state.networkError ?
 					<div className='chapter-page-inner'>
 						<div className={this.state.headerActive ? 'active chapter-page-header' : 'chapter-page-header'}>
-							<BackButton clickAction={() => this.props.history.goBack()} />
+							<BackButton clickAction={() => this.props.history.push(`/manga/${alias}/${mangaid}`)} />
 							<div className='header-wrapper'>
 								<div className='header-title'>
 									<p className='manga-title'>{mangaName}</p>
@@ -540,7 +546,8 @@ class ChapterPage extends React.Component {
 									right: '0',
 									height: '28px',
 									width: '28px',
-									margin: '2px 5px 2px 0'
+									margin: '2px 5px 2px 0',
+									cursor: 'pointer'
 								}}
 							/>
 							<div>
