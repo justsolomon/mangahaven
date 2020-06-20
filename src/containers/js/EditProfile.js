@@ -33,7 +33,7 @@ class EditProfile extends React.Component {
 		this.setState({ token });
 		
 		//fetch existing user profile
-		fetch('https://cors-anywhere.herokuapp.com/https://mangahaven-server.netlify.app/.netlify/functions/app/profile', {
+		fetch('https://mangahaven-server.netlify.app/.netlify/functions/app/profile', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -157,10 +157,13 @@ class EditProfile extends React.Component {
 						!error ?
 						<div className='message'>
 							<p>Profile updated successfully</p>
-							<FontAwesomeIcon 
-								onClick={() => this.setState({ success: false })} 
-								icon={faTimes} 
-							/>
+							<div className='action-tags'>
+								<p onClick={() => this.props.history.push('/profile')}>View Profile</p>
+								<FontAwesomeIcon 
+									onClick={() => this.setState({ success: false })} 
+									icon={faTimes} 
+								/>
+							</div>
 						</div> :
 						<div className='message'>
 							<p>An error occurred. Please try again</p>
@@ -245,4 +248,4 @@ class EditProfile extends React.Component {
 	}
 }
 
-export default EditProfile;
+export default withRouter(EditProfile);
