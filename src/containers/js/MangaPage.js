@@ -4,7 +4,7 @@ import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
-import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
+// import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
 import { faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
@@ -382,7 +382,7 @@ class MangaPage extends React.Component {
 							<div className='manga-header-buttons'>
 								<FontAwesomeIcon onClick={this.displayShare} icon={faShareAlt} className={menuIndex === 0 ? 'active' : 'inactive'} />
 								<FontAwesomeIcon icon={faSort} className={menuIndex === 1 ? 'active' : 'inactive'} onClick={this.sortChapters} />
-								<FontAwesomeIcon icon={faCommentDots} />
+								{/*<FontAwesomeIcon icon={faCommentDots} />*/}
 							</div>
 						</div>
 
