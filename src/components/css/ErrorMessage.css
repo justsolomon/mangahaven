@@ -21,6 +21,12 @@
 	background-color: rgb(86, 128, 220);
 	color: #fff;
 	margin-top: 1rem;
+	cursor: pointer;
+}
+
+.reload-button:hover {
+	border: 1px solid rgb(76, 118, 210);
+	background-color: rgb(76, 118, 210);
 }
 
 .reload-button span {

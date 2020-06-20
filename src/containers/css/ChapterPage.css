@@ -5,6 +5,10 @@
 	height: 100vh;
 }
 
+.chapter-page .svg-inline--fa {
+	cursor: pointer;
+}
+
 .chapter-page-header,
 .chapter-page-footer,
 .chapter-page-settings-inner {	
@@ -20,6 +24,7 @@
 	color: #fff;
 	z-index: 3;
 	height: 3rem;
+	padding: 0 1rem;
 }
 
 .chapter-page .active {
@@ -29,7 +34,6 @@
 .chapter-page-header {
 	top: 0;
 	left: 0;
-	padding: 0 1rem;
 }
 
 .chapter-page-header .back-button {
@@ -76,7 +80,6 @@
 
 .chapter-page-footer {
 	bottom: 0;
-	padding: 0 1rem;
 }
 
 .chapter-page-footer .svg-inline--fa {
@@ -170,6 +173,9 @@
 
 .options div {
 	width: 50%;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
 }
 
 .axis-vertical,
@@ -178,14 +184,25 @@
 }
 
 .carousel .carousel-status {
+	text-shadow: none;
+}
+
+.chapter-page-dark .carousel .carousel-status {
 	color: #fff;
-	text-shadow: .5px .5px .5px rgba(0, 0, 0);
+}
+
+.chapter-page-light .carousel .carousel-status {
+	color: #000;
 }
 
 .carousel .control-arrow,
 .carousel.carousel-slider .control-arrow {
 	opacity: 0;
-	width: 80px;
+	width: 100px;
+}
+
+.chapter-page-dark .carousel.carousel-slider .control-arrow:hover {
+	background: rgba(255, 255, 255, 0.3);
 }
 
 .chapter-image {
@@ -229,7 +246,7 @@
 }
 
 .notify-chapter div p {
-	font-weight: bold;
+	font-weight: 600;
 	margin: 0 auto;
 	margin-top: 1rem;
 }
@@ -246,8 +263,182 @@
 	border: 1px solid rgba(175, 175, 175);
 	font-size: .95rem;
 	padding: .5rem .8rem;
+	cursor: pointer;
 }
 
-@media (min-width: 5000px) {
+.notify-chapter button:hover {
+	border: 1px solid rgba(200, 200, 200);
+	background-color: rgba(200, 200, 200);
+}
 
+@media (max-height: 600px) {
+	.chapter-image img {
+		height: 85vh;
+	}
+}
+
+@media (min-width: 675px) {
+	.chapter-page-header,
+	.chapter-page-footer {
+		height: 5rem;
+		padding: 0 1.5rem;
+	}
+	.chapter-page-header .svg-inline--fa {
+		height: 36px;
+		width: 36px;
+	}
+	.chapter-page-header .back-button {
+		width: 10%;
+	}
+	.header-wrapper {
+		width: 90%;
+	}
+	.chapter-page-header .header-title {
+		width: 85%;
+	}
+	.chapter-page-header .header-title .manga-title {
+		font-size: 1.6rem;
+	}
+	.chapter-page-header .header-title .chapter-number {
+		font-size: 1.3rem;
+	}
+	.chapter-page-footer .svg-inline--fa {
+		height: 28px;
+		width: 28px;
+	}
+	.chapter-page-footer .fa-step-backward {
+		margin-right: 1rem;
+	}
+	.chapter-page-footer .fa-step-forward {
+		margin-left: 1rem;
+	}
+	.chapter-page-settings-inner {
+		padding: 0 2rem;
+	}
+	.chapter-page-settings-inner .check-button {
+		margin-right: 2rem;
+	}
+	.chapter-page-settings-inner .svg-inline--fa {
+		width: 24px;
+		height: 24px;
+	}
+	.chapter-page-settings p,
+	.chapter-page-settings span {
+		font-size: 1.5rem;
+	}
+	.carousel .carousel-status {
+		font-size: 1.2rem;
+		padding: 0 .8rem;
+		margin: .8rem 0;
+	}
+	.carousel .control-arrow,
+	.carousel.carousel-slider .control-arrow {
+		width: 180px;
+	}
+	.chapter-image img {
+		height: 90vh;
+	}
+	.notify-chapter div p,
+	.notify-chapter div span,
+	.notify-chapter .no-chapter {
+		font-size: 1.5rem;
+	}
+	.notify-chapter button {
+		font-size: 1.45rem;
+		border-radius: .3rem;
+		padding: .8rem 1.1rem;
+	}
+}
+
+@media (min-width: 1000px) {
+	.chapter-page .error-div {
+		width: 80%;
+	}
+	.chapter-page .error-div-inner {
+		width: 100%;
+	}
+	.chapter-page .loader-gif {
+		width: 100%;
+		margin: 0 auto;
+	}
+	.chapter-page-header .back-button {
+		width: 8%;
+	}
+	.header-wrapper {
+		width: 92%;
+	}
+	.chapter-page-header .header-title {
+		width: 90%;
+	}
+	.chapter-page-footer .rc-progress-line {
+		height: 1rem;
+	}
+	.carousel .carousel-status {
+		font-size: 1.2rem;
+		padding: 0 .8rem;
+		margin: .8rem 0;
+	}
+	.carousel .control-arrow,
+	.carousel.carousel-slider .control-arrow {
+		opacity: 1;
+		width: 15vw;	
+	}
+	.carousel .control-arrow:before, 
+	.carousel.carousel-slider .control-arrow:before {
+		border-top: 1.5rem solid transparent;
+		border-bottom: 1.5rem solid transparent;
+	}
+	.chapter-page-dark .carousel .control-next.control-arrow:before {
+		border-left: 1.5rem solid #fff;
+	}
+	.chapter-page-dark .carousel .control-prev.control-arrow:before {
+		border-right: 1.5rem solid #fff;
+	}
+	.chapter-page-light .carousel .control-next.control-arrow:before {
+		border-left: 1.5rem solid #000;
+	}
+	.chapter-page-light .carousel .control-prev.control-arrow:before {
+		border-right: 1.5rem solid #000;
+	}
+	.carousel .slide img {
+		height: 100vh;
+		width: 70vw;
+	}
+	.chapter-image .image-loader img {
+		width: 72px;
+		height: 72px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.chapter-page-header,
+	.chapter-page-footer {
+		padding: 0 2rem;
+	}
+	.chapter-page-header .back-button {
+		width: 7%;
+	}
+	.header-wrapper {
+		width: 93%;
+	}
+	.chapter-page-header .header-title {
+		width: 90%;
+	}
+	.chapter-page-footer .rc-progress-line {
+		height: 1.3rem;
+	}
+	.chapter-page-settings-inner {
+		padding: 0 5rem;
+	}
+	.carousel .control-arrow,
+	.carousel.carousel-slider .control-arrow {
+		width: 29vw;
+	}
+	.carousel .slide img {
+		width: 42vw;
+	}
+	.chapter-image .image-loader img {
+		width: 72px;
+		height: 72px;
+	}
 }
