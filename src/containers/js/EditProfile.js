@@ -2,7 +2,7 @@ import React from 'react';
 import MiniHeader from '../../components/js/MiniHeader.js';
 import localForage from 'localforage';
 import NavBar from './NavBar.js';
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import SecureLS from 'secure-ls';
 import Loader from '../../assets/image-loader.png';
