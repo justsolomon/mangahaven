@@ -15,7 +15,7 @@ import AppName from '../../components/js/AppName.js';
 import localForage from 'localforage';
 import { confirmAlert } from 'react-confirm-alert';
 import Logo from '../../assets/logo.png';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import '../css/NavBar.css';
 
 class NavBar extends React.Component {
@@ -124,86 +124,86 @@ class NavBar extends React.Component {
               />
             </div>
             <div className='navbar-links'>
-              <a
-                href='/'
+              <Link
+                to='/'
                 className={
                   page === 'explore' ? 'active-window' : 'allmanga-link'
                 }
               >
                 <FontAwesomeIcon icon={faBook} />
                 <span>Explore</span>
-              </a>
-              <a
-                href='/recent'
+              </Link>
+              <Link
+                to='/recent'
                 className={page === 'recent' ? 'active-window' : 'updated-link'}
               >
                 <FontAwesomeIcon icon={faBookOpen} />
                 <span>Recently Updated</span>
-              </a>
-              <a
-                href='/all-genres'
+              </Link>
+              <Link
+                to='/all-genres'
                 className={
                   page === 'all-genre' ? 'active-window' : 'genre-link'
                 }
               >
                 <FontAwesomeIcon icon={faColumns} />
                 <span>All Genres</span>
-              </a>
-              <a
-                href='/library'
+              </Link>
+              <Link
+                to='/library'
                 className={
                   page === 'library' ? 'active-window' : 'library-link'
                 }
               >
                 <FontAwesomeIcon icon={faBookmark} />
                 <span>My Library</span>
-              </a>
-              <a
-                href='/library-updates'
+              </Link>
+              <Link
+                to='/library-updates'
                 className={
                   page === 'lib-update' ? 'active-window' : 'library-link'
                 }
               >
                 <FontAwesomeIcon icon={faBell} />
                 <span>Library Updates</span>
-              </a>
-              <a
-                href='/favorites'
+              </Link>
+              <Link
+                to='/favorites'
                 className={
                   page === 'favorite' ? 'active-window' : 'favorites-link'
                 }
               >
                 <FontAwesomeIcon icon={faHeart} />
                 <span>Favorites</span>
-              </a>
-              <a
-                href='/history'
+              </Link>
+              <Link
+                to='/history'
                 className={
                   page === 'history' ? 'active-window' : 'history-link'
                 }
               >
                 <FontAwesomeIcon icon={faHistory} />
                 <span>History</span>
-              </a>
-              <a
-                href='/profile'
+              </Link>
+              <Link
+                to='/profile'
                 className={
                   page === 'profile' ? 'active-window' : 'profile-link'
                 }
               >
                 <FontAwesomeIcon icon={faUser} />
                 <span>Profile</span>
-              </a>
+              </Link>
               <span className='nav-breakline'></span>
-              <a
-                href='/settings'
+              <Link
+                to='/settings'
                 className={
                   page === 'settings' ? 'active-window' : 'settings-link'
                 }
               >
                 <FontAwesomeIcon icon={faCog} />
                 <span>Settings</span>
-              </a>
+              </Link>
               {!this.state.signedIn ? null : (
                 <button className='logout-button' onClick={this.signOut}>
                   <FontAwesomeIcon icon={faSignOutAlt} />
