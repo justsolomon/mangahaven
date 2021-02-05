@@ -1,78 +1,105 @@
 .header {
-	height: 3rem;
-	overflow: hidden;
-	display: flex;
-	justify-content: space-between;
-	margin: 0;
-	padding: 0;
-	padding-left: 1rem;
-	align-items: center;
-	width: 100%;
-	left: 0;
-	color: #fff;
-	background-color: #5680e9;
-	box-shadow: rgba(0, 0, 0, 0.13) 0px 2px 4px 0px;
-	position: sticky;
-	z-index: 1;
-	top: 0;
+  height: 3rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  padding-left: 1rem;
+  align-items: center;
+  width: 100%;
+  left: 0;
+  color: #fff;
+  background-color: rgb(86, 128, 220);
+  box-shadow: rgba(0, 0, 0, 0.13) 0px 2px 4px 0px;
+  position: sticky;
+  z-index: 1;
+  top: 0;
 }
 
 .header .active {
-	display: flex;
+  display: flex;
 }
 
 .header .inactive {
-	display: none;
+  display: none;
 }
 
 .header .active-state {
-	display: block;
+  display: block;
 }
 
 .header #on-search-page {
-	display: none;
+  display: none;
+}
+
+.header .svg-inline--fa {
+  cursor: pointer;
 }
 
 .header-title {
-	align-items: center;
+  align-items: center;
 }
 
 .header .current-menu {
-	margin: 0;
-	padding: 0;
-	margin-left: 1rem;
-	font-size: 1.3rem;
-	font-weight: 600;
+  margin: 0;
+  padding: 0;
+  margin-left: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .clear-button {
-	margin-right: .8rem;
+  margin-right: 0.8rem;
 }
 
 .clear-button .fa-times {
-	height: 24px;
-	width: 24px;
+  height: 24px;
+  width: 24px;
 }
 
 .search-box {
-	align-items: center;
+  align-items: center;
+  width: 100%;
 }
 
 .search-input {
-	height: 3rem;
-	margin-left: 1rem;
-	font-size: 1.15rem;
-	width: 70%;
-	background-color: #5680e9;
-	border: 0px solid #5680e9;
-	padding: 0 .5rem;
-	color: #fff;
+  height: 3rem;
+  margin-left: 1rem;
+  font-size: 1.15rem;
+  width: 80%;
+  background-color: rgb(86, 128, 220);
+  border: 0px;
+  padding: 0 0.5rem;
+  color: #fff;
 }
 
 .search-input::placeholder {
-	color: rgb(220, 220, 220);
+  color: rgb(220, 220, 220);
 }
 
 .search-input:focus {
-	outline: 0;
+  outline: 0;
+}
+
+@media (min-width: 1000px) {
+  .header {
+    margin-left: 22%;
+    width: 78%;
+  }
+  .header .hamburger {
+    display: none;
+  }
+  .header .current-menu {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+  .header .fa-search {
+    height: 22px;
+    width: 22px;
+  }
+  .search-input {
+    font-size: 1.25rem;
+    letter-spacing: 0.03rem;
+  }
 }

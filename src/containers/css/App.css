@@ -1,28 +1,110 @@
+/* styles for forms */
 .auth-form {
   margin: 0 auto;
-  margin-top: 5rem;
+  margin-top: 6rem;
   width: 85%;
 }
 
+.auth-form .app-name {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  margin-top: 1rem;
+  color: rgba(70, 70, 70);
+}
+
+.auth-form .app-name img {
+  width: 25px;
+  height: 25px;
+}
+
+.auth-form .app-name p {
+  font-size: 1.2rem;
+  margin-left: 0.1rem;
+  font-weight: 400;
+}
+
 .auth-form p {
-  margin: .5rem 0;
-  font-weight: 500;
+  margin: 0.5rem 0;
+  font-weight: 600;
   font-size: 1.1rem;
+}
+
+.auth-form .error-message {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: normal;
+  color: red;
+  padding: 0;
 }
 
 .auth-form label {
   width: 100%;
 }
 
-.auth-form input {
+.auth-form label .svg-inline--fa {
+  position: absolute;
+  margin-top: -1.5rem;
+  margin-left: 78%;
+  cursor: pointer;
+}
+
+.auth-form input,
+.auth-form textarea,
+.auth-form select {
   border: 1px solid grey;
   display: block;
-  height: 2rem;
+  height: 2.3rem;
   width: 100%;
   margin: 0;
-  font-size: 1rem;
-  padding: .5rem;
-  border-radius: .25rem;
+  font-size: 1.05rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  outline: 0;
+}
+
+.auth-form input:focus,
+.auth-form textarea:focus,
+.auth-form select:focus {
+  border: 2px solid grey;
+}
+
+.auth-button {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(0, 140, 0);
+  height: 2.5rem;
+  margin: 1rem 0;
+  border-radius: 0.3rem;
+  background-color: rgb(0, 140, 0);
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.auth-button:hover {
+  background-color: rgb(0, 120, 0);
+  border: 1px solid rgb(0, 120, 0);
+}
+
+.auth-button img {
+  width: 28px;
+  height: 28px;
+  position: absolute;
+}
+
+.signin-form .auth-button img {
+  margin-left: -3rem;
+}
+
+.signup-form .auth-button img {
+  margin-left: -3.7rem;
 }
 
 .auth-form .auth-redirect {
@@ -32,5 +114,102 @@
 
 .auth-form .auth-redirect a {
   color: blue;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
+}
+
+@media (min-width: 675px) {
+  .auth-form {
+    width: 60%;
+  }
+  .auth-form .app-name img {
+    height: 30px;
+    width: 30px;
+  }
+  .auth-form .app-name p {
+    font-size: 1.25rem;
+  }
+  .auth-form h2 {
+    font-size: 1.5rem;
+  }
+  .auth-form p {
+    font-size: 1.15rem;
+  }
+  .auth-form .error-message {
+    font-size: 1rem;
+  }
+  .auth-form label .svg-inline--fa {
+    margin-left: 55%;
+    margin-top: -2.2rem;
+    height: 24px;
+    width: 24px;
+  }
+  .auth-form input,
+  .auth-form textarea,
+  .auth-form select {
+    height: 2.8rem;
+    font-size: 1.1rem;
+    padding: 0.7rem;
+  }
+  .auth-form input:focus,
+  .auth-form textarea:focus,
+  .auth-form select:focus {
+    border: 3px solid grey;
+  }
+  .auth-button {
+    height: 2.8rem;
+    font-size: 1.2rem;
+  }
+  .auth-button img {
+    width: 32px;
+    height: 32px;
+  }
+  .signin-form .auth-button img {
+    margin-left: -3.5rem;
+  }
+  .signup-form .auth-button img {
+    margin-left: -4.3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .auth-form {
+    width: 45%;
+  }
+  .auth-form .app-name img {
+    height: 35px;
+    width: 35px;
+  }
+  .auth-form .app-name p {
+    font-size: 1.35rem;
+  }
+  .auth-form h2 {
+    font-size: 1.8rem;
+  }
+  .auth-form p {
+    font-size: 1.25rem;
+  }
+  .auth-form .error-message {
+    font-size: 1.1rem;
+  }
+  .auth-form label .svg-inline--fa {
+    margin-left: 42%;
+  }
+  .auth-form input,
+  .auth-form textarea {
+    font-size: 1.3rem;
+  }
+  .auth-button {
+    font-size: 1.4rem;
+  }
+}
+
+/* styles for no-bookmarks */
+.no-bookmarks {
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .no-bookmarks {
+    margin-left: 22%;
+  }
 }

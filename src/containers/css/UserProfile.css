@@ -1,32 +1,107 @@
-.user-profile {
-	margin: 0 auto;
-	width: 85%;
+.profile-details {
+  margin: 1rem auto;
+  width: 90%;
+}
+
+.profile-details p {
+  margin: 0;
+}
+
+.profile-header {
+  display: flex;
+}
+
+.profile-header .user-action {
+  margin: 0.7rem 0 0 1rem;
+}
+
+.user-action .username {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.profile-pic,
+.profile-pic img {
+  width: 100px;
+  height: 100px;
+  border-radius: 0.5rem;
 }
 
 .profile-pic {
-	width: 200px;
-	height: 200px;
-	margin: 2rem auto;
-	overflow: hidden;
-	border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.profile-pic img {
-	width: 150%;
+.profile-pic .image-loader {
+  margin: 24px auto;
+  text-align: center;
 }
 
-.profile-info {
-	width: 200px;
-	margin: auto;
+.profile-pic .image-loader img {
+  width: 48px;
+  height: 48px;
 }
 
 .edit-button {
-	padding: .5rem;
-	border-radius: .2rem;
-	width: 200px;
-	border: 1px solid #657ED4;
-	background-color: #657ED4;
-	display: block;
-	margin: 0 auto;
-	font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgb(86, 128, 220);
+  background-color: #fff;
+  color: rgb(86, 128, 220);
+  font-weight: 600;
+  display: block;
+  margin: 0 auto;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.edit-button:hover,
+.edit-button:focus {
+  background-color: rgb(86, 128, 220);
+  color: #fff;
+}
+
+.profile-info {
+  margin-top: 1rem;
+}
+
+.section-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.section {
+  display: flex;
+  color: rgb(135, 135, 135);
+}
+
+.section a,
+.section p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.section-list .section {
+  width: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.email-section {
+  margin: 0.5rem 0;
+}
+
+.section .icon {
+  margin-right: 7px;
+}
+
+.section a {
+  color: blue;
+}
+
+@media (min-width: 1000px) {
+  .profile-details {
+    margin-left: 22%;
+    width: 78%;
+  }
 }

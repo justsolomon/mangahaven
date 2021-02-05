@@ -4,12 +4,12 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import '../css/BackButton.css';
 
 const BackButton = ({ clickAction }) => {
-	return (
-			<div className='back-button' onClick={clickAction}>
-				<FontAwesomeIcon icon={faArrowLeft} />
-			</div>
-		)
-}
+  return (
+    <div className='back-button' onClick={clickAction}>
+      <FontAwesomeIcon icon={faArrowLeft} />
+    </div>
+  );
+};
 
 export default BackButton;
 

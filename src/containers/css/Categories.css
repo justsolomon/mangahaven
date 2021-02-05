@@ -1,4 +1,12 @@
 .category-list {
-	width: 95%;
-	margin: 1rem auto;
+  width: 95%;
+  margin: 1rem auto;
+}
+
+@media (min-width: 1000px) {
+  .category-list {
+    margin-left: 22%;
+    width: 78%;
+    padding-right: 1rem;
+  }
 }

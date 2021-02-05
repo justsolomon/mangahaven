@@ -1,17 +1,27 @@
 .mini-header {
-	height: 3rem;
-	display: flex;
-	align-items: center;
-	color: #fff;
-	background-color: #5680e9;
-	box-shadow: rgba(0, 0, 0, 0.13) 0px 2px 4px 0px;
-	padding-left: 1rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background-color: rgb(86, 128, 220);
+  box-shadow: rgba(0, 0, 0, 0.13) 0px 2px 4px 0px;
+  padding-left: 1rem;
+  position: sticky;
+  z-index: 1;
+  top: 0;
 }
 
 .mini-header .current-menu {
-	margin: 0;
-	padding: 0;
-	margin-left: 1rem;
-	font-size: 1.3rem;
-	font-weight: 600;
+  margin: 0;
+  /*padding-bottom: .1rem;*/
+  margin-left: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+@media (min-width: 1000px) {
+  .mini-header {
+    margin-left: 22%;
+    width: 78%;
+  }
 }

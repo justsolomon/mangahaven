@@ -1,9 +1,16 @@
 .loader-gif {
-	width: 100%;
-	text-align: center;
-	margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .loader-gif img {
-	width: 64px;
+  width: 64px;
+}
+
+@media (min-width: 1000px) {
+  .loader-gif {
+    margin-left: 22%;
+    width: 78%;
+  }
 }

@@ -1,0 +1,86 @@
+.message {
+  display: flex;
+  padding: 0.5rem 1rem;
+  background-color: rgb(75, 75, 75);
+  box-shadow: rgba(0, 0, 0, 0.13) 0px 2px 4px 0px;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  position: sticky;
+  top: 3rem;
+  z-index: 1;
+}
+
+.message .fa-times {
+  width: 24px;
+  height: 24px;
+}
+
+.message p {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.App .profile-form {
+  margin: 1rem auto 2rem auto;
+}
+
+.App .profile-form textarea {
+  height: 5rem;
+  resize: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.App .profile-form input,
+.App .profile-form textarea {
+  margin-bottom: 1rem;
+}
+
+.profile-form .submit-button {
+  margin-top: 1rem;
+  font-size: 1.15rem;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #4664c8;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.profile-form .submit-button:hover {
+  background-color: rgb(50, 100, 200);
+}
+
+.profile-form .submit-button img {
+  width: 28px;
+  height: 28px;
+}
+
+.profile-form .submit-button img {
+  margin-right: 0.5rem;
+}
+
+@media (min-width: 1000px) {
+  .message {
+    width: 78%;
+    margin-left: 22%;
+  }
+  .App .profile-form {
+    margin-left: 22%;
+    width: 60%;
+    padding: 0 2rem;
+  }
+  .profile-form .submit-button {
+    font-size: 1.3rem;
+    padding: 0.8rem 2rem;
+  }
+  .profile-form .submit-button img {
+    width: 32px;
+    height: 32px;
+  }
+}

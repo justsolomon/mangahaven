@@ -1,12 +1,12 @@
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-	background-color: #FDFFFC;
-	/*#0D1F2D*/
+  background-color: #fdfffc;
+  /*#0D1F2D*/
 }
 
 /*:root {
@@ -26,7 +26,11 @@ body {
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
 }
 
 a:focus,
@@ -44,3 +48,5 @@ code {
   height: 100vh;
   overflow: hidden;
 }
+
+/*former-header-color: #5680e9*/
