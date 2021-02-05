@@ -29,6 +29,10 @@ a {
   text-decoration: none;
 }
 
+button {
+  font-family: inherit;
+}
+
 a:focus,
 button:focus {
   outline: none;
