@@ -15,7 +15,7 @@ import Settings from './Settings.js';
 import ChapterPage from './ChapterPage.js';
 import HistoryPage from './HistoryPage.js';
 import EditProfile from './EditProfile.js';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
 import '../css/App.css';
 
 class App extends React.Component {
@@ -27,7 +27,9 @@ class App extends React.Component {
 			<Route path='/signin' component={SignIn} />
 			<Route path='/signup' component={SignUp} />
 			<Route path='/profile' component={UserProfile} />
-			{/*<Route path='/explore' component={ExplorePage} />*/}
+			<Route path='/explore' >
+				<Redirect to='/' />
+			</Route>
 			<Route path='/recent' component={RecentUpdate} />
 			<Route path='/search' component={SearchResults} />
 			<Route path='/favorites' component={Favorites} />
