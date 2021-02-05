@@ -309,34 +309,102 @@ class MangaPage extends React.Component {
 	}
 
 	updateOfflineChapters = (chapters, title) => {
-		localForage.getItem('offlineManga')
+		//check if manga exists in bookmarks
+		localForage.getItem('userBookmarks')
 			.then(value => {
-				if (value !== null) {	
-					let offlineChapters;
-					for (let i = 0; i < value.length; i++) {
-						if (value[i].title === title) {
-							offlineChapters = value[i].chapters;
-							if (offlineChapters.length !== chapters.length) {
-								for (let j = 0; j < chapters.length; j++) {
-									for (let k = 0; k < offlineChapters.length; k++) {
-										if (chapters[j][3] === offlineChapters[k][3] && offlineChapters[k][4] !== undefined) {
-											chapters[j][4] = offlineChapters[k][4];
-											chapters[j][5] = offlineChapters[k][5];
-											break;
-										}
-									}
-								}
-								value[i].chapters = chapters;
-								localForage.setItem('offlineManga', value)
-									.then(manga => console.log(manga))
-									.catch(err => console.log(err));
-								break;
-							}
+				let mangaInLibrary = false;
+				if (value !== null) {
+					let mangaArray = value;
+					for (let i = 0; i < mangaArray.length; i++) {
+						if (mangaArray[i].t === title) {
+							mangaInLibrary = true;
+							break;
 						}
 					}
 				}
+
+				//update chapters in offline manga
+				localForage.getItem('offlineManga')
+					.then(value => {
+						if (value !== null) {
+							console.log(mangaInLibrary);
+							let offlineChapters;
+							for (let i = 0; i < value.length; i++) {
+								if (value[i].title === title) {
+									offlineChapters = value[i].chapters;
+									if (offlineChapters.length !== chapters.length) {
+										for (let j = 0; j < chapters.length; j++) {
+											for (let k = 0; k < offlineChapters.length; k++) {
+												if (chapters[j][3] === offlineChapters[k][3] && offlineChapters[k][4] !== undefined) {
+													chapters[j][4] = offlineChapters[k][4];
+													chapters[j][5] = offlineChapters[k][5];
+													break;
+												} else {
+													console.log(mangaInLibrary);
+													//add new chapters to library updates
+													if (mangaInLibrary) this.saveLibraryUpdates(chapters[j], value[i]);
+												}
+											}
+										}
+										value[i].chapters = chapters;
+										localForage.setItem('offlineManga', value)
+											.then(manga => console.log(manga))
+											.catch(err => console.log(err));
+										break;
+									}
+								}
+							}
+						}
+					})
+					.catch(err => console.log(err))
+
 			})
-			.catch(err => console.log(err))
+			.catch(err => console.log(err));
+	}
+
+	saveLibraryUpdates = (chapter, manga) => {
+		const { id } = this.props.match.params;
+		console.log(`Saving chapter ${chapter[0]} of ${manga.title} to library updates...`);
+
+		localForage.getItem('library-updates')
+			.then(value => {
+				if (value !== null) {
+					value.push({
+						chapterId: chapter[3],
+						chapterName: chapter[2],
+						chapterNum: chapter[0],
+						alias: manga.alias,
+						image: manga.image,
+						mangaId: id,
+						title: manga.title,
+						added: new Date.getTime()
+					});
+				} else {
+					value = [{
+						chapterId: chapter[3],
+						chapterName: chapter[2],
+						chapterNum: chapter[0],
+						alias: manga.alias,
+						image: manga.image,
+						mangaId: id,
+						title: manga.title,
+						added: new Date.getTime()
+					}];
+				}
+
+				//save new chapters to library updates
+				localForage.setItem('library-updates', value)
+					.then(console.log)
+					.catch(console.log);
+
+				//to show in the UI that an update is available
+				localForage.setItem('updateAvailable', true)
+					.then(console.log)
+					.catch(console.log);
+
+				console.log(`Chapter ${chapter[0]} of ${manga.title} saved successfully!`)
+			})
+			.catch(console.log);
 	}
 
 	render() {	
