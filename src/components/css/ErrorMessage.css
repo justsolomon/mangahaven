@@ -1,48 +1,48 @@
 .error-div {
-	width: 85%;
-	margin: 2rem auto;
-	text-align: center;
+  width: 85%;
+  margin: 2rem auto;
+  text-align: center;
 }
 
 .error-div .loader-gif {
-	display: none;
+  display: none;
 }
 
 .error-message {
-	margin: 0;
-	padding: 0 .5rem;
-	font-size: 1.05rem;
+  margin: 0;
+  padding: 0 0.5rem;
+  font-size: 1.05rem;
 }
 
 .reload-button {
-	padding: .5rem 1rem;
-	border-radius: 1rem;
-	border: 1px solid rgb(86, 128, 220);
-	background-color: rgb(86, 128, 220);
-	color: #fff;
-	margin-top: 1rem;
-	cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgb(86, 128, 220);
+  background-color: rgb(86, 128, 220);
+  color: #fff;
+  margin-top: 1rem;
+  cursor: pointer;
 }
 
 .reload-button:hover {
-	border: 1px solid rgb(76, 118, 210);
-	background-color: rgb(76, 118, 210);
+  border: 1px solid rgb(76, 118, 210);
+  background-color: rgb(76, 118, 210);
 }
 
 .reload-button span {
-	font-size: 1rem;
-	font-weight: 500;
-	margin-left: .5rem; 
+  font-size: 1rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
 }
 
 .reload-button .fa-redo {
-	width: 14px;
-	height: 14px;
+  width: 14px;
+  height: 14px;
 }
 
-@media(min-width: 1000px) {
-	.error-div {
-		margin-left: 22%;
-		width: 78%;
-	}
+@media (min-width: 1000px) {
+  .error-div {
+    margin-left: 22%;
+    width: 78%;
+  }
 }

@@ -1,16 +1,16 @@
 .no-results {
-	width: 90%;
-	margin: 1.5rem auto;
-	text-align: center;
+  width: 90%;
+  margin: 1.5rem auto;
+  text-align: center;
 }
 
 .no-results span {
-	font-weight: 500;
+  font-weight: 500;
 }
 
 @media (min-width: 1000px) {
-	.no-results {
-		margin-left: 22%;
-		width: 78%;
-	}
+  .no-results {
+    margin-left: 22%;
+    width: 78%;
+  }
 }

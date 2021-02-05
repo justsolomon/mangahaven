@@ -1,51 +1,51 @@
 .manga-chapter {
-	border-bottom: 1px solid rgba(140, 140, 140, .5);
-	transition: .3s;
-	cursor: pointer;
+  border-bottom: 1px solid rgba(140, 140, 140, 0.5);
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 .manga-chapter:hover {
-	background-color: #ddd;
+  background-color: #ddd;
 }
 
 .chapter-completed {
-	color: rgb(150, 150, 150) !important;
+  color: rgb(150, 150, 150) !important;
 }
 
 .manga-chapter p {
-	padding: 0 1rem;
-	margin: 0 0 .5rem 0;
+  padding: 0 1rem;
+  margin: 0 0 0.5rem 0;
 }
 
 .manga-chapter .chapter-name {
-	font-size: .95rem;
-	padding-top: .8rem;
+  font-size: 0.95rem;
+  padding-top: 0.8rem;
 }
 
 .manga-chapter .chapter-details {
-	font-size: .85rem;
-	margin: 0;
-	display: flex;
+  font-size: 0.85rem;
+  margin: 0;
+  display: flex;
 }
 
 .chapter-details p {
-	margin: .3rem 0;
+  margin: 0.3rem 0;
 }
 
 .chapter-details .release-date {
-	width: 40%;
+  width: 40%;
 }
 
 .chapter-details .history-page-number {
-	color: rgb(150, 150, 150);
-	width: 60%;
+  color: rgb(150, 150, 150);
+  width: 60%;
 }
 
 @media (min-width: 1000px) {
-	.manga-chapter .chapter-name {
-		font-size: 1.05rem;
-	}
-	.manga-chapter .chapter-details {
-		font-size: .95rem;
-	}
+  .manga-chapter .chapter-name {
+    font-size: 1.05rem;
+  }
+  .manga-chapter .chapter-details {
+    font-size: 0.95rem;
+  }
 }

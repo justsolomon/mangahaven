@@ -1,81 +1,81 @@
 .Collapsible p {
-	margin: 0;
+  margin: 0;
 }
 
 .Collapsible__trigger {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1rem;
-	border-bottom: 1px solid rgb(140, 140, 140, .5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgb(140, 140, 140, 0.5);
 }
 
 .Collapsible .svg-inline--fa {
-	height: 20px;
-	width: 20px;
-	color: rgba(255, 255, 255, .95);
+  height: 20px;
+  width: 20px;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .Collapsible .fa-angle-up,
 .Collapsible .fa-angle-down {
-	color: #100c08;
+  color: #100c08;
 }
 
 .Collapsible__contentInner {
-	background-color: rgba(0, 0, 0, .6);
-	color: #fff;
-	padding: 1rem 1rem 0 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 1rem 1rem 0 1rem;
 }
 
 .Collapsible__contentInner .setting-options,
 .Collapsible__contentInner .check-box {
-	display: flex;
+  display: flex;
 }
 
 .setting-options {
-	padding-bottom: 1rem;
+  padding-bottom: 1rem;
 }
 
 .setting-options .setting-name {
-	width: 30%;
+  width: 30%;
 }
 
 .setting-options .check-box {
-	width: 35%;
+  width: 35%;
 }
 
 .setting-options .light-theme {
-	width: 25%;
+  width: 25%;
 }
 
 .setting-options .dark-theme {
-	width: 50%;
+  width: 50%;
 }
 
 .Collapsible a {
-	display: flex;
-	color: #fff;
-	align-items: center;
-	width: 100%;
-	justify-content: space-between;
-	padding-bottom: .8rem;
+  display: flex;
+  color: #fff;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding-bottom: 0.8rem;
 }
 
 .Collapsible .fa-external-link-alt {
-	width: 16px;
-	height: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .attribution,
 .feedback-report,
 .about-section {
-	width: 100%;
-	padding-bottom: .2rem;
+  width: 100%;
+  padding-bottom: 0.2rem;
 }
 
 @media (min-width: 1000px) {
-	.setting-headers {
-		margin-left: 22%;
-		width: 78%;
-	}
+  .setting-headers {
+    margin-left: 22%;
+    width: 78%;
+  }
 }
