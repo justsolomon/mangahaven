@@ -17,8 +17,52 @@ import HistoryPage from './HistoryPage.js';
 import EditProfile from './EditProfile.js';
 import { Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
 import '../css/App.css';
+import { confirmAlert } from 'react-confirm-alert';
+import Logo from '../../assets/logo.png';
 
 class App extends React.Component {
+  componentDidMount() {
+    console.log('heyy');
+    let noticeShown = sessionStorage['notice'];
+
+    if (!noticeShown) {
+      this.showNotice();
+      sessionStorage['notice'] = true;
+    }
+  }
+
+  showNotice = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='confirm-logout' onClick={onClose}>
+            <div
+              className='confirm-logout-inner'
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img src={Logo} alt='MangaHaven logo' />
+              <h3>Important Notice</h3>
+              <p>
+                Due to the API we were previously using being taken down, some
+                of the site's features are currently not functioning. Please
+                bear with us as we are working on getting a replacement up as
+                soon as we can.
+              </p>
+              <div
+                className='action-buttons'
+                style={{ justifyContent: 'flex-end' }}
+              >
+                <button className='logout-button' onClick={onClose}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      },
+    });
+  };
+
   render() {
     return (
       <div className='App'>
