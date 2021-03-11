@@ -38,20 +38,12 @@ class RecentUpdate extends React.Component {
         hasMoreItems: true,
       });
     }
-    let currentManga = this.state.allManga;
 
-    fetch('https://www.mangaeden.com/api/list/0/')
+    fetch('https://mangahaven.herokuapp.com/recent')
       .then((res) => res.json())
       .then((data) => {
-        data.manga = data.manga.filter((manga) => {
-          return manga.im !== null && manga.c.length !== 0;
-        });
-        data.manga = data.manga
-          .sort((a, b) => b.h - a.h)
-          .sort((a, b) => b.ld - a.ld);
-        currentManga = data.manga;
-
-        this.setState({ allManga: currentManga });
+        console.log(data);
+        this.setState({ allManga: data });
         this.displayManga();
       })
       .catch((err) => {

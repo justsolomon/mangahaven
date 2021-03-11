@@ -2,17 +2,41 @@ import React from 'react';
 import '../css/MangaCardList.css';
 import MangaCard from './MangaCard.js';
 
-const MangaCardList = ({ mangaArray }) => {
+const MangaCardList = ({ mangaArray, genre, search, bookmark }) => {
   return (
     <div className='manga-list'>
       {mangaArray.map((manga, id) => {
+        let data;
+        const {
+          SeriesName,
+          IndexName,
+          imageUrl,
+          serialName,
+          name,
+          alias,
+          s,
+          i,
+        } = manga;
+        if (genre) data = { imageUrl, name, alias: serialName };
+        else if (bookmark) data = { imageUrl, name, alias };
+        else if (search)
+          data = {
+            imageUrl: `https://cover.nep.li/cover/${i}.jpg`,
+            name: s,
+            alias: i,
+          };
+        else
+          data = {
+            imageUrl: `https://cover.nep.li/cover/${IndexName}.jpg`,
+            name: SeriesName,
+            alias: IndexName,
+          };
         return (
           <MangaCard
-            imageUrl={`https://cdn.mangaeden.com/mangasimg/${manga.im}`}
+            imageUrl={data.imageUrl}
             key={id}
-            mangaTitle={manga.t}
-            id={manga.i}
-            alias={manga.a}
+            mangaTitle={data.name}
+            alias={data.alias}
           />
         );
       })}

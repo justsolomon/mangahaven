@@ -100,7 +100,7 @@
 
 .manga-header-title {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   width: 80%;
 }
 

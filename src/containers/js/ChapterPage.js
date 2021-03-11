@@ -28,11 +28,10 @@ class ChapterPage extends React.Component {
       chapterImages: [],
       chapterNumber: '',
       defaultPage: 1,
-      nextChapter: [],
-      prevChapter: [],
+      nextChapter: {},
+      prevChapter: {},
       chapterTitle: '',
       mangaName: '',
-      mangaid: '',
       alias: '',
       progress: 0,
       headerActive: false,
@@ -68,10 +67,9 @@ class ChapterPage extends React.Component {
   }
 
   fetchData = () => {
-    const { id, mangaid, number, name } = this.props.match.params;
+    const { mangaName, chapterNum } = this.props.match.params;
     this.setState({
-      mangaid,
-      alias: name,
+      alias: mangaName,
     });
 
     //check if user came from history page and parse page num from url
@@ -83,83 +81,48 @@ class ChapterPage extends React.Component {
     }
 
     this.setState({
-      chapterNumber: number,
+      chapterNumber: chapterNum,
       networkError: false,
       defaultPage: pageNum,
     });
 
-    fetch(`https://www.mangaeden.com/api/chapter/${id}`)
+    fetch(`https://mangahaven.herokuapp.com/${mangaName}/chapter/${chapterNum}`)
       .then((res) => res.json())
       .then((data) => {
-        data.images.reverse();
+        console.log(data);
+        const {
+          nextChapter,
+          prevChapter,
+          chapterNum,
+          images,
+          ChapterName,
+          mangaName,
+        } = data;
         this.setState({
-          chapterImages: data.images,
-          currentImage: data.images[pageNum - 1],
+          chapterImages: images,
+          currentImage: images[pageNum - 1],
+          chapterNumber: chapterNum,
+          nextChapter,
+          prevChapter,
+          mangaName,
+          chapterTitle: ChapterName,
           networkError: false,
         });
       })
       .catch((err) => this.setState({ networkError: true }));
 
-    fetch(`https://www.mangaeden.com/api/manga/${mangaid}`)
+    fetch(`https://mangahaven.herokuapp.com/manga/${mangaName}`)
       .then((res) => res.json())
       .then((data) => {
-        let index;
-        //to find the current chapter array in the manga chapters
-        for (let i = 0; i < data.chapters.length; i++) {
-          if (data.chapters[i][0] === Number(number)) {
-            index = i;
-            break;
-          }
-        }
         this.setState({
           manga: data,
-          mangaName: data.title,
-          chapterTitle: data.chapters[index][2],
           loader: false,
-          chapterIndex: index,
           networkError: false,
         });
 
         this.saveToHistory(data, pageNum);
         this.updateMangaCatalog(pageNum, false, data);
-        //conditions for whether there's a next/prev chapter
-        if (index - 1 === -1) {
-          this.setState({
-            nextChapter: null,
-            prevChapter: [
-              data.chapters[index + 1][0],
-              data.chapters[index + 1][2],
-              data.chapters[index + 1][3],
-            ],
-          });
-        } else if (index + 1 === data.chapters.length) {
-          this.setState({
-            prevChapter: null,
-            nextChapter: [
-              data.chapters[index - 1][0],
-              data.chapters[index - 1][2],
-              data.chapters[index - 1][3],
-            ],
-          });
-        } else if (data.chapters.length === 1) {
-          this.setState({
-            nextChapter: null,
-            prevChapter: null,
-          });
-        } else {
-          this.setState({
-            nextChapter: [
-              data.chapters[index - 1][0],
-              data.chapters[index - 1][2],
-              data.chapters[index - 1][3],
-            ],
-            prevChapter: [
-              data.chapters[index + 1][0],
-              data.chapters[index + 1][2],
-              data.chapters[index + 1][3],
-            ],
-          });
-        }
+
         console.log(data);
       })
       .catch((err) => this.setState({ networkError: true }));
@@ -197,25 +160,25 @@ class ChapterPage extends React.Component {
   displaySettings = () => this.setState({ settings: !this.state.settings });
 
   displayNextChapter = () => {
-    const { mangaid, name } = this.props.match.params;
+    const { mangaName } = this.props.match.params;
     const { nextChapter } = this.state;
     this.props.history.push(
-      `/${name}/${mangaid}/chapter/${nextChapter[0]}/${nextChapter[2]}`
+      `/read/${mangaName}/chapter/${nextChapter.chapterNum}`
     );
     window.location.reload();
   };
 
   displayPrevChapter = () => {
-    const { mangaid, name } = this.props.match.params;
+    const { mangaName } = this.props.match.params;
     const { prevChapter } = this.state;
     this.props.history.push(
-      `/${name}/${mangaid}/chapter/${prevChapter[0]}/${prevChapter[2]}`
+      `/read/${mangaName}/chapter/${prevChapter.chapterNum}`
     );
     window.location.reload();
   };
 
   saveToHistory = (manga, pageNum) => {
-    const { id, mangaid, number } = this.props.match.params;
+    const { chapterNum } = this.props.match.params;
     //fetch history from storage
     localForage
       .getItem('readHistory')
@@ -224,11 +187,9 @@ class ChapterPage extends React.Component {
           let recentManga = [];
           recentManga.push({
             alias: manga.alias,
-            image: manga.image,
-            mangaId: mangaid,
-            title: manga.title,
-            chapterNum: number,
-            chapterId: id,
+            image: manga.imageUrl,
+            title: manga.name,
+            chapterNum,
             page: 1,
             added: new Date().getTime(),
           });
@@ -241,8 +202,8 @@ class ChapterPage extends React.Component {
           //check if manga already exists in history
           let mangaPresent = false;
           for (let i = 0; i < value.length; i++) {
-            if (value[i].mangaId === mangaid) {
-              value[i].chapterNum = number;
+            if (value[i].alias === manga.alias) {
+              value[i].chapterNum = chapterNum;
               value[i].added = new Date().getTime();
               value[i].page = pageNum;
               mangaPresent = true;
@@ -252,11 +213,9 @@ class ChapterPage extends React.Component {
           if (!mangaPresent) {
             value.push({
               alias: manga.alias,
-              image: manga.image,
-              mangaId: mangaid,
-              title: manga.title,
-              chapterNum: number,
-              chapterId: id,
+              image: manga.imageUrl,
+              title: manga.name,
+              chapterNum,
               page: 1,
               added: new Date().getTime(),
             });
@@ -277,9 +236,9 @@ class ChapterPage extends React.Component {
       .then((allManga) => {
         //add new manga to catalog
         const addNewManga = (allManga, currentManga) => {
-          currentManga.chapters[chapterIndex][4] = index;
-          if (!currentManga.chapters[chapterIndex][5])
-            currentManga.chapters[chapterIndex][5] = completed;
+          currentManga.chapters[chapterIndex].currentPage = index;
+          if (!currentManga.chapters[chapterIndex].completed)
+            currentManga.chapters[chapterIndex].completed = completed;
           allManga.push(currentManga);
           localForage
             .setItem('offlineManga', allManga)
@@ -290,7 +249,7 @@ class ChapterPage extends React.Component {
           let mangaPresent = false;
           let mangaIndex;
           for (let i = 0; i < allManga.length; i++) {
-            if (allManga[i].title === manga.title) {
+            if (allManga[i].name === manga.name) {
               mangaPresent = true;
               mangaIndex = i;
               break;
@@ -299,9 +258,9 @@ class ChapterPage extends React.Component {
           if (!mangaPresent) addNewManga(allManga, manga);
           else {
             //update manga if its already existing in catalog
-            allManga[mangaIndex].chapters[chapterIndex][4] = index;
-            if (!allManga[mangaIndex].chapters[chapterIndex][5])
-              allManga[mangaIndex].chapters[chapterIndex][5] = completed;
+            allManga[mangaIndex].chapters[chapterIndex].currentPage = index;
+            if (!allManga[mangaIndex].chapters[chapterIndex].completed)
+              allManga[mangaIndex].chapters[chapterIndex].completed = completed;
             localForage
               .setItem('offlineManga', allManga)
               .then((value) => console.log(value))
@@ -348,7 +307,6 @@ class ChapterPage extends React.Component {
       modalBG,
       mangaName,
       defaultPage,
-      mangaid,
       alias,
     } = this.state;
     return (
@@ -370,9 +328,7 @@ class ChapterPage extends React.Component {
               }
             >
               <BackButton
-                clickAction={() =>
-                  this.props.history.push(`/manga/${alias}/${mangaid}`)
-                }
+                clickAction={() => this.props.history.push(`/manga/${alias}`)}
               />
               <div className='header-wrapper'>
                 <div className='header-title'>
@@ -525,14 +481,16 @@ class ChapterPage extends React.Component {
                       }`}</span>
 
                       <p>Previous: </p>
-                      <span>{`${prevChapter[0]}${
-                        prevChapter[1] !== null ? `: ${prevChapter[1]}` : ''
+                      <span>{`${prevChapter.chapterNum}${
+                        prevChapter.ChapterName !== null
+                          ? `: ${prevChapter.ChapterName}`
+                          : ''
                       }`}</span>
                       <button
                         className={background}
                         onClick={this.displayPrevChapter}
                       >
-                        {`Read Chapter ${prevChapter[0]}`}
+                        {`Read Chapter ${prevChapter.chapterNum}`}
                       </button>
                     </div>
                   ) : (
@@ -560,13 +518,7 @@ class ChapterPage extends React.Component {
                               });
                             }}
                           >
-                            <ChapterImage
-                              url={
-                                inView
-                                  ? `https://cdn.mangaeden.com/mangasimg/${image[1]}`
-                                  : ''
-                              }
-                            />
+                            <ChapterImage url={inView ? image : ''} />
                           </div>
                         );
                       }}
@@ -584,8 +536,10 @@ class ChapterPage extends React.Component {
                       }`}</span>
 
                       <p>Next:</p>
-                      <span>{`${nextChapter[0]}${
-                        nextChapter[1] !== null ? `: ${nextChapter[1]}` : ''
+                      <span>{`${nextChapter.chapterNum}${
+                        nextChapter.ChapterName !== null
+                          ? `: ${nextChapter.ChapterName}`
+                          : ''
                       }`}</span>
                       <button
                         className={background}
@@ -638,9 +592,7 @@ class ChapterPage extends React.Component {
                 }}
               />
               <div>
-                <ChapterImage
-                  url={`https://cdn.mangaeden.com/mangasimg/${this.state.currentImage[1]}`}
-                />
+                <ChapterImage url={this.state.currentImage} />
               </div>
             </Modal>
           </div>

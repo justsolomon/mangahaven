@@ -14,16 +14,12 @@ class CategoryPage extends React.Component {
     this.state = {
       manga: [],
       displayedManga: [],
-      genre: '',
       count: 10,
       hasMoreItems: true,
     };
   }
 
   componentDidMount() {
-    let genre = this.props.match.params.name;
-    genre = genre.replace(genre[0], genre[0].toUpperCase());
-    this.setState({ genre });
     this.fetchManga();
   }
 
@@ -43,26 +39,12 @@ class CategoryPage extends React.Component {
         hasMoreItems: true,
       });
     }
-    let genreManga = [];
 
-    fetch('https://www.mangaeden.com/api/list/0')
+    const genre = this.props.match.params.name;
+    fetch(`https://mangahaven.herokuapp.com/genre/${genre}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        //filter manga without images and categories
-        data.manga = data.manga.filter((manga) => {
-          return manga.im !== null && manga.c.length !== 0;
-        });
-
-        //sort manga according to no of hits
-        data.manga = data.manga.sort((a, b) => b.h - a.h);
-
-        //push all available categories into array
-        data.manga.forEach((manga) => {
-          if (manga.c.includes(this.state.genre)) genreManga.push(manga);
-        });
-
-        this.setState({ manga: genreManga });
+        this.setState({ manga: data });
         this.displayManga();
       })
       .catch((err) => {
@@ -74,7 +56,7 @@ class CategoryPage extends React.Component {
   };
 
   render() {
-    const { genre } = this.state;
+    const genre = this.props.match.params.name;
     const renderedContent =
       this.state.manga === null ? (
         <ErrorMessage renderList={this.loadManga} />
@@ -85,7 +67,7 @@ class CategoryPage extends React.Component {
           hasMore={this.state.hasMoreItems}
           loader={<Loader key={0} />}
         >
-          <MangaCardList mangaArray={this.state.displayedManga} />
+          <MangaCardList mangaArray={this.state.displayedManga} genre />
         </InfiniteScroll>
       );
 

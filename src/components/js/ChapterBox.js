@@ -4,13 +4,13 @@ import '../css/ChapterBox.css';
 const ChapterBox = ({
   number,
   title,
-  time,
+  uploadDate,
   completed,
   page,
   displayChapter,
   continueChapter,
 }) => {
-  const date = new Date(time * 1000).toLocaleDateString();
+  const date = new Date(uploadDate).toLocaleDateString();
   return (
     <div
       className={
@@ -19,7 +19,7 @@ const ChapterBox = ({
       onClick={page === undefined ? displayChapter : continueChapter}
     >
       <p className='chapter-name'>
-        {title !== null ? `Chapter ${number} - ${title}` : `Chapter ${number}`}
+        {title ? `Chapter ${number} - ${title}` : `Chapter ${number}`}
       </p>
       <div className='chapter-details'>
         <p className='release-date'>{date}</p>

@@ -22,7 +22,6 @@ import Logo from '../../assets/logo.png';
 
 class App extends React.Component {
   componentDidMount() {
-    console.log('heyy');
     let noticeShown = sessionStorage['notice'];
 
     if (!noticeShown) {
@@ -84,9 +83,9 @@ class App extends React.Component {
           <Route path='/all-genres' component={Categories} />
           <Route path='/edit-profile' component={EditProfile} />
           <Route path='/genre/:name' component={CategoryPage} />
-          <Route path='/manga/:name/:id' component={MangaPage} />
+          <Route path='/manga/:name' component={MangaPage} />
           <Route
-            path='/:name/:mangaid/chapter/:number/:id'
+            path='/read/:mangaName/chapter/:chapterNum/'
             component={ChapterPage}
           />
         </Router>
