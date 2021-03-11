@@ -4,7 +4,7 @@ import Image from './Image.js';
 import LazyLoad from 'react-lazyload';
 import { useHistory } from 'react-router-dom';
 
-const MangaCard = ({ imageUrl, mangaTitle, id, alias }) => {
+const MangaCard = ({ imageUrl, mangaTitle, alias }) => {
   const history = useHistory();
   return (
     <LazyLoad
@@ -16,7 +16,7 @@ const MangaCard = ({ imageUrl, mangaTitle, id, alias }) => {
       <div
         className='manga-card'
         onClick={function () {
-          history.push(`/manga/${alias}/${id}`);
+          history.push(`/manga/${alias}`);
         }}
       >
         <Image url={imageUrl} title={mangaTitle} />

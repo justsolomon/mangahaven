@@ -12,72 +12,69 @@ class ExplorePage extends React.Component {
     super();
     this.state = {
       allManga: [],
+      displayedManga: [],
+      count: 10,
       hasMoreItems: true,
-      nextPage: 0,
     };
   }
 
-  loadManga = () => {
-    if (this.state.nextPage > 14) {
-      this.setState({ hasMoreItems: false });
-      return;
-    }
+  componentDidMount() {
+    this.setState({ hasMoreItems: true });
+    this.loadManga();
+    console.log(this.state.hasMoreItems);
+  }
 
+  displayManga = () => {
+    if (this.state.allManga.length >= this.state.count) {
+      this.setState({
+        count: this.state.count + 10, //increase back to 100
+        displayedManga: this.state.allManga.slice(0, this.state.count),
+      });
+    } else {
+      this.setState({ hasMoreItems: false });
+    }
+  };
+
+  loadManga = () => {
     if (this.state.allManga === null) {
       this.setState({
         allManga: [],
         hasMoreItems: true,
-        nextPage: 0,
       });
     }
-    let currentManga = this.state.allManga;
-    let currentPage = this.state.nextPage;
 
-    fetch(`https://www.mangaeden.com/api/list/0/?p=${currentPage}`)
+    fetch('https://mangahaven.herokuapp.com/hot')
       .then((res) => res.json())
       .then((data) => {
-        if (data.manga.length !== 0) {
-          data.manga = data.manga.filter((manga) => {
-            return manga.im !== null && manga.c.length !== 0;
-          });
-          data.manga = data.manga.sort((a, b) => b.h - a.h);
+        this.setState({
+          allManga: data,
+          hasMoreItems: true,
+        });
+        console.log(this.state.hasMoreItems);
 
-          if (currentManga === null) currentManga = [];
-          currentManga.push(...data.manga.slice(0, 10)); //increase back to 100 during production
-
-          this.setState({
-            allManga: currentManga,
-            nextPage: currentPage + 1,
-          });
-        }
+        this.displayManga();
       })
       .catch((err) => {
-        if (this.state.nextPage === 0) {
-          this.setState({
-            allManga: null,
-            hasMoreItems: false,
-          });
-        } else {
-          (() => {
-            this.setState({ hasMoreItems: false });
-            setTimeout(() => this.setState({ hasMoreItems: true }), 1000);
-          })();
-        }
+        this.setState({ hasMoreItems: false });
+        setTimeout(() => this.setState({ hasMoreItems: true }), 1000);
       });
   };
 
   render() {
+    const { allManga, displayedManga, hasMoreItems } = this.state;
+
     const renderedContent =
-      this.state.allManga === null ? (
+      allManga === null ? (
         <ErrorMessage renderList={this.loadManga} />
       ) : (
         <InfiniteScroll
           pageStart={0}
-          loadMore={this.loadManga.bind(this)}
-          hasMore={this.state.hasMoreItems}
+          loadMore={this.displayManga.bind(this)}
+          hasMore={hasMoreItems}
           loader={<Loader key={0} />}
         >
-          <MangaCardList mangaArray={this.state.allManga} />
+          <MangaCardList mangaArray={displayedManga} />
+          <Loader />
         </InfiniteScroll>
       );
     return (

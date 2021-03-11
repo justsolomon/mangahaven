@@ -33,7 +33,7 @@ class Favorites extends React.Component {
 
     displayedManga = userFav.filter((manga) => {
       const regex = new RegExp(keyword, 'gi');
-      return manga.a.match(regex) || manga.t.match(regex);
+      return manga.name.match(regex) || manga.alias.match(regex);
     });
     this.setState({ displayedManga });
   };
@@ -55,7 +55,7 @@ class Favorites extends React.Component {
         {userFav === null ? (
           <p className='no-bookmarks'>You don't have any favorited manga yet</p>
         ) : (
-          <MangaCardList mangaArray={displayedManga} />
+          <MangaCardList mangaArray={displayedManga} bookmark />
         )}
       </div>
     );

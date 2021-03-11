@@ -27,10 +27,10 @@ class SearchResults extends React.Component {
   }
 
   fetchAllManga = () => {
-    fetch('https://www.mangaeden.com/api/list/0')
+    fetch('https://mangahaven.herokuapp.com')
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ allManga: data.manga });
+        this.setState({ allManga: data });
         this.displayManga(this.setInput());
         console.log(data.manga);
       })
@@ -51,9 +51,7 @@ class SearchResults extends React.Component {
   };
 
   displayManga = (input) => {
-    let searchResults = this.searchManga(input, this.state.allManga).sort(
-      (a, b) => b.h - a.h
-    );
+    let searchResults = this.searchManga(input, this.state.allManga);
     if (searchResults.length === 0) {
       this.setState({
         noResult: true,
@@ -93,7 +91,10 @@ class SearchResults extends React.Component {
     //filter out city objects matching search term
     return allManga.filter((manga) => {
       const regex = new RegExp(wordToMatch, 'gi');
-      return manga.a.match(regex) || manga.t.match(regex);
+      for (let i = 0; i < manga.al.length; i++) {
+        if (manga.al[i].match(regex)) return true;
+      }
+      return manga.s.match(regex) || manga.i.match(regex);
     });
   };
 
@@ -118,7 +119,7 @@ class SearchResults extends React.Component {
         loadMore={this.displayMore.bind(this)}
         hasMore={this.state.hasMoreItems}
       >
-        <MangaCardList mangaArray={this.state.displayedManga} />
+        <MangaCardList mangaArray={this.state.displayedManga} search />
       </InfiniteScroll>
     );
 

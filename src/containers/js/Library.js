@@ -33,7 +33,7 @@ class Library extends React.Component {
 
     displayedManga = library.filter((manga) => {
       const regex = new RegExp(keyword, 'gi');
-      return manga.a.match(regex) || manga.t.match(regex);
+      return manga.name.match(regex) || manga.alias.match(regex);
     });
     this.setState({ displayedManga });
   };
@@ -57,7 +57,7 @@ class Library extends React.Component {
             You don't have any bookmarked manga yet
           </p>
         ) : (
-          <MangaCardList mangaArray={displayedManga} />
+          <MangaCardList mangaArray={displayedManga} bookmark />
         )}
       </div>
     );

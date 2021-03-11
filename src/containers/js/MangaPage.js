@@ -42,8 +42,6 @@ class MangaPage extends React.Component {
     this.state = {
       manga: {},
       chapters: [],
-      aka: [],
-      lastChapter: '',
       genres: [],
       status: ['Ongoing', 'Ongoing', 'Completed'],
       imageUrl: '',
@@ -66,25 +64,25 @@ class MangaPage extends React.Component {
 
   fetchMangaInfo = () => {
     this.setState({ networkLoader: true });
-    const { id, name } = this.props.match.params;
-    fetch(`https://www.mangaeden.com/api/manga/${id}/`)
+    const { name } = this.props.match.params;
+
+    fetch(`https://mangahaven.herokuapp.com/manga/${name}/`)
       .then((res) => res.json())
       .then((data) => {
-        this.updateOfflineChapters(data.chapters, data.title);
-        this.checkReadChapters(data.chapters, data.title);
+        this.updateOfflineChapters(data.chapters, data.name);
+        this.checkReadChapters(data.chapters, data.name);
         this.setState({
           manga: data,
-          aka: data.aka,
-          lastChapter: data.chapters[0][0],
-          genres: data.categories,
-          imageUrl: `https://cdn.mangaeden.com/mangasimg/${data.image}`,
+          name: data.name,
+          genres: data.genres,
+          imageUrl: data.imageUrl,
           gottenData: true,
           disabled: false,
           networkError: false,
           networkLoader: false,
           offlineData: false,
         });
-        this.checkStorage(data.title);
+        this.checkStorage(data.name);
         console.log(data);
       })
       .catch((err) => {
@@ -93,6 +91,7 @@ class MangaPage extends React.Component {
           .getItem('offlineManga')
           .then((allManga) => {
             if (allManga !== null) {
+              console.log(allManga);
               let currentManga = allManga.filter(
                 (manga) => manga.alias === name
               );
@@ -100,18 +99,16 @@ class MangaPage extends React.Component {
                 currentManga = currentManga[0];
                 this.setState({
                   manga: currentManga,
-                  aka: currentManga.aka,
                   chapters: currentManga.chapters,
-                  lastChapter: currentManga.chapters[0][0],
-                  genres: currentManga.categories,
-                  imageUrl: `https://cdn.mangaeden.com/mangasimg/${currentManga.image}`,
+                  genres: currentManga.genres,
+                  imageUrl: currentManga.imageUrl,
                   gottenData: true,
                   disabled: false,
                   networkError: false,
                   networkLoader: false,
                   offlineData: true,
                 });
-                this.checkStorage(currentManga.title);
+                this.checkStorage(currentManga.name);
               } else {
                 this.setState({
                   networkError: true,
@@ -150,14 +147,6 @@ class MangaPage extends React.Component {
     });
   };
 
-  formatDescription = (desc) => {
-    return desc.replace(desc.slice(desc.indexOf('Note'), desc.length), '');
-  };
-
-  getNote = (desc) => {
-    return desc.slice(desc.indexOf('Note'), desc.length);
-  };
-
   toggleBookmark = () => {
     this.setState({ bookmark: !this.state.bookmark });
     this.saveToStorage(!this.state.bookmark, 'userBookmarks');
@@ -174,6 +163,7 @@ class MangaPage extends React.Component {
 
   saveToStorage = (state, location) => {
     let { manga } = this.state;
+
     if (state) {
       //store basic info to favorites/bookmarks
       localForage
@@ -182,10 +172,9 @@ class MangaPage extends React.Component {
           if (value !== null) {
             let bookmarks = value;
             bookmarks.push({
-              a: manga.alias,
-              im: manga.image,
-              i: this.props.match.params.id,
-              t: manga.title,
+              alias: manga.alias,
+              imageUrl: manga.imageUrl,
+              name: manga.name,
               added: new Date().getTime(),
             });
             localForage
@@ -195,10 +184,9 @@ class MangaPage extends React.Component {
           } else {
             let bookmarks = [];
             bookmarks.push({
-              a: manga.alias,
-              im: manga.image,
-              i: this.props.match.params.id,
-              t: manga.title,
+              alias: manga.alias,
+              imageUrl: manga.imageUrl,
+              name: manga.name,
               added: new Date().getTime(),
             });
             localForage
@@ -217,7 +205,7 @@ class MangaPage extends React.Component {
             //to check if manga already exists in storage
             let mangaPresent = false;
             for (let i = 0; i < allManga.length; i++) {
-              if (allManga[i].title === manga.title) {
+              if (allManga[i].name === manga.name) {
                 mangaPresent = true;
                 break;
               }
@@ -246,7 +234,7 @@ class MangaPage extends React.Component {
         .getItem(location)
         .then((bookmarks) => {
           bookmarks = bookmarks.filter(
-            (manga) => manga.t !== this.state.manga.title
+            (manga) => manga.name !== this.state.manga.name
           );
           console.log(bookmarks);
           console.log(bookmarks.length);
@@ -277,7 +265,7 @@ class MangaPage extends React.Component {
       //remove entire manga info from catalogue to avoid space wastage
       // localForage.getItem('offlineManga')
       // 	.then(allManga => {
-      // 		allManga = allManga.filter(manga => manga.title !== this.state.manga.title);
+      // 		allManga = allManga.filter(manga => manga.name !== this.state.manga.name);
       // 		localForage.setItem('offlineManga', allManga)
       // 			.then(value => console.log(value))
       // 			.catch(err => console.log(err))
@@ -286,7 +274,7 @@ class MangaPage extends React.Component {
     }
   };
 
-  checkStorage = (title) => {
+  checkStorage = (name) => {
     //check if it has been bookmarked/favorited
     const runCheck = (location) => {
       localForage
@@ -295,7 +283,7 @@ class MangaPage extends React.Component {
           if (value !== null) {
             let mangaArray = value;
             for (let i = 0; i < mangaArray.length; i++) {
-              if (mangaArray[i].t === title) {
+              if (mangaArray[i].name === name) {
                 if (location === 'userFavorites')
                   this.setState({ favorite: true });
                 else this.setState({ bookmark: true });
@@ -310,28 +298,30 @@ class MangaPage extends React.Component {
     runCheck('userBookmarks');
   };
 
-  checkReadChapters = (chapters, title) => {
+  checkReadChapters = (chapters, name) => {
     localForage
       .getItem('offlineManga')
       .then((value) => {
         if (value !== null) {
           let offlineChapters;
           for (let i = 0; i < value.length; i++) {
-            if (value[i].title === title) {
+            if (value[i].name === name) {
               offlineChapters = value[i].chapters;
-              for (let i = 0; i < chapters.length; i++) {
-                for (let j = 0; j < offlineChapters.length; j++) {
-                  if (
-                    chapters[i][3] === offlineChapters[j][3] &&
-                    offlineChapters[j][4] !== undefined
-                  ) {
-                    chapters[i][4] = offlineChapters[j][4];
-                    chapters[i][5] = offlineChapters[j][5];
-                    break;
-                  }
+              break;
+            }
+          }
+          if (offlineChapters) {
+            for (let i = 0; i < chapters.length; i++) {
+              for (let j = 0; j < offlineChapters.length; j++) {
+                if (
+                  chapters[i].chapterNum === offlineChapters[j].chapterNum &&
+                  offlineChapters[j].currentPage !== undefined
+                ) {
+                  chapters[i].currentPage = offlineChapters[j].currentPage;
+                  chapters[i].completed = offlineChapters[j].completed;
+                  break;
                 }
               }
-              break;
             }
           }
         }
@@ -340,7 +330,7 @@ class MangaPage extends React.Component {
       .catch((err) => console.log(err));
   };
 
-  updateOfflineChapters = (chapters, title) => {
+  updateOfflineChapters = (chapters, name) => {
     //check if manga exists in bookmarks
     localForage
       .getItem('userBookmarks')
@@ -349,7 +339,7 @@ class MangaPage extends React.Component {
         if (value !== null) {
           let mangaArray = value;
           for (let i = 0; i < mangaArray.length; i++) {
-            if (mangaArray[i].t === title) {
+            if (mangaArray[i].name === name) {
               mangaInLibrary = true;
               break;
             }
@@ -364,20 +354,21 @@ class MangaPage extends React.Component {
               console.log(mangaInLibrary);
               let offlineChapters;
               for (let i = 0; i < value.length; i++) {
-                if (value[i].title === title) {
+                if (value[i].name === name) {
                   offlineChapters = value[i].chapters;
                   if (offlineChapters.length !== chapters.length) {
                     for (let j = 0; j < chapters.length; j++) {
                       for (let k = 0; k < offlineChapters.length; k++) {
                         if (
-                          chapters[j][3] === offlineChapters[k][3] &&
-                          offlineChapters[k][4] !== undefined
+                          chapters[j].chapterNum ===
+                            offlineChapters[k].chapterNum &&
+                          offlineChapters[k].currentPage !== undefined
                         ) {
-                          chapters[j][4] = offlineChapters[k][4];
-                          chapters[j][5] = offlineChapters[k][5];
+                          chapters[j].currentPage =
+                            offlineChapters[k].currentPage;
+                          chapters[j].completed = offlineChapters[k].completed;
                           break;
                         } else {
-                          console.log(mangaInLibrary);
                           //add new chapters to library updates
                           if (mangaInLibrary)
                             this.saveLibraryUpdates(chapters[j], value[i]);
@@ -403,7 +394,7 @@ class MangaPage extends React.Component {
   saveLibraryUpdates = (chapter, manga) => {
     const { id } = this.props.match.params;
     console.log(
-      `Saving chapter ${chapter[0]} of ${manga.title} to library updates...`
+      `Saving chapter ${chapter.chapterNum} of ${manga.name} to library updates...`
     );
 
     localForage
@@ -411,25 +402,23 @@ class MangaPage extends React.Component {
       .then((value) => {
         if (value !== null) {
           value.push({
-            chapterId: chapter[3],
-            chapterName: chapter[2],
-            chapterNum: chapter[0],
+            chapterName: chapter.ChapterName,
+            chapterNum: chapter.chapterNum,
             alias: manga.alias,
             image: manga.image,
             mangaId: id,
-            title: manga.title,
+            name: manga.name,
             added: new Date.getTime(),
           });
         } else {
           value = [
             {
-              chapterId: chapter[3],
-              chapterName: chapter[2],
-              chapterNum: chapter[0],
+              chapterName: chapter.ChapterName,
+              chapterNum: chapter.chapterNum,
               alias: manga.alias,
               image: manga.image,
               mangaId: id,
-              title: manga.title,
+              name: manga.name,
               added: new Date.getTime(),
             },
           ];
@@ -448,7 +437,7 @@ class MangaPage extends React.Component {
           .catch(console.log);
 
         console.log(
-          `Chapter ${chapter[0]} of ${manga.title} saved successfully!`
+          `Chapter ${chapter.chapterNum} of ${manga.name} saved successfully!`
         );
       })
       .catch(console.log);
@@ -457,38 +446,39 @@ class MangaPage extends React.Component {
   render() {
     const entities = new AllHtmlEntities();
     const {
-      artist,
-      alias,
+      altName,
       author,
       released,
       description,
-      title,
-      last_chapter_date,
+      name,
+      type,
+      updated,
       status,
+      lastChapter,
     } = this.state.manga;
     const {
-      lastChapter,
       menuIndex,
       networkError,
       networkLoader,
       offlineData,
       imageUrl,
-      aka,
+      genres,
     } = this.state;
+    const params = this.props.match.params;
     const url = window.location.href;
-    const shareDescription = `Read ${title} online for free on MangaHaven`;
+    const shareDescription = `Read ${name} online for free on MangaHaven`;
 
     return (
       <div className='manga-page'>
         {/*change meta tags*/}
         <Helmet>
-          <title>{`${title} - MangaHaven`}</title>
+          <name>{`${name} - MangaHaven`}</name>
           <meta name='theme-color' content='#4664c8' />
           <meta name='description' content={description} />
-          <meta property='og:title' content={shareDescription} />
+          <meta property='og:name' content={shareDescription} />
           <meta property='og:image' content={imageUrl} />
           <meta property='og:description' content={description} />
-          <meta property='twitter:title' content={shareDescription} />
+          <meta property='twitter:name' content={shareDescription} />
           <meta property='twitter:description' content={description} />
           <meta property='twitter:image' content={imageUrl} />
           <meta property='twitter:card' content='summary' />
@@ -502,7 +492,7 @@ class MangaPage extends React.Component {
           <div className='manga-header-nav'>
             <div className='manga-header-title'>
               <BackButton clickAction={() => this.props.history.push('/')} />
-              <p>{title}</p>
+              <p>{name}</p>
             </div>
             <div className='manga-header-buttons'>
               <FontAwesomeIcon
@@ -594,28 +584,19 @@ class MangaPage extends React.Component {
                 </div>
 
                 <div className='manga-info-details'>
-                  <p className='manga-title'>{title}</p>
+                  <p className='manga-title'>{name}</p>
 
                   <p className='alternative-names'>
                     Alternative name(s):
-                    <span>
-                      {aka.map((value, i) => {
-                        return (
-                          <span key={i}>
-                            {entities.decode(value)}
-                            <span style={{ color: '#000' }}> | </span>
-                          </span>
-                        );
-                      })}
-                    </span>
+                    <span>{entities.decode(altName)}</span>
                   </p>
 
                   <p className='manga-author'>
                     Author:<span>{entities.decode(author)}</span>
                   </p>
 
-                  <p className='manga-artist'>
-                    Artist:<span>{entities.decode(artist)}</span>
+                  <p className='manga-type'>
+                    Type:<span>{entities.decode(type)}</span>
                   </p>
 
                   <p className='manga-created'>
@@ -629,16 +610,13 @@ class MangaPage extends React.Component {
                   <p className='manga-last-updated'>
                     Updated:
                     <span>
-                      {this.state.gottenData
-                        ? new Date(
-                            last_chapter_date * 1000
-                          ).toLocaleDateString()
-                        : null}
+                      {this.state.gottenData &&
+                        new Date(updated).toLocaleDateString()}
                     </span>
                   </p>
 
                   <p className='manga-status'>
-                    Status:<span>{this.state.status[status]}</span>
+                    Status:<span>{status}</span>
                   </p>
                 </div>
               </div>
@@ -672,30 +650,19 @@ class MangaPage extends React.Component {
                 <div className='manga-genres'>
                   <p>Genres</p>
                   <div className='genre-links'>
-                    {this.state.genres
-                      .join(', ')
-                      .split(' ')
-                      .map((genre, i) => {
-                        return (
-                          <a
-                            href={`/genre/${genre
-                              .replace(',', '')
-                              .toLowerCase()}`}
-                            key={i}
-                          >
-                            {genre}
-                          </a>
-                        );
-                      })}
+                    {genres.map((genre, i) => {
+                      return (
+                        <a href={`/genre/${genre}`} key={i}>
+                          {genres.length === i + 1 ? genre : `${genre},`}
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
                 <div className='manga-description-details'>
                   <p>Description</p>
                   <div className='manga-description-note'>
-                    <p>
-                      {this.formatDescription(entities.decode(description))}
-                    </p>
-                    <p>{this.getNote(entities.decode(description))}</p>
+                    <p>{entities.decode(description)}</p>
                   </div>
                 </div>
               </div>
@@ -704,8 +671,7 @@ class MangaPage extends React.Component {
             <div className='manga-chapters'>
               <ChapterBoxList
                 allChapters={this.state.chapters}
-                mangaName={alias}
-                mangaId={this.props.match.params.id}
+                mangaName={params.name}
               />
             </div>
           </SwipeableViews>
@@ -738,7 +704,7 @@ class MangaPage extends React.Component {
               <div className='share-button'>
                 <WhatsappShareButton
                   url={url}
-                  title={shareDescription}
+                  name={shareDescription}
                   separator={`\n\n`}
                 >
                   <WhatsappIcon size={50} round={true} />
@@ -758,7 +724,7 @@ class MangaPage extends React.Component {
               <div className='share-button'>
                 <TwitterShareButton
                   url={url}
-                  title={shareDescription}
+                  name={shareDescription}
                   hashtags={['manga', 'anime', 'otaku', 'art']}
                   related={['gbsolomon1']}
                 >
@@ -773,13 +739,13 @@ class MangaPage extends React.Component {
                 <p>Email</p>
               </div>
               <div className='share-button'>
-                <RedditShareButton url={url} title={shareDescription}>
+                <RedditShareButton url={url} name={shareDescription}>
                   <RedditIcon size={50} round={true} />
                 </RedditShareButton>
                 <p>Reddit</p>
               </div>
               <div className='share-button'>
-                <TelegramShareButton url={url} title={shareDescription}>
+                <TelegramShareButton url={url} name={shareDescription}>
                   <TelegramIcon size={50} round={true} />
                 </TelegramShareButton>
                 <p>Telegram</p>

@@ -6,7 +6,7 @@ import CategoryBox from './CategoryBox.js';
 const CategoryList = ({ categoryManga }) => {
   return (
     <div className='category-list'>
-      {categoryManga.map((categ, i) => {
+      {categoryManga.map((category, i) => {
         return (
           <LazyLoad
             key={i}
@@ -15,7 +15,7 @@ const CategoryList = ({ categoryManga }) => {
             offset={[-50, 50]}
             placeholder={<Loader />}
           >
-            <CategoryBox category={categ} key={i} />
+            <CategoryBox category={category} key={i} />
           </LazyLoad>
         );
       })}

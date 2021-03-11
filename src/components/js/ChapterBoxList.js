@@ -2,27 +2,32 @@ import React from 'react';
 import ChapterBox from './ChapterBox.js';
 import { useHistory } from 'react-router-dom';
 
-const ChapterBoxList = ({ allChapters, mangaName, mangaId }) => {
+const ChapterBoxList = ({ allChapters, mangaName }) => {
   const history = useHistory();
   return (
     <div className='chapters-list'>
       {allChapters.map((chapter, i) => {
+        const {
+          chapterNum,
+          Date,
+          ChapterName,
+          completed,
+          currentPage,
+        } = chapter;
         return (
           <ChapterBox
-            number={chapter[0]}
-            title={chapter[2]}
-            time={chapter[1]}
-            completed={chapter[5]}
-            page={chapter[4]}
+            number={chapterNum}
+            title={ChapterName}
+            uploadDate={Date}
+            completed={completed}
+            page={currentPage}
             key={i}
             displayChapter={() => {
-              history.push(
-                `/${mangaName}/${mangaId}/chapter/${chapter[0]}/${chapter[3]}`
-              );
+              history.push(`/read/${mangaName}/chapter/${chapterNum}/`);
             }}
             continueChapter={() => {
               history.push(
-                `/${mangaName}/${mangaId}/chapter/${chapter[0]}/${chapter[3]}?q=${chapter[4]}`
+                `/read/${mangaName}/chapter/${chapterNum}?q=${chapter[4]}`
               );
             }}
           />

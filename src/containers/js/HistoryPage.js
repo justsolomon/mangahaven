@@ -51,10 +51,7 @@ class HistoryPage extends React.Component {
                       )
                     }
                   >
-                    <Image
-                      url={`https://cdn.mangaeden.com/mangasimg/${manga.image}`}
-                      title={manga.title}
-                    />
+                    <Image url={manga.image} title={manga.title} />
                   </div>
                   <div className='card-details'>
                     <div className='card-info'>
@@ -74,7 +71,7 @@ class HistoryPage extends React.Component {
                         className='resume-button'
                         onClick={() =>
                           this.props.history.push(
-                            `/${manga.alias}/${manga.mangaId}/chapter/${manga.chapterNum}/${manga.chapterId}?q=${manga.page}`
+                            `/read/${manga.alias}/chapter/${manga.chapterNum}?q=${manga.page}`
                           )
                         }
                       >
