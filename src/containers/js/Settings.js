@@ -198,7 +198,7 @@ class Settings extends React.Component {
           >
             <div className='about-section'>
               <a
-                href='https://github.com/solomon403/mangahaven'
+                href='https://github.com/justsolomon/mangahaven'
                 target='_blank'
                 rel='noopener noreferrer'
               >
@@ -215,7 +215,7 @@ class Settings extends React.Component {
           >
             <div className='feedback-reports'>
               <a
-                href='mailto:gbsolomon23@gmail.com?subject=Bug Reports & Feedback'
+                href='mailto:gbolahanbalogun5@gmail.com?subject=Bug Reports & Feedback'
                 target='_blank'
                 rel='noopener noreferrer'
               >
@@ -223,7 +223,7 @@ class Settings extends React.Component {
                 <FontAwesomeIcon icon={faExternalLinkAlt} />
               </a>
               <a
-                href='https://github.com/Solomon403/mangahaven/issues/new'
+                href='https://github.com/justsolomon/mangahaven/issues/new'
                 target='_blank'
                 rel='noopener noreferrer'
               >
