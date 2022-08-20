@@ -21,14 +21,14 @@ import { confirmAlert } from 'react-confirm-alert';
 import Logo from '../../assets/logo.png';
 
 class App extends React.Component {
-  componentDidMount() {
-    let noticeShown = sessionStorage['notice'];
+//   componentDidMount() {
+//     let noticeShown = sessionStorage['notice'];
 
-    if (!noticeShown) {
-      this.showNotice();
-      sessionStorage['notice'] = true;
-    }
-  }
+//     if (!noticeShown) {
+//       this.showNotice();
+//       sessionStorage['notice'] = true;
+//     }
+//   }
 
   showNotice = () => {
     confirmAlert({
