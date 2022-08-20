@@ -21,13 +21,13 @@ const MangaCardList = ({ mangaArray, genre, search, bookmark }) => {
         else if (bookmark) data = { imageUrl, name, alias };
         else if (search)
           data = {
-            imageUrl: `https://cover.nep.li/cover/${i}.jpg`,
+            imageUrl: `https://temp.compsci88.com/cover/${i}.jpg`,
             name: s,
             alias: i,
           };
         else
           data = {
-            imageUrl: `https://cover.nep.li/cover/${IndexName}.jpg`,
+            imageUrl: `https://temp.compsci88.com/cover/${IndexName}.jpg`,
             name: SeriesName,
             alias: IndexName,
           };
