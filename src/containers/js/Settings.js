@@ -171,14 +171,6 @@ class Settings extends React.Component {
             transitionTime={250}
           >
             <div className='attribution'>
-//               <a
-//                 href='https://www.mangaeden.com'
-//                 target='_blank'
-//                 rel='noopener noreferrer'
-//               >
-//                 <span>Powered by Manga Eden</span>
-//                 <FontAwesomeIcon icon={faExternalLinkAlt} />
-//               </a>
               <a
                 href='https://www.designevo.com/logo-maker/'
                 title='Free Online Logo Maker'
