@@ -39,7 +39,7 @@ class RecentUpdate extends React.Component {
       });
     }
 
-    fetch('https://mangahaven.herokuapp.com/recent')
+    fetch('https://mangahaven-api.onrender.com/recent')
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

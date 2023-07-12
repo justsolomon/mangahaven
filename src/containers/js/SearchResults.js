@@ -27,7 +27,7 @@ class SearchResults extends React.Component {
   }
 
   fetchAllManga = () => {
-    fetch('https://mangahaven.herokuapp.com')
+    fetch('https://mangahaven-api.onrender.com')
       .then((res) => res.json())
       .then((data) => {
         this.setState({ allManga: data });

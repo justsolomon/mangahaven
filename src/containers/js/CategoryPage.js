@@ -41,7 +41,7 @@ class CategoryPage extends React.Component {
     }
 
     const genre = this.props.match.params.name;
-    fetch(`https://mangahaven.herokuapp.com/genre/${genre}`)
+    fetch(`https://mangahaven-api.onrender.com/genre/${genre}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ manga: data });

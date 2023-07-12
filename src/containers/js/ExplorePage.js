@@ -43,7 +43,7 @@ class ExplorePage extends React.Component {
       });
     }
 
-    fetch('https://mangahaven.herokuapp.com/hot')
+    fetch('https://mangahaven-api.onrender.com/hot')
       .then((res) => res.json())
       .then((data) => {
         this.setState({

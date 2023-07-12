@@ -66,7 +66,7 @@ class MangaPage extends React.Component {
     this.setState({ networkLoader: true });
     const { name } = this.props.match.params;
 
-    fetch(`https://mangahaven.herokuapp.com/manga/${name}/`)
+    fetch(`https://mangahaven-api.onrender.com/manga/${name}/`)
       .then((res) => res.json())
       .then((data) => {
         this.updateOfflineChapters(data.chapters, data.name);

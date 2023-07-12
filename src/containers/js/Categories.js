@@ -28,7 +28,7 @@ class Categories extends React.Component {
       });
     }
 
-    fetch('https://mangahaven.herokuapp.com/all-genres')
+    fetch('https://mangahaven-api.onrender.com/all-genres')
       .then((res) => res.json())
       .then((data) => {
         this.setState({

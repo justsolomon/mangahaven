@@ -86,7 +86,9 @@ class ChapterPage extends React.Component {
       defaultPage: pageNum,
     });
 
-    fetch(`https://mangahaven.herokuapp.com/${mangaName}/chapter/${chapterNum}`)
+    fetch(
+      `https://mangahaven-api.onrender.com/${mangaName}/chapter/${chapterNum}`
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -111,7 +113,7 @@ class ChapterPage extends React.Component {
       })
       .catch((err) => this.setState({ networkError: true }));
 
-    fetch(`https://mangahaven.herokuapp.com/manga/${mangaName}`)
+    fetch(`https://mangahaven-api.onrender.com/manga/${mangaName}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({
