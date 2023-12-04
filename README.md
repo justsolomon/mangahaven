@@ -1,5 +1,5 @@
 # mangahaven
-An online manga reader. Try it out [here](https://mangahaven.netlify.app).
+An online manga reader for learning purposes. Try it out [here](https://mangahaven.netlify.app).
 
 ## Demo
 ![mangahaven](https://github.com/justsolomon/mangahaven/assets/55158465/4a84df32-0f57-4869-a429-6c4ee3b128b8)
