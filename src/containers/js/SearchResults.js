@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Loader from '../../components/js/Loader.js';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 import { Helmet } from 'react-helmet';
+import { API_BASE_URL } from '../../utils/config.js';
 import '../css/SearchResults.css';
 
 class SearchResults extends React.Component {
@@ -27,7 +28,7 @@ class SearchResults extends React.Component {
   }
 
   fetchAllManga = () => {
-    fetch('https://mangahaven-api.onrender.com')
+    fetch(`${API_BASE_URL}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ allManga: data });

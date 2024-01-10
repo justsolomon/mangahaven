@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Loader from '../../components/js/Loader.js';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 import { Helmet } from 'react-helmet';
+import { API_BASE_URL } from '../../utils/config.js';
 
 class RecentUpdate extends React.Component {
   constructor() {
@@ -39,7 +40,7 @@ class RecentUpdate extends React.Component {
       });
     }
 
-    fetch('https://mangahaven-api.onrender.com/recent')
+    fetch(`${API_BASE_URL}/recent`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
