@@ -5,6 +5,7 @@ import CategoryList from '../../components/js/CategoryList.js';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 import NavBar from './NavBar.js';
 import { Helmet } from 'react-helmet';
+import { API_BASE_URL } from '../../utils/config.js';
 import '../css/Categories.css';
 
 class Categories extends React.Component {
@@ -28,7 +29,7 @@ class Categories extends React.Component {
       });
     }
 
-    fetch('https://mangahaven-api.onrender.com/all-genres')
+    fetch(`${API_BASE_URL}/all-genres`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({

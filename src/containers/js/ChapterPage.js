@@ -16,6 +16,7 @@ import Modal from 'react-modal';
 import ErrorMessage from '../../components/js/ErrorMessage.js';
 import { Helmet } from 'react-helmet';
 import localForage from 'localforage';
+import { API_BASE_URL } from '../../utils/config.js';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '../css/ChapterPage.css';
 
@@ -86,9 +87,7 @@ class ChapterPage extends React.Component {
       defaultPage: pageNum,
     });
 
-    fetch(
-      `https://mangahaven-api.onrender.com/${mangaName}/chapter/${chapterNum}`
-    )
+    fetch(`${API_BASE_URL}/${mangaName}/chapter/${chapterNum}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -113,7 +112,7 @@ class ChapterPage extends React.Component {
       })
       .catch((err) => this.setState({ networkError: true }));
 
-    fetch(`https://mangahaven-api.onrender.com/manga/${mangaName}`)
+    fetch(`${API_BASE_URL}/manga/${mangaName}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({

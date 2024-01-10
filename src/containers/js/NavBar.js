@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+// import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
@@ -185,7 +185,7 @@ class NavBar extends React.Component {
                 <FontAwesomeIcon icon={faHistory} />
                 <span>History</span>
               </Link>
-              <Link
+              {/* <Link
                 to='/profile'
                 className={
                   page === 'profile' ? 'active-window' : 'profile-link'
@@ -193,7 +193,7 @@ class NavBar extends React.Component {
               >
                 <FontAwesomeIcon icon={faUser} />
                 <span>Profile</span>
-              </Link>
+              </Link> */}
               <span className='nav-breakline'></span>
               <Link
                 to='/settings'

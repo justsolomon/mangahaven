@@ -7,6 +7,7 @@ import ErrorMessage from '../../components/js/ErrorMessage.js';
 import Loader from '../../components/js/Loader.js';
 import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router-dom';
+import { API_BASE_URL } from '../../utils/config.js';
 
 class CategoryPage extends React.Component {
   constructor() {
@@ -41,7 +42,7 @@ class CategoryPage extends React.Component {
     }
 
     const genre = this.props.match.params.name;
-    fetch(`https://mangahaven-api.onrender.com/genre/${genre}`)
+    fetch(`${API_BASE_URL}/genre/${genre}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ manga: data });

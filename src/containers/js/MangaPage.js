@@ -33,6 +33,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SwipeableViews from 'react-swipeable-views';
 import localForage from 'localforage';
 import { Helmet } from 'react-helmet';
+import { API_BASE_URL } from '../../utils/config.js';
 import NavBar from './NavBar.js';
 import '../css/MangaPage.css';
 
@@ -66,7 +67,7 @@ class MangaPage extends React.Component {
     this.setState({ networkLoader: true });
     const { name } = this.props.match.params;
 
-    fetch(`https://mangahaven-api.onrender.com/manga/${name}/`)
+    fetch(`${API_BASE_URL}/manga/${name}/`)
       .then((res) => res.json())
       .then((data) => {
         this.updateOfflineChapters(data.chapters, data.name);
@@ -91,11 +92,10 @@ class MangaPage extends React.Component {
           .getItem('offlineManga')
           .then((allManga) => {
             if (allManga !== null) {
-              console.log(allManga);
               let currentManga = allManga.filter(
                 (manga) => manga.alias === name
               );
-              if (currentManga !== []) {
+              if (currentManga.length) {
                 currentManga = currentManga[0];
                 this.setState({
                   manga: currentManga,
